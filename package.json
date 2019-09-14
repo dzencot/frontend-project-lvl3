@@ -1,0 +1,42 @@
+{
+  "name": "frontend-project-lvl3",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "jest",
+    "test-watch": "npm run test -- --watchAll",
+    "eslint": "eslint"
+  },
+  "jest": {
+    "testPathIgnorePatterns": [
+      "/node_modules/",
+      "/__fixtures__/"
+    ]
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/dzencot/frontend-project-lvl3.git"
+  },
+  "author": "Ivan Gagarinov",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/dzencot/frontend-project-lvl3/issues"
+  },
+  "homepage": "https://github.com/dzencot/frontend-project-lvl3#readme",
+  "dependencies": {
+    "babel-cli": "^6.26.0",
+    "babel-core": "^6.26.3",
+    "babel-eslint": "^10.0.3",
+    "babel-plugin-syntax-flow": "^6.18.0",
+    "babel-plugin-transform-flow-strip-types": "^6.22.0",
+    "babel-plugin-transform-runtime": "^6.23.0",
+    "babel-preset-env": "^1.7.0",
+    "babel-preset-stage-0": "^6.24.1",
+    "eslint": "^6.4.0",
+    "eslint-config-airbnb": "^18.0.1",
+    "eslint-plugin-flowtype": "^4.3.0",
+    "eslint-plugin-import": "^2.18.2",
+    "jest": "^24.9.0"
+  }
+}

@@ -1,0 +1,9 @@
+image: node:10.15.3
+
+pipelines:
+  default:
+    - step:
+        script:
+          - npm install
+          - npm run eslint ./
+          - npm test
