@@ -1,5 +1,3 @@
-import validator from 'validator';
-
 export default class Application {
   constructor(element) {
     this.element = element;
@@ -7,6 +5,6 @@ export default class Application {
 
   init() {
     this.element.textContent = 'hello, world!';
-    console.log('hi');
+    console.log('hi'); // eslint-disable-line no-console
   }
 }
