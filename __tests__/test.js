@@ -3,7 +3,7 @@
 import fs from 'fs';
 import path from 'path';
 import { html } from 'js-beautify';
-import init from '../src/app/init';
+import run from '../src/app/run';
 
 const fixuturesPath = path.join(__dirname, '__fixtures__');
 const getTree = () => html(document.body.innerHTML);
@@ -11,9 +11,9 @@ const getTree = () => html(document.body.innerHTML);
 beforeAll(() => {
   const initHtml = fs.readFileSync(path.join(fixuturesPath, 'index.html')).toString();
   document.documentElement.innerHTML = initHtml;
-  init();
+  run();
 });
 
-test('test', () => {
+test('Init', () => {
   expect(getTree()).toMatchSnapshot();
 });

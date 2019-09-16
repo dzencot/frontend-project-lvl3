@@ -1,4 +1,3 @@
-// import _ from 'lodash';
-import './style.css';
-import 'bootstrap';
-import 'bootstrap/dist/css/bootstrap.min.css';
+import run from './app/run';
+
+run();

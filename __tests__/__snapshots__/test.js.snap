@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`test 1`] = `
+exports[`Init 1`] = `
 "<div class=\\"jumbotron\\">
     <h1 class=\\"display-4\\">Лента новостей (RSS)</h1>
     <!-- <p class=\\"lead\\">Лента новостей (RSS)</p> -->
