@@ -11,6 +11,10 @@
     "deploy": "surge -p dist -d petite-bead.surge.sh"
   },
   "jest": {
+    "moduleNameMapper": {
+      "\\.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$": "<rootDir>/__mocks__/fileMock.js",
+      "\\.(css|less)$": "<rootDir>/__mocks__/styleMock.js"
+    },
     "testPathIgnorePatterns": [
       "/node_modules/",
       "/__fixtures__/"
@@ -60,6 +64,7 @@
     "eslint-plugin-flowtype": "^4.3.0",
     "eslint-plugin-import": "^2.18.2",
     "jest": "^24.9.0",
+    "jest-transform-stub": "^2.0.0",
     "jquery": "^3.4.1",
     "js-beautify": "^1.10.2",
     "lodash": "^4.17.15",

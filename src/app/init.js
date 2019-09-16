@@ -2,7 +2,7 @@
 // import _ from 'lodash';
 import '../style.css';
 import 'bootstrap';
-// import 'bootstrap/dist/css/bootstrap.min.css';
+import 'bootstrap/dist/css/bootstrap.min.css';
 import Application from './application';
 
 export default () => {
