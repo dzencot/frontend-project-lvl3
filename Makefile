@@ -14,6 +14,9 @@ build:
 	rm -rf dist
 	npm run build
 
+build-debug:
+	DEBUG="rss-reader:*" npm run build
+
 deploy:
 	npm run deploy
 
