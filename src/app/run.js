@@ -8,9 +8,10 @@ import getLogger from 'webpack-log';
 
 import Application from './application';
 
-const log = getLogger({ name: 'run', level: 'debug' });
+const log = getLogger({ name: 'run', level: 'debug' }).debug;
 
 export default () => {
+  log('init');
   const element = $(document).find('input');
   const application = new Application(element);
   application.init();

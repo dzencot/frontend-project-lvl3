@@ -10,6 +10,10 @@ test:
 test-watch:
 	npm run test-watch
 
+check-all:
+	make lint
+	make test
+
 build:
 	rm -rf dist
 	npm run build
