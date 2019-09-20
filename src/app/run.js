@@ -12,8 +12,11 @@ const log = getLogger({ name: 'run', level: 'debug' }).debug;
 
 export default () => {
   log('init');
-  const element = $(document).find('input');
-  const application = new Application(element);
+  const input = $(document).find('input');
+  const addRssButton = $(document).find('#add-rss');
+  const application = new Application();
   application.init();
-  application.bindActions();
+  input.on('change', (event) => application.onChangeLink(event));
+  log('button:', addRssButton);
+  addRssButton.on('mouseup', (event) => application.onAddRss(event));
 };

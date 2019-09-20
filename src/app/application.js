@@ -1,28 +1,41 @@
+/* global DOMParser */
 import getLogger from 'webpack-log';
 import validator from 'validator';
+import $ from 'jquery';
+// import axios from './lib/axios';
+import axios from 'axios';
+// import url from 'url';
+import WatchJS from 'melanke-watchjs';
 
-const logger = getLogger({ name: 'application', level: 'debug' }).debug;
+const logger = getLogger({ name: 'application', level: 'debug' });
 
 export default class Application {
-  constructor(element) {
-    this.element = element;
+  constructor(input, addRssButon) {
+    this.input = input;
+    this.addRssButon = addRssButon;
     this.currentRssUrl = '';
+    this.corsProxyUrl = 'https://cors-anywhere.herokuapp.com';
+    this.axiosConfig = {};
+    this.data = {
+      feedList: null,
+    };
   }
 
   log(...params) { // eslint-disable-line class-methods-use-this
-    logger(...params);
+    logger.debug(...params);
+  }
+
+  logError(...params) { // eslint-disable-line class-methods-use-this
+    logger.error(...params);
   }
 
   init() {
-    this.log('init');
+    WatchJS.watch(this.feedList, () => {
+      this.log('TESWT!!!');
+    });
   }
 
-  bindActions() {
-    this.log('bindActions');
-    this.element.on('change', (event) => this.onChange(event));
-  }
-
-  onChange(event) {
+  onChangeLink(event) {
     this.log('onChange');
     const nextValue = event.currentTarget.value;
     const isCurrentValue = validator.isURL(nextValue);
@@ -30,8 +43,34 @@ export default class Application {
     this.log('isCurrentValue', isCurrentValue);
     if (isCurrentValue) {
       this.currentRssUrl = nextValue;
+      $(event.currentTarget).removeClass('is-invalid');
     } else {
-      this.element.addClass('error');
+      $(event.currentTarget).addClass('is-invalid');
     }
+  }
+
+  onAddRss() {
+    const link = `${this.corsProxyUrl}/${this.currentRssUrl}`;
+    this.data.feedList = link;
+    // this.getDataRss(link)
+    //   .then((dataRss) => {
+    //     this.log('dataRSS:', dataRss);
+    //   })
+    //   .catch((error) => {
+    //     this.logError(error);
+    //   });
+  }
+
+  getDataRss(rssLink) {
+    this.log('rssLInk: ', rssLink);
+    return axios.get(rssLink, this.axiosConfig)
+      .then((response) => {
+        this.log('data:', response);
+        const { data } = response;
+        const parser = new DOMParser();
+        const parsedData = parser.parseFromString(data, 'text/xml');
+        this.log('parsedData:', parsedData);
+        return parsedData;
+      });
   }
 }
