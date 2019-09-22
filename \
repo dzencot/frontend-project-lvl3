@@ -17,7 +17,7 @@ export default class Application {
     this.corsProxyUrl = 'https://cors-anywhere.herokuapp.com';
     this.network = network;
     this.data = {
-      feedListData: [],
+      feedList: null,
     };
   }
 
@@ -30,15 +30,9 @@ export default class Application {
   }
 
   init() {
-    WatchJS.watch(this.data.feedListData, () => {
+    WatchJS.watch(this.feedList, () => {
       this.log('TESWT!!!');
-      this.log(this.data);
-
     });
-  }
-
-  getFeedHtml(feedData) {
-
   }
 
   addValidator(validator) {
@@ -63,14 +57,14 @@ export default class Application {
 
   onAddRss() {
     const link = `${this.corsProxyUrl}/${this.currentRssUrl}`;
-    this.getDataRss(link)
-      .then((dataRss) => {
-        this.log('dataRSS:', dataRss);
-        this.data.feedListData = [...this.data.feedListData, dataRss];
-      })
-      .catch((error) => {
-        this.logError(error);
-      });
+    this.data.feedList = link;
+    // this.getDataRss(link)
+    //   .then((dataRss) => {
+    //     this.log('dataRSS:', dataRss);
+    //   })
+    //   .catch((error) => {
+    //     this.logError(error);
+    //   });
   }
 
   getDataRss(rssLink) {
