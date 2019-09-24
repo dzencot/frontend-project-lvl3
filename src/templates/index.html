@@ -4,14 +4,37 @@
     <title>Webpack Package</title>
   </head>
   <body>
+    <div class="toast fade hide" style="position: absolute; right: 10px" data-delay="1000">
+      <div class="toast-header">
+        Лента новостей(RSS)
+      </div>
+      <div class="toast-body">
+      </div>
+    </div>
     <div class="jumbotron">
-      <h1 class="display-4">Лента новостей (RSS)</h1>
+      <h1 class="display-4">Лента новостей(RSS)</h1>
       <hr class="my-4">
       <p>Добавить ленту новостей.</p>
       <div class="input-group mb-3">
         <input type="text" class="form-control col-sm-4" placeholder="rss" aria-label="rss">
       </div>
       <a class="btn btn-primary btn-lg" href="#" role="button" id='add-rss'>Добавить</a>
+      <p>
+        <p>Список добавленных источников:</p>
+        <table class="table">
+          <thead>
+            <tr>
+              <th scope="col">Название</th>
+              <th scope="col">Описание</th>
+            </tr>
+          </thead>
+          <tbody id="feed-list"></tbody>
+        </table>
+      </p>
+      <p>
+        <p>Список постов:</p>
+        <ul id="posts-list"></ul>
+      </p>
     </div>
   </body>
 </html>
