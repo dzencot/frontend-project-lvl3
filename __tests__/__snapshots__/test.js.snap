@@ -1,13 +1,85 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`Init 1`] = `
-"<div class=\\"jumbotron\\">
-    <h1 class=\\"display-4\\">Лента новостей (RSS)</h1>
+"<div class=\\"toast fade hide\\" style=\\"position: absolute; right: 10px\\" data-delay=\\"1000\\">
+    <div class=\\"toast-header\\">
+        Лента новостей(RSS)
+    </div>
+    <div class=\\"toast-body\\">
+    </div>
+</div>
+<div class=\\"jumbotron\\">
+    <h1 class=\\"display-4\\">Лента новостей(RSS)</h1>
     <hr class=\\"my-4\\">
     <p>Добавить ленту новостей.</p>
     <div class=\\"input-group mb-3\\">
-        <input type=\\"text\\" class=\\"form-control\\" placeholder=\\"rss\\" aria-label=\\"rss\\">
+        <input type=\\"text\\" class=\\"form-control col-sm-4\\" placeholder=\\"rss\\" aria-label=\\"rss\\">
     </div>
-    <a class=\\"btn btn-primary btn-lg\\" href=\\"#\\" role=\\"button\\">Добавить</a>
+    <a class=\\"btn btn-primary btn-lg\\" href=\\"#\\" role=\\"button\\" id=\\"add-rss\\">Добавить</a>
+    <p>
+    </p>
+    <p>Список добавленных источников:</p>
+    <table class=\\"table\\">
+        <thead>
+            <tr>
+                <th scope=\\"col\\">Название</th>
+                <th scope=\\"col\\">Описание</th>
+            </tr>
+        </thead>
+        <tbody id=\\"feed-list\\"></tbody>
+    </table>
+    <p></p>
+    <p>
+    </p>
+    <p>Список постов:</p>
+    <ul id=\\"posts-list\\"></ul>
+    <p></p>
+</div>"
+`;
+
+exports[`Input RSS 1`] = `
+"<div class=\\"toast fade hide\\" style=\\"position: absolute; right: 10px\\" data-delay=\\"1000\\">
+    <div class=\\"toast-header\\">
+        Лента новостей(RSS)
+    </div>
+    <div class=\\"toast-body\\">Источник добавлен</div>
+</div>
+<div class=\\"jumbotron\\">
+    <h1 class=\\"display-4\\">Лента новостей(RSS)</h1>
+    <hr class=\\"my-4\\">
+    <p>Добавить ленту новостей.</p>
+    <div class=\\"input-group mb-3\\">
+        <input type=\\"text\\" class=\\"form-control col-sm-4\\" placeholder=\\"rss\\" aria-label=\\"rss\\">
+    </div>
+    <a class=\\"btn btn-primary btn-lg\\" href=\\"#\\" role=\\"button\\" id=\\"add-rss\\">Добавить</a>
+    <p>
+    </p>
+    <p>Список добавленных источников:</p>
+    <table class=\\"table\\">
+        <thead>
+            <tr>
+                <th scope=\\"col\\">Название</th>
+                <th scope=\\"col\\">Описание</th>
+            </tr>
+        </thead>
+        <tbody id=\\"feed-list\\"></tbody>
+    </table>
+    <p></p>
+    <p>
+    </p>
+    <p>Список постов:</p>
+    <ul id=\\"posts-list\\">
+        <li><a href=\\"http://example.com/test/1569324660\\">Lorem ipsum 2019-09-24T11:31:00Z</a></li>
+        <li><a href=\\"http://example.com/test/1569324600\\">Lorem ipsum 2019-09-24T11:30:00Z</a></li>
+        <li><a href=\\"http://example.com/test/1569324540\\">Lorem ipsum 2019-09-24T11:29:00Z</a></li>
+        <li><a href=\\"http://example.com/test/1569324480\\">Lorem ipsum 2019-09-24T11:28:00Z</a></li>
+        <li><a href=\\"http://example.com/test/1569324420\\">Lorem ipsum 2019-09-24T11:27:00Z</a></li>
+        <li><a href=\\"http://example.com/test/1569324360\\">Lorem ipsum 2019-09-24T11:26:00Z</a></li>
+        <li><a href=\\"http://example.com/test/1569324300\\">Lorem ipsum 2019-09-24T11:25:00Z</a></li>
+        <li><a href=\\"http://example.com/test/1569324240\\">Lorem ipsum 2019-09-24T11:24:00Z</a></li>
+        <li><a href=\\"http://example.com/test/1569324180\\">Lorem ipsum 2019-09-24T11:23:00Z</a></li>
+        <li><a href=\\"http://example.com/test/1569324120\\">Lorem ipsum 2019-09-24T11:22:00Z</a></li>
+    </ul>
+    <p></p>
 </div>"
 `;
