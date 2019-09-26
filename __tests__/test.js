@@ -22,7 +22,7 @@ beforeEach(() => {
 });
 
 test('Init', () => {
-  run(false);
+  run(false, true);
   expect(getTree()).toMatchSnapshot();
 });
 
@@ -42,7 +42,7 @@ test('Add wrong channel', (done) => {
 });
 
 test('Add correct channel', (done) => {
-  run(false);
+  run(false, true);
   const input = $('input');
   input.val('http://localhost/feed');
   input.trigger('change');

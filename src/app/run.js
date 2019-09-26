@@ -25,15 +25,18 @@ export default (useProxy = true) => {
   const corsProxyUrl = 'https://cors-anywhere.herokuapp.com';
   const input = $(document).find('input');
   const addRssButton = $(document).find('#add-rss');
-  const application = new Application();
+  const domParser = new DOMParser();
+  const parser = (data) => domParser.parseFromString(data, 'text/xml');
+
+  const application = new Application(axios, parser);
   application.init();
   application.addValidator((link) => {
     log('Check link:', link);
-    return validator.isURL(link, { require_tld: false });
+    const result = validator.isURL(link, { require_tld: useProxy });
+    return result;
   });
-  application.addValidator((link) => !application.isAlreadyHasLink(link));
+  application.addValidator((link) => !application.hasAlreadyLink(link));
 
-  log('input:', input);
   input.on('change', (event) => {
     const link = event.currentTarget.value;
     log('link:', link);
@@ -51,32 +54,11 @@ export default (useProxy = true) => {
   addRssButton.on('mouseup', () => {
     const link = application.currentRssUrl;
     if (!application.validateLink(link)) {
-      return false;
+      return;
     }
-    application.addLinkRss(link);
-    const urlParsed = url.parse(link);
-    const { host, path } = urlParsed;
-    const linkRss = `${host}${path}`;
-    log('linkRss:', linkRss);
-    const currentLink = useProxy ? url.resolve(corsProxyUrl, linkRss) : link;
-    log('CURRENT LINK:', currentLink);
-    return axios.get(currentLink)
-      .then((response) => {
-        log('dataRSS:', response);
-        const { data } = response;
-        const parser = new DOMParser();
-        const parsedData = parser.parseFromString(data, 'text/xml');
-        log('parsedDataPosts:', parsedData);
-        application.updateRss(link, parsedData);
-        const dataPosts = $(parsedData).find('item').toArray();
-        const posts = dataPosts.map((item) => application.getPostData(item));
-        application.setPosts(posts);
-      })
-      .catch((error) => {
-        $('.toast-body').text('Произошла ошибка');
-        $('.toast').toast('show');
-        application.removeLink(link);
-        log(error);
+    application.addLinkRss(link, useProxy ? corsProxyUrl : '')
+      .then(() => {
+        input.val('');
       });
   });
 };
