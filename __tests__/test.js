@@ -12,14 +12,11 @@ const fixuturesPath = path.join(__dirname, '__fixtures__');
 const getTree = () => html(document.body.innerHTML);
 
 const initHtml = fs.readFileSync(path.join(fixuturesPath, 'index.html')).toString();
-const pageRSS = fs.readFileSync(path.join(fixuturesPath, 'pageRSS.html')).toString();
 const pageRSSFeed = fs.readFileSync(path.join(fixuturesPath, 'pageRSSFeed.xml')).toString();
 document.documentElement.innerHTML = initHtml;
 
 beforeEach(() => {
   nock('http://localhost')
-    .get('/')
-    .reply(200, pageRSS)
     .get('/feed')
     .reply(200, pageRSSFeed);
 });
@@ -29,10 +26,10 @@ test('Init', () => {
   expect(getTree()).toMatchSnapshot();
 });
 
-test('Input RSS', (done) => {
+test('Add wrong channel', (done) => {
   run(false);
   const input = $('input');
-  input.val('http://localhost');
+  input.val('');
   input.trigger('change');
   const submit = $('#add-rss');
   submit.trigger('mouseup');
@@ -41,5 +38,20 @@ test('Input RSS', (done) => {
   setTimeout(() => {
     expect(getTree()).toMatchSnapshot();
     done();
-  }, 2000);
+  }, 1000);
+});
+
+test('Add correct channel', (done) => {
+  run(false);
+  const input = $('input');
+  input.val('http://localhost/feed');
+  input.trigger('change');
+  const submit = $('#add-rss');
+  submit.trigger('mouseup');
+
+  // TODO: надо что-то сделать, чтобы вызывать проверку без setTimeout
+  setTimeout(() => {
+    expect(getTree()).toMatchSnapshot();
+    done();
+  }, 1000);
 });

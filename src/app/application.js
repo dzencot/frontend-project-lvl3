@@ -117,8 +117,8 @@ export default class Application {
   }
 
   updateRss(link, data) {
-    const title = $(data).find('title');
-    const description = $(data).find('meta[name="description"]');
+    const title = $(data).find('rss > channel > title');
+    const description = $(data).find('rss > channel > description');
     if (title.length === 0 || description.length === 0) {
       this.logError('not found title or description');
       return false;
@@ -126,7 +126,7 @@ export default class Application {
     const newFeedData = {
       link,
       title: title.text(),
-      description: description.attr('content'),
+      description: description.text(),
     };
     this.log('update:', newFeedData);
     this.data.listFeedsData = [
