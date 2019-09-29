@@ -73,6 +73,7 @@
     "lodash": "^4.17.15",
     "melanke-watchjs": "^1.5.0",
     "nock": "^11.3.5",
+    "popper.js": "^1.15.0",
     "url": "^0.11.0",
     "validator": "^11.1.0",
     "webpack": "^4.40.2",
