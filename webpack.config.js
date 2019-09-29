@@ -8,10 +8,6 @@ module.exports = {
     aggregateTimeout: 600,
     ignored: ['/__tests__/', '/__mocks__/', '/node_modules/'],
   },
-  node: {
-    net: 'empty',
-    tls: 'empty',
-  },
   entry: './src/index.js',
   output: {
     filename: 'bundle.js',

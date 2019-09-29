@@ -1,11 +1,28 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Add correct channel 1`] = `
-"<div class=\\"toast fade hide\\" style=\\"position: absolute; right: 10px\\" data-delay=\\"1000\\">
+exports[`Add correct channel and open modal 1`] = `
+"<div class=\\"toast fade hide\\" style=\\"position: absolute; right: 10px\\" data-delay=\\"2000\\">
     <div class=\\"toast-header\\">
         Лента новостей(RSS)
     </div>
     <div class=\\"toast-body\\">
+    </div>
+</div>
+<div class=\\"modal fade\\" id=\\"modal-post\\" tabindex=\\"-1\\" role=\\"dialog\\" aria-labelledby=\\"exampleModalLabel\\" aria-hidden=\\"true\\">
+    <div class=\\"modal-dialog\\" role=\\"document\\">
+        <div class=\\"modal-content\\">
+            <div class=\\"modal-header\\">
+                <h5 class=\\"modal-title\\" id=\\"modal-post-label\\">Modal title</h5>
+                <button type=\\"button\\" class=\\"close\\" data-dismiss=\\"modal\\" aria-label=\\"Close\\">
+                    <span aria-hidden=\\"true\\">×</span>
+                </button>
+            </div>
+            <div class=\\"modal-body\\">
+            </div>
+            <div class=\\"modal-footer\\">
+                <button type=\\"button\\" class=\\"btn btn-secondary\\" data-dismiss=\\"modal\\">Close</button>
+            </div>
+        </div>
     </div>
 </div>
 <div class=\\"jumbotron\\">
@@ -16,49 +33,189 @@ exports[`Add correct channel 1`] = `
         <input type=\\"text\\" class=\\"form-control col-sm-4\\" placeholder=\\"rss\\" aria-label=\\"rss\\">
     </div>
     <a class=\\"btn btn-primary btn-lg\\" href=\\"#\\" role=\\"button\\" id=\\"add-rss\\">Добавить</a>
-    <p>
-    </p>
-    <p>Список добавленных источников:</p>
-    <table class=\\"table\\">
-        <thead>
-            <tr>
-                <th scope=\\"col\\">Название</th>
-                <th scope=\\"col\\">Описание</th>
-            </tr>
-        </thead>
-        <tbody id=\\"feed-list\\">
-            <tr>
+    <div class=\\"pt-5\\">
+        <table class=\\"table table-sm\\">
+            <thead>
+                <tr>
+                    <th scope=\\"col\\">Название</th>
+                    <th scope=\\"col\\">Описание</th>
+                </tr>
+            </thead>
+            <tbody id=\\"feed-list\\">
                 <td>Lorem ipsum feed for an interval of 1 minutes</td>
                 <td>This is a constantly updating lorem ipsum feed</td>
-            </tr>
-        </tbody>
-    </table>
-    <p></p>
-    <p>
-    </p>
-    <p>Список постов:</p>
-    <ul id=\\"posts-list\\">
-        <li><a href=\\"http://example.com/test/1569324660\\">Lorem ipsum 2019-09-24T11:31:00Z</a></li>
-        <li><a href=\\"http://example.com/test/1569324600\\">Lorem ipsum 2019-09-24T11:30:00Z</a></li>
-        <li><a href=\\"http://example.com/test/1569324540\\">Lorem ipsum 2019-09-24T11:29:00Z</a></li>
-        <li><a href=\\"http://example.com/test/1569324480\\">Lorem ipsum 2019-09-24T11:28:00Z</a></li>
-        <li><a href=\\"http://example.com/test/1569324420\\">Lorem ipsum 2019-09-24T11:27:00Z</a></li>
-        <li><a href=\\"http://example.com/test/1569324360\\">Lorem ipsum 2019-09-24T11:26:00Z</a></li>
-        <li><a href=\\"http://example.com/test/1569324300\\">Lorem ipsum 2019-09-24T11:25:00Z</a></li>
-        <li><a href=\\"http://example.com/test/1569324240\\">Lorem ipsum 2019-09-24T11:24:00Z</a></li>
-        <li><a href=\\"http://example.com/test/1569324180\\">Lorem ipsum 2019-09-24T11:23:00Z</a></li>
-        <li><a href=\\"http://example.com/test/1569324120\\">Lorem ipsum 2019-09-24T11:22:00Z</a></li>
-    </ul>
-    <p></p>
-</div>"
+            </tbody>
+        </table>
+    </div>
+    <div class=\\"pt-5\\">
+        <p>Список постов:</p>
+        <div id=\\"posts-list\\">
+            <div class=\\"row pl-5 mb-2\\">
+                <a href=\\"http://example.com/test/1569324660\\" class=\\"col-6 col-md-2 p-1\\">Lorem ipsum 2019-09-24T11:31:00Z</a>
+                <button class=\\"open-post btn btn-primary btn-sm\\" data-link=\\"http://example.com/test/1569324660\\">Читать</button>
+            </div>
+            <div class=\\"row pl-5 mb-2\\">
+                <a href=\\"http://example.com/test/1569324600\\" class=\\"col-6 col-md-2 p-1\\">Lorem ipsum 2019-09-24T11:30:00Z</a>
+                <button class=\\"open-post btn btn-primary btn-sm\\" data-link=\\"http://example.com/test/1569324600\\">Читать</button>
+            </div>
+            <div class=\\"row pl-5 mb-2\\">
+                <a href=\\"http://example.com/test/1569324540\\" class=\\"col-6 col-md-2 p-1\\">Lorem ipsum 2019-09-24T11:29:00Z</a>
+                <button class=\\"open-post btn btn-primary btn-sm\\" data-link=\\"http://example.com/test/1569324540\\">Читать</button>
+            </div>
+            <div class=\\"row pl-5 mb-2\\">
+                <a href=\\"http://example.com/test/1569324480\\" class=\\"col-6 col-md-2 p-1\\">Lorem ipsum 2019-09-24T11:28:00Z</a>
+                <button class=\\"open-post btn btn-primary btn-sm\\" data-link=\\"http://example.com/test/1569324480\\">Читать</button>
+            </div>
+            <div class=\\"row pl-5 mb-2\\">
+                <a href=\\"http://example.com/test/1569324420\\" class=\\"col-6 col-md-2 p-1\\">Lorem ipsum 2019-09-24T11:27:00Z</a>
+                <button class=\\"open-post btn btn-primary btn-sm\\" data-link=\\"http://example.com/test/1569324420\\">Читать</button>
+            </div>
+            <div class=\\"row pl-5 mb-2\\">
+                <a href=\\"http://example.com/test/1569324360\\" class=\\"col-6 col-md-2 p-1\\">Lorem ipsum 2019-09-24T11:26:00Z</a>
+                <button class=\\"open-post btn btn-primary btn-sm\\" data-link=\\"http://example.com/test/1569324360\\">Читать</button>
+            </div>
+            <div class=\\"row pl-5 mb-2\\">
+                <a href=\\"http://example.com/test/1569324300\\" class=\\"col-6 col-md-2 p-1\\">Lorem ipsum 2019-09-24T11:25:00Z</a>
+                <button class=\\"open-post btn btn-primary btn-sm\\" data-link=\\"http://example.com/test/1569324300\\">Читать</button>
+            </div>
+            <div class=\\"row pl-5 mb-2\\">
+                <a href=\\"http://example.com/test/1569324240\\" class=\\"col-6 col-md-2 p-1\\">Lorem ipsum 2019-09-24T11:24:00Z</a>
+                <button class=\\"open-post btn btn-primary btn-sm\\" data-link=\\"http://example.com/test/1569324240\\">Читать</button>
+            </div>
+            <div class=\\"row pl-5 mb-2\\">
+                <a href=\\"http://example.com/test/1569324180\\" class=\\"col-6 col-md-2 p-1\\">Lorem ipsum 2019-09-24T11:23:00Z</a>
+                <button class=\\"open-post btn btn-primary btn-sm\\" data-link=\\"http://example.com/test/1569324180\\">Читать</button>
+            </div>
+            <div class=\\"row pl-5 mb-2\\">
+                <a href=\\"http://example.com/test/1569324120\\" class=\\"col-6 col-md-2 p-1\\">Lorem ipsum 2019-09-24T11:22:00Z</a>
+                <button class=\\"open-post btn btn-primary btn-sm\\" data-link=\\"http://example.com/test/1569324120\\">Читать</button>
+            </div>
+        </div>
+    </div>
+</div>
+<script type=\\"text/javascript\\" src=\\"bundle.js\\"></script>"
 `;
 
-exports[`Add wrong channel 1`] = `
-"<div class=\\"toast fade hide\\" style=\\"position: absolute; right: 10px\\" data-delay=\\"1000\\">
+exports[`Add correct channel and open modal 2`] = `
+"<div class=\\"toast fade hide\\" style=\\"position: absolute; right: 10px\\" data-delay=\\"2000\\">
     <div class=\\"toast-header\\">
         Лента новостей(RSS)
     </div>
     <div class=\\"toast-body\\">
+    </div>
+</div>
+<div class=\\"modal fade show\\" id=\\"modal-post\\" tabindex=\\"-1\\" role=\\"dialog\\" aria-labelledby=\\"exampleModalLabel\\" style=\\"padding-right: 0px; display: block;\\" aria-modal=\\"true\\">
+    <div class=\\"modal-dialog\\" role=\\"document\\">
+        <div class=\\"modal-content\\">
+            <div class=\\"modal-header\\">
+                <h5 class=\\"modal-title\\" id=\\"modal-post-label\\">http://example.com/test/1569324660</h5>
+                <button type=\\"button\\" class=\\"close\\" data-dismiss=\\"modal\\" aria-label=\\"Close\\">
+                    <span aria-hidden=\\"true\\">×</span>
+                </button>
+            </div>
+            <div class=\\"modal-body\\">Qui deserunt excepteur eiusmod occaecat est qui excepteur laborum culpa exercitation.</div>
+            <div class=\\"modal-footer\\">
+                <button type=\\"button\\" class=\\"btn btn-secondary\\" data-dismiss=\\"modal\\">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+<div class=\\"jumbotron\\">
+    <h1 class=\\"display-4\\">Лента новостей(RSS)</h1>
+    <hr class=\\"my-4\\">
+    <p>Добавить ленту новостей.</p>
+    <div class=\\"input-group mb-3\\">
+        <input type=\\"text\\" class=\\"form-control col-sm-4\\" placeholder=\\"rss\\" aria-label=\\"rss\\">
+    </div>
+    <a class=\\"btn btn-primary btn-lg\\" href=\\"#\\" role=\\"button\\" id=\\"add-rss\\">Добавить</a>
+    <div class=\\"pt-5\\">
+        <table class=\\"table table-sm\\">
+            <thead>
+                <tr>
+                    <th scope=\\"col\\">Название</th>
+                    <th scope=\\"col\\">Описание</th>
+                </tr>
+            </thead>
+            <tbody id=\\"feed-list\\">
+                <td>Lorem ipsum feed for an interval of 1 minutes</td>
+                <td>This is a constantly updating lorem ipsum feed</td>
+            </tbody>
+        </table>
+    </div>
+    <div class=\\"pt-5\\">
+        <p>Список постов:</p>
+        <div id=\\"posts-list\\">
+            <div class=\\"row pl-5 mb-2\\">
+                <a href=\\"http://example.com/test/1569324660\\" class=\\"col-6 col-md-2 p-1\\">Lorem ipsum 2019-09-24T11:31:00Z</a>
+                <button class=\\"open-post btn btn-primary btn-sm\\" data-link=\\"http://example.com/test/1569324660\\">Читать</button>
+            </div>
+            <div class=\\"row pl-5 mb-2\\">
+                <a href=\\"http://example.com/test/1569324600\\" class=\\"col-6 col-md-2 p-1\\">Lorem ipsum 2019-09-24T11:30:00Z</a>
+                <button class=\\"open-post btn btn-primary btn-sm\\" data-link=\\"http://example.com/test/1569324600\\">Читать</button>
+            </div>
+            <div class=\\"row pl-5 mb-2\\">
+                <a href=\\"http://example.com/test/1569324540\\" class=\\"col-6 col-md-2 p-1\\">Lorem ipsum 2019-09-24T11:29:00Z</a>
+                <button class=\\"open-post btn btn-primary btn-sm\\" data-link=\\"http://example.com/test/1569324540\\">Читать</button>
+            </div>
+            <div class=\\"row pl-5 mb-2\\">
+                <a href=\\"http://example.com/test/1569324480\\" class=\\"col-6 col-md-2 p-1\\">Lorem ipsum 2019-09-24T11:28:00Z</a>
+                <button class=\\"open-post btn btn-primary btn-sm\\" data-link=\\"http://example.com/test/1569324480\\">Читать</button>
+            </div>
+            <div class=\\"row pl-5 mb-2\\">
+                <a href=\\"http://example.com/test/1569324420\\" class=\\"col-6 col-md-2 p-1\\">Lorem ipsum 2019-09-24T11:27:00Z</a>
+                <button class=\\"open-post btn btn-primary btn-sm\\" data-link=\\"http://example.com/test/1569324420\\">Читать</button>
+            </div>
+            <div class=\\"row pl-5 mb-2\\">
+                <a href=\\"http://example.com/test/1569324360\\" class=\\"col-6 col-md-2 p-1\\">Lorem ipsum 2019-09-24T11:26:00Z</a>
+                <button class=\\"open-post btn btn-primary btn-sm\\" data-link=\\"http://example.com/test/1569324360\\">Читать</button>
+            </div>
+            <div class=\\"row pl-5 mb-2\\">
+                <a href=\\"http://example.com/test/1569324300\\" class=\\"col-6 col-md-2 p-1\\">Lorem ipsum 2019-09-24T11:25:00Z</a>
+                <button class=\\"open-post btn btn-primary btn-sm\\" data-link=\\"http://example.com/test/1569324300\\">Читать</button>
+            </div>
+            <div class=\\"row pl-5 mb-2\\">
+                <a href=\\"http://example.com/test/1569324240\\" class=\\"col-6 col-md-2 p-1\\">Lorem ipsum 2019-09-24T11:24:00Z</a>
+                <button class=\\"open-post btn btn-primary btn-sm\\" data-link=\\"http://example.com/test/1569324240\\">Читать</button>
+            </div>
+            <div class=\\"row pl-5 mb-2\\">
+                <a href=\\"http://example.com/test/1569324180\\" class=\\"col-6 col-md-2 p-1\\">Lorem ipsum 2019-09-24T11:23:00Z</a>
+                <button class=\\"open-post btn btn-primary btn-sm\\" data-link=\\"http://example.com/test/1569324180\\">Читать</button>
+            </div>
+            <div class=\\"row pl-5 mb-2\\">
+                <a href=\\"http://example.com/test/1569324120\\" class=\\"col-6 col-md-2 p-1\\">Lorem ipsum 2019-09-24T11:22:00Z</a>
+                <button class=\\"open-post btn btn-primary btn-sm\\" data-link=\\"http://example.com/test/1569324120\\">Читать</button>
+            </div>
+        </div>
+    </div>
+</div>
+<script type=\\"text/javascript\\" src=\\"bundle.js\\"></script>
+
+<div class=\\"modal-backdrop fade show\\"></div>"
+`;
+
+exports[`Add wrong channel 1`] = `
+"<div class=\\"toast fade hide\\" style=\\"position: absolute; right: 10px\\" data-delay=\\"2000\\">
+    <div class=\\"toast-header\\">
+        Лента новостей(RSS)
+    </div>
+    <div class=\\"toast-body\\">
+    </div>
+</div>
+<div class=\\"modal fade\\" id=\\"modal-post\\" tabindex=\\"-1\\" role=\\"dialog\\" aria-labelledby=\\"exampleModalLabel\\" aria-hidden=\\"true\\">
+    <div class=\\"modal-dialog\\" role=\\"document\\">
+        <div class=\\"modal-content\\">
+            <div class=\\"modal-header\\">
+                <h5 class=\\"modal-title\\" id=\\"modal-post-label\\">Modal title</h5>
+                <button type=\\"button\\" class=\\"close\\" data-dismiss=\\"modal\\" aria-label=\\"Close\\">
+                    <span aria-hidden=\\"true\\">×</span>
+                </button>
+            </div>
+            <div class=\\"modal-body\\">
+            </div>
+            <div class=\\"modal-footer\\">
+                <button type=\\"button\\" class=\\"btn btn-secondary\\" data-dismiss=\\"modal\\">Close</button>
+            </div>
+        </div>
     </div>
 </div>
 <div class=\\"jumbotron\\">
@@ -69,33 +226,48 @@ exports[`Add wrong channel 1`] = `
         <input type=\\"text\\" class=\\"form-control col-sm-4 is-invalid\\" placeholder=\\"rss\\" aria-label=\\"rss\\">
     </div>
     <a class=\\"btn btn-primary btn-lg\\" href=\\"#\\" role=\\"button\\" id=\\"add-rss\\">Добавить</a>
-    <p>
-    </p>
-    <p>Список добавленных источников:</p>
-    <table class=\\"table\\">
-        <thead>
-            <tr>
-                <th scope=\\"col\\">Название</th>
-                <th scope=\\"col\\">Описание</th>
-            </tr>
-        </thead>
-        <tbody id=\\"feed-list\\"></tbody>
-    </table>
-    <p></p>
-    <p>
-    </p>
-    <p>Список постов:</p>
-    <ul id=\\"posts-list\\"></ul>
-    <p></p>
-</div>"
+    <div class=\\"pt-5\\">
+        <table class=\\"table table-sm\\">
+            <thead>
+                <tr>
+                    <th scope=\\"col\\">Название</th>
+                    <th scope=\\"col\\">Описание</th>
+                </tr>
+            </thead>
+            <tbody id=\\"feed-list\\"></tbody>
+        </table>
+    </div>
+    <div class=\\"pt-5\\">
+        <p>Список постов:</p>
+        <div id=\\"posts-list\\"></div>
+    </div>
+</div>
+<script type=\\"text/javascript\\" src=\\"bundle.js\\"></script>"
 `;
 
 exports[`Init 1`] = `
-"<div class=\\"toast fade hide\\" style=\\"position: absolute; right: 10px\\" data-delay=\\"1000\\">
+"<div class=\\"toast fade hide\\" style=\\"position: absolute; right: 10px\\" data-delay=\\"2000\\">
     <div class=\\"toast-header\\">
         Лента новостей(RSS)
     </div>
     <div class=\\"toast-body\\">
+    </div>
+</div>
+<div class=\\"modal fade\\" id=\\"modal-post\\" tabindex=\\"-1\\" role=\\"dialog\\" aria-labelledby=\\"exampleModalLabel\\" aria-hidden=\\"true\\">
+    <div class=\\"modal-dialog\\" role=\\"document\\">
+        <div class=\\"modal-content\\">
+            <div class=\\"modal-header\\">
+                <h5 class=\\"modal-title\\" id=\\"modal-post-label\\">Modal title</h5>
+                <button type=\\"button\\" class=\\"close\\" data-dismiss=\\"modal\\" aria-label=\\"Close\\">
+                    <span aria-hidden=\\"true\\">×</span>
+                </button>
+            </div>
+            <div class=\\"modal-body\\">
+            </div>
+            <div class=\\"modal-footer\\">
+                <button type=\\"button\\" class=\\"btn btn-secondary\\" data-dismiss=\\"modal\\">Close</button>
+            </div>
+        </div>
     </div>
 </div>
 <div class=\\"jumbotron\\">
@@ -106,23 +278,21 @@ exports[`Init 1`] = `
         <input type=\\"text\\" class=\\"form-control col-sm-4\\" placeholder=\\"rss\\" aria-label=\\"rss\\">
     </div>
     <a class=\\"btn btn-primary btn-lg\\" href=\\"#\\" role=\\"button\\" id=\\"add-rss\\">Добавить</a>
-    <p>
-    </p>
-    <p>Список добавленных источников:</p>
-    <table class=\\"table\\">
-        <thead>
-            <tr>
-                <th scope=\\"col\\">Название</th>
-                <th scope=\\"col\\">Описание</th>
-            </tr>
-        </thead>
-        <tbody id=\\"feed-list\\"></tbody>
-    </table>
-    <p></p>
-    <p>
-    </p>
-    <p>Список постов:</p>
-    <ul id=\\"posts-list\\"></ul>
-    <p></p>
-</div>"
+    <div class=\\"pt-5\\">
+        <table class=\\"table table-sm\\">
+            <thead>
+                <tr>
+                    <th scope=\\"col\\">Название</th>
+                    <th scope=\\"col\\">Описание</th>
+                </tr>
+            </thead>
+            <tbody id=\\"feed-list\\"></tbody>
+        </table>
+    </div>
+    <div class=\\"pt-5\\">
+        <p>Список постов:</p>
+        <div id=\\"posts-list\\"></div>
+    </div>
+</div>
+<script type=\\"text/javascript\\" src=\\"bundle.js\\"></script>"
 `;
