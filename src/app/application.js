@@ -8,14 +8,13 @@ import url from 'url';
 const logger = getLogger({ name: 'application', level: 'debug' });
 
 export default class Application {
-  constructor(network, rssParser) {
+  constructor(network, parserRSS) {
     this.network = network;
-    this.rssParser = rssParser;
+    this.parserRSS = parserRSS;
     this.validators = [];
-    this.currentRssUrl = '';
+    this.currentRSSUrl = '';
     this.state = {
       appStatus: 'loading',
-      links: [],
       listFeedsData: [],
       posts: [],
       correctInput: true,
@@ -88,7 +87,7 @@ export default class Application {
   bindActions() {
     $('#input-rss').on('change', (event) => this.onInput(event));
 
-    $('#add-rss').on('mouseup', () => this.onAddRss());
+    $('#add-rss').on('mouseup', () => this.onAddRSS());
 
     $(document).on('mouseup', '.open-post', (event) => this.onOpenPost(event));
 
@@ -119,13 +118,13 @@ export default class Application {
     this.openModal();
   }
 
-  onAddRss() {
-    const link = this.currentRssUrl;
+  onAddRSS() {
+    const link = this.currentRSSUrl;
     if (!this.validateLink(link)) {
       return;
     }
     this.onLoadStart();
-    this.addLinkRss(link)
+    this.addLinkRSS(link)
       .then(() => {
         this.onLoadSuccess();
       });
@@ -150,11 +149,11 @@ export default class Application {
   }
 
   hasAlreadyLink(link) {
-    return _.some(this.state.links, { link });
+    return _.some(this.state.listFeedsData, { link });
   }
 
   removeLink(link) {
-    this.state.links = this.state.links.filter((item) => item === link);
+    this.state.listFeedsData = this.state.listFeedsData.filter((item) => item === link);
   }
 
   getPostByLink(link) {
@@ -206,8 +205,10 @@ export default class Application {
     };
   }
 
-  setPosts(posts) {
-    this.state.posts = [...this.state.posts, ...posts];
+  addPosts(feedUrl, posts) {
+    const savedPosts = this.getPostsList(feedUrl);
+    const newPosts = _.differenceBy(posts, savedPosts, 'link');
+    this.state.posts = [...this.state.posts, ...newPosts];
   }
 
   addValidator(validator) {
@@ -227,27 +228,34 @@ export default class Application {
   }
 
   setNewLink(link) {
-    this.currentRssUrl = link;
+    this.currentRSSUrl = link;
   }
 
-  addLinkRss(link, proxy = '') {
+  addLinkRSS(link, proxy = '') {
     const list = this.getFeedList();
     const newFeedData = {
       number: list.length + 1,
       link,
     };
-    this.state.links = [...this.state.links, newFeedData];
+    this.state.listFeedsData = [...this.state.listFeedsData, newFeedData];
+    return this.fetchRSS(link, proxy);
+  }
+
+  fetchRSS(link, proxy = '') {
     const currentLink = this.getLink(link, proxy);
     return this.network.get(currentLink)
       .then((response) => {
         this.log('dataRSS:', response);
         const { data } = response;
-        const parsedData = this.rssParser(data);
+        const parsedData = this.parserRSS(data);
         this.log('parsedDataPosts:', parsedData);
-        this.updateRss(link, parsedData);
+        this.updateRSS(link, parsedData);
         const dataPosts = $(parsedData).find('item').toArray();
         const posts = dataPosts.map((item) => this.getPostData(link, item));
-        this.setPosts(posts);
+        this.addPosts(link, posts);
+        setTimeout(() => {
+          this.fetchRSS(link, proxy);
+        }, 5000);
       })
       .catch((error) => {
         $('.toast-body').text('Произошла ошибка');
@@ -258,7 +266,7 @@ export default class Application {
       });
   }
 
-  updateRss(link, data) {
+  updateRSS(link, data) {
     const title = $(data).find('rss > channel > title');
     const description = $(data).find('rss > channel > description');
     if (title.length === 0 || description.length === 0) {
@@ -296,9 +304,9 @@ export default class Application {
   getLink(link, proxy = '') { // eslint-disable-line class-methods-use-this
     const urlParsed = url.parse(link);
     const { host, path } = urlParsed;
-    const linkRss = `${host}${path}`;
-    this.log('linkRss:', linkRss);
-    const currentLink = proxy ? url.resolve(proxy, linkRss) : link;
+    const linkRSS = `${host}${path}`;
+    this.log('linkRSS:', linkRSS);
+    const currentLink = proxy ? url.resolve(proxy, linkRSS) : link;
     return currentLink;
   }
 

@@ -2,9 +2,6 @@
 import '../style.css';
 import 'bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
-// import HttpsProxyAgent from 'https-proxy-agent'
-// import $ from 'jquery';
-// import url from 'url';
 import getLogger from 'webpack-log';
 import validator from 'validator';
 import axios from './lib/axios';
@@ -18,14 +15,6 @@ export default (useProxy = true) => {
   const corsProxyUrl = 'https://cors-anywhere.herokuapp.com';
   const domParser = new DOMParser();
   const parser = (data) => domParser.parseFromString(data, 'text/xml');
-  // const httpsAgent = new HttpsProxyAgent(corsProxyUrl);
-  // var res = await axios.get('https://api.ipify.org?format=json', {
-  //     httpsAgent: agent,
-  // });
-  // const proxy = useProxy ? { httpsAgent } : {};
-  // const network = axios.create({
-  //   proxy,
-  // });
 
   const network = {
     ...axios,
