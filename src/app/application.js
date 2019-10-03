@@ -18,6 +18,7 @@ export default class Application {
       links: [],
       listFeedsData: [],
       posts: [],
+      correctInput: true,
       modalState: {
         open: false,
         postLink: '',
@@ -34,14 +35,18 @@ export default class Application {
   }
 
   init() {
-    WatchJS.watch(this.state, 'listFeedsData', () => {
-      const feedListHtml = this.getFeedListHtml(this.state.listFeedsData);
-      $('#feed-list').html(feedListHtml);
-    });
+    this.addWatchers();
 
+    this.bindActions();
+
+    this.onLoadSuccess();
+  }
+
+  addWatchers() {
     WatchJS.watch(this.state, 'posts', () => {
-      const linksPosts = this.state.posts.reduce((html, item) => `${html}${this.getLinkPostHtml(item)}`, '');
-      $('#posts-list').html(linksPosts);
+      const feedsList = this.getFeedList();
+      const htmlFeedListHtml = this.getFeedListHtml(feedsList);
+      $('#list-rss').html(htmlFeedListHtml);
     });
 
     WatchJS.watch(this.state.modalState, 'open', () => {
@@ -49,12 +54,9 @@ export default class Application {
       this.log('Open modal, postLink:', postLink);
       if (open) {
         const post = this.getPostByLink(postLink);
-        this.log('Open modal, post:', post);
-        $('#modal-post-label').text(post.link);
-        $('.modal-body').text(post.description);
-        $('#modal-post').modal({ show: true });
+        this.renderModal(post);
       } else {
-        $('#modal-post').modal({ show: false });
+        this.hideModal();
       }
     });
 
@@ -64,17 +66,27 @@ export default class Application {
           $('.spinner').show();
           break;
         case 'loaded':
+          $('#input-rss').val('');
           $('.spinner').hide();
           break;
         default: break;
       }
     });
 
-    this.onLoadSuccess();
+    WatchJS.watch(this.state, 'correctInput', () => {
+      const input = $('#input-rss');
+      if (this.state.correctInput) {
+        input.removeClass('alert-danger');
+        input.addClass('alert-dark');
+      } else {
+        input.addClass('alert-danger');
+        input.removeClass('alert-dark');
+      }
+    });
   }
 
   bindActions() {
-    $(document).on('change', 'input', (event) => this.onInput(event));
+    $(document).on('change', '#input-rss', (event) => this.onInput(event));
 
     $(document).on('mouseup', '#add-rss', () => this.onAddRss());
 
@@ -86,7 +98,7 @@ export default class Application {
   }
 
   destroy() { // eslint-disable-line class-methods-use-this
-    $(document).off('change', 'input');
+    $(document).off('change', '#input-rss');
 
     $(document).off('mouseup', '#add-rss');
 
@@ -106,9 +118,10 @@ export default class Application {
     if (!this.validateLink(link)) {
       return;
     }
+    this.onLoadStart();
     this.addLinkRss(link)
       .then(() => {
-        $('input').val('');
+        this.onLoadSuccess();
       });
   }
 
@@ -120,9 +133,9 @@ export default class Application {
     const isCurrentLink = this.validateLink(link);
     if (isCurrentLink) {
       this.setNewLink(link);
-      $(event.currentTarget).removeClass('is-invalid');
+      this.state.correctInput = true;
     } else {
-      $(event.currentTarget).addClass('is-invalid');
+      this.state.correctInput = false;
     }
   }
 
@@ -145,26 +158,34 @@ export default class Application {
   }
 
   getFeedListHtml(list) {
-    return list.reduce((html, item) => `${html}${this.getFeedHtml(item)}`, '');
+    return list.reduce((html, feed) => {
+      const feedHtml = this.getFeedHtml(feed);
+      return `${html}${feedHtml}`;
+    }, '');
   }
 
   getFeedHtml(feed) { // eslint-disable-line class-methods-use-this
-    const feedHtml = $(`<tr>
-      <td>${feed.title}</td>
-      <td>${feed.description}</td>
-    </tr>`);
-    return feedHtml.html();
+    const { title, description, link } = feed;
+    const posts = this.getPostsList(link);
+    return `<div class="feed">
+      <h5>${title}</h5>
+      <p>${description}</p>
+      <div class="content">${posts.map((item) => this.getPostHtml(item)).join('')}</div>
+      <hr>
+    </div>`;
   }
 
-  getLinkPostHtml(post) { // eslint-disable-line class-methods-use-this
+  getPostHtml(post) { // eslint-disable-line class-methods-use-this
     this.log('postData:', post);
-    return `<div class="row pl-5 mb-2">
-        <a href=${post.link} class="col-6 col-md-2 p-1">${post.title}</a>
-        <button class="open-post btn btn-primary btn-sm" data-link="${post.link}">Читать</button>
-      </div>`;
+    return `<div class="item mb-1 mt-1 d-flex align-items-center">
+      <button tabindex="0"  type="button" class="open-post btn-sm btn btn-info p-0 mr-2" data-toggle="modal" data-target="#infoModal" data-link="${post.link}">
+        Open
+      </button>
+      <a href="${post.link}" target="_blank">${post.title}</a>
+    </div>`;
   }
 
-  getPostData(data) { // eslint-disable-line class-methods-use-this
+  getPostData(feedUrl, data) { // eslint-disable-line class-methods-use-this
     const link = $(data).find('link');
     const title = $(data).find('title');
     const description = $(data).find('description');
@@ -172,6 +193,7 @@ export default class Application {
       throw new Exception('Ошибка');
     }
     return {
+      feedUrl,
       link: link.text(),
       title: title.text(),
       description: description.text(),
@@ -218,7 +240,7 @@ export default class Application {
         this.log('parsedDataPosts:', parsedData);
         this.updateRss(link, parsedData);
         const dataPosts = $(parsedData).find('item').toArray();
-        const posts = dataPosts.map((item) => this.getPostData(item));
+        const posts = dataPosts.map((item) => this.getPostData(link, item));
         this.setPosts(posts);
       })
       .catch((error) => {
@@ -226,6 +248,7 @@ export default class Application {
         $('.toast').toast('show');
         this.removeLink(link);
         this.log(error);
+        this.renderAlert('Error', link);
       });
   }
 
@@ -243,7 +266,7 @@ export default class Application {
     };
     this.log('update:', newFeedData);
     this.state.listFeedsData = [
-      ...this.state.listFeedsData.filter((item) => item.link === link),
+      ...this.state.listFeedsData.filter((item) => item.link !== link),
       newFeedData,
     ];
     return true;
@@ -253,8 +276,11 @@ export default class Application {
     this.state.modalState.postLink = link;
   }
 
-  getPostsList() {
-    return this.state.posts;
+  getPostsList(feedUrl = '') {
+    if (!feedUrl) {
+      return this.state.posts;
+    }
+    return this.state.posts.filter((post) => post.feedUrl === feedUrl);
   }
 
   openModal() {
@@ -278,7 +304,35 @@ export default class Application {
     return currentLink;
   }
 
+  onLoadStart() {
+    this.state.appStatus = 'loading';
+  }
+
   onLoadSuccess() {
     this.state.appStatus = 'loaded';
+  }
+
+  renderModal(post) {
+    this.log('Open modal, post:', post);
+    $('#modal-post-label').text(post.link);
+    $('.modal-body').text(post.description);
+    $('#modal-post').modal({ show: true });
+  }
+
+  hideModal() { // eslint-disable-line class-methods-use-this
+    $('#modal-post').modal({ show: false });
+  }
+
+  renderAlert(title, link) { // eslint-disable-line class-methods-use-this
+    const alert = document.createElement('div');
+    $('#application').prepend(alert);
+    alert.outerHTML = `
+    <div class="toast mt-0 w-100 alert alert-danger alert-dismissible fade show" role="alert" style="position: absolute;">
+      <h4 class="alert-title">${title}</h4>
+      <div class="alert-body">Couldn't get a RSS feed: <a target="_blank" class="alert-url" href="${link}">${link}</a></div>
+      <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>`;
   }
 }
