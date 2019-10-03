@@ -1,56 +1,59 @@
 <!doctype html>
 <html>
+
   <head>
-    <title>Webpack Package</title>
+    <title>Лента новостей RSS</title>
   </head>
+
   <body>
-    <div class="toast fade hide" style="position: absolute; right: 10px" data-delay="2000">
-      <div class="toast-header">
-        Лента новостей(RSS)
-      </div>
-      <div class="toast-body">
-      </div>
-    </div>
-    <div class="modal fade" id="modal-post" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-      <div class="modal-dialog" role="document">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title" id="modal-post-label">Modal title</h5>
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-              <span aria-hidden="true">&times;</span>
-            </button>
-          </div>
-          <div class="modal-body">
-          </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+    <div id="application">
+      <div class="spinner">
+        <div class="bg-white fixed-top h-100 w-100 d-flex align-items-center justify-content-center">
+          <div class="spinner-border text-info p-4" role="status">
+            <span class="sr-only">Loading...</span>
           </div>
         </div>
       </div>
-    </div>
-    <div class="jumbotron">
-      <h1 class="display-4">Лента новостей(RSS)</h1>
-      <hr class="my-4">
-      <p>Добавить ленту новостей.</p>
-      <div class="input-group mb-3">
-        <input type="text" class="form-control col-sm-4" placeholder="rss" aria-label="rss">
+      <div class="modal fade" id="post-modal" tabindex="-1" role="dialog" aria-labelledby="infoModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="infoModalLabel"></h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body"></div>
+          </div>
+        </div>
       </div>
-      <a class="btn btn-primary btn-lg" href="#" role="button" id='add-rss'>Добавить</a>
-      <div class="pt-5">
-        <table class="table table-sm">
-          <thead>
-            <tr>
-              <th scope="col">Название</th>
-              <th scope="col">Описание</th>
-            </tr>
-          </thead>
-          <tbody id="feed-list"></tbody>
-        </table>
-      </div>
-      <div class="pt-5">
-        <p>Список постов:</p>
-        <div id="posts-list"></div>
+      <div class="container">
+        <div id="example-links" class="alert alert-info w-100">
+          Example RSS links:
+          <a href="https://ru.hexlet.io/lessons.rss">Hexlet Lessons</a>,
+          <a href="https://ru.hexlet.io/blog.rss">Hexlet Blog</a>,
+          <a href="http://lorem-rss.herokuapp.com/feed?unit=second&interval=1">Lorem RSS 1 sec</a>,
+          <a href="http://lorem-rss.herokuapp.com/feed?unit=minute&interval=1">Lorem RSS 1 min</a>,
+          <a href="http://lorem-rss.herokuapp.com/feed?unit=minute&interval=7">Invalid Lorem RSS</a>,
+          <a href="http://lorem-rss.herokuapp.com/feed?unit=minute&interval=70">Second Invalid Lorem RSS</a>,
+          <a href="http://feeds.bbci.co.uk/news/rss.xml">BBC News</a>
+        </div>
+        <form id="form" class="jumbotron pb-4 pt-4">
+          <div class="input-group">
+            <div class="input-group-prepend">
+              <span class="input-group-text" id="basic-addon1">Insert your RSS link</span>
+            </div>
+            <input name="url" type="text" id="input-rss" class="form-control alert-dark" placeholder="Enter RSS link"
+              aria-label="RSS Link" aria-describedby="basic-addon1">
+            <div class="input-group-append">
+              <button class="btn btn-outline-secondary" id="add-rss" role="button">Get RSS</button>
+            </div>
+          </div>
+        </form>
+        <div id="list-rss"></div>
       </div>
     </div>
   </body>
+
 </html>

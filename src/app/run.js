@@ -6,7 +6,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 // import $ from 'jquery';
 // import url from 'url';
 import getLogger from 'webpack-log';
-import validator from 'validator';
+// import validator from 'validator';
 import axios from './lib/axios';
 
 import Application from './application';
@@ -36,7 +36,6 @@ export default (useProxy = true) => {
   };
   const application = new Application(network, parser);
   application.init();
-  application.bindActions();
-  application.addValidator((link) => validator.isURL(link, { require_tld: useProxy }));
-  application.addValidator((link) => !application.hasAlreadyLink(link));
+  // application.addValidator((link) => validator.isURL(link, { require_tld: useProxy }));
+  // application.addValidator((link) => !application.hasAlreadyLink(link));
 };
