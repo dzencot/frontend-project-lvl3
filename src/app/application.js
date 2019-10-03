@@ -13,7 +13,8 @@ export default class Application {
     this.rssParser = rssParser;
     this.validators = [];
     this.currentRssUrl = '';
-    this.data = {
+    this.state = {
+      appStatus: 'loading',
       links: [],
       listFeedsData: [],
       posts: [],
@@ -33,18 +34,18 @@ export default class Application {
   }
 
   init() {
-    WatchJS.watch(this.data, 'listFeedsData', () => {
-      const feedListHtml = this.getFeedListHtml(this.data.listFeedsData);
+    WatchJS.watch(this.state, 'listFeedsData', () => {
+      const feedListHtml = this.getFeedListHtml(this.state.listFeedsData);
       $('#feed-list').html(feedListHtml);
     });
 
-    WatchJS.watch(this.data, 'posts', () => {
-      const linksPosts = this.data.posts.reduce((html, item) => `${html}${this.getLinkPostHtml(item)}`, '');
+    WatchJS.watch(this.state, 'posts', () => {
+      const linksPosts = this.state.posts.reduce((html, item) => `${html}${this.getLinkPostHtml(item)}`, '');
       $('#posts-list').html(linksPosts);
     });
 
-    WatchJS.watch(this.data.modalState, 'open', () => {
-      const { open, postLink } = this.data.modalState;
+    WatchJS.watch(this.state.modalState, 'open', () => {
+      const { open, postLink } = this.state.modalState;
       this.log('Open modal, postLink:', postLink);
       if (open) {
         const post = this.getPostByLink(postLink);
@@ -56,6 +57,20 @@ export default class Application {
         $('#modal-post').modal({ show: false });
       }
     });
+
+    WatchJS.watch(this.state, 'appStatus', () => {
+      switch (this.state.appStatus) {
+        case 'loading':
+          $('.spinner').show();
+          break;
+        case 'loaded':
+          $('.spinner').hide();
+          break;
+        default: break;
+      }
+    });
+
+    this.onLoadSuccess();
   }
 
   bindActions() {
@@ -66,7 +81,7 @@ export default class Application {
     $(document).on('mouseup', '.open-post', (event) => this.onOpenPost(event));
 
     $('#modal-post').on('hidden.bs.modal', () => {
-      this.data.modalState.open = false;
+      this.state.modalState.open = false;
     });
   }
 
@@ -112,15 +127,15 @@ export default class Application {
   }
 
   getFeedList() { // eslint-disable-line class-methods-use-this
-    return JSON.parse(JSON.stringify(this.data.listFeedsData));
+    return JSON.parse(JSON.stringify(this.state.listFeedsData));
   }
 
   hasAlreadyLink(link) {
-    return _.some(this.data.links, { link });
+    return _.some(this.state.links, { link });
   }
 
   removeLink(link) {
-    this.data.links = this.data.links.filter((item) => item === link);
+    this.state.links = this.state.links.filter((item) => item === link);
   }
 
   getPostByLink(link) {
@@ -164,7 +179,7 @@ export default class Application {
   }
 
   setPosts(posts) {
-    this.data.posts = [...this.data.posts, ...posts];
+    this.state.posts = [...this.state.posts, ...posts];
   }
 
   addValidator(validator) {
@@ -193,7 +208,7 @@ export default class Application {
       number: list.length + 1,
       link,
     };
-    this.data.links = [...this.data.links, newFeedData];
+    this.state.links = [...this.state.links, newFeedData];
     const currentLink = this.getLink(link, proxy);
     return this.network.get(currentLink)
       .then((response) => {
@@ -227,23 +242,23 @@ export default class Application {
       description: description.text(),
     };
     this.log('update:', newFeedData);
-    this.data.listFeedsData = [
-      ...this.data.listFeedsData.filter((item) => item.link === link),
+    this.state.listFeedsData = [
+      ...this.state.listFeedsData.filter((item) => item.link === link),
       newFeedData,
     ];
     return true;
   }
 
   setOpenLinkPost(link) {
-    this.data.modalState.postLink = link;
+    this.state.modalState.postLink = link;
   }
 
   getPostsList() {
-    return this.data.posts;
+    return this.state.posts;
   }
 
   openModal() {
-    this.data.modalState.open = true;
+    this.state.modalState.open = true;
   }
 
   getLink(link, proxy = '') { // eslint-disable-line class-methods-use-this
@@ -261,5 +276,9 @@ export default class Application {
     this.log('host:', host);
     const currentLink = host || link;
     return currentLink;
+  }
+
+  onLoadSuccess() {
+    this.state.appStatus = 'loaded';
   }
 }
