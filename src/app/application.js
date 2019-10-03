@@ -86,22 +86,28 @@ export default class Application {
   }
 
   bindActions() {
-    $(document).on('change', '#input-rss', (event) => this.onInput(event));
+    $('#input-rss').on('change', (event) => this.onInput(event));
 
-    $(document).on('mouseup', '#add-rss', () => this.onAddRss());
+    $('#add-rss').on('mouseup', () => this.onAddRss());
 
     $(document).on('mouseup', '.open-post', (event) => this.onOpenPost(event));
 
     $('#modal-post').on('hidden.bs.modal', () => {
       this.state.modalState.open = false;
     });
+
+    $('.example-link').on('click', (event) => {
+      event.stopPropagation();
+      event.preventDefault();
+      const link = event.currentTarget.href;
+      this.log('Example link:', link);
+      const input = $('#input-rss');
+      input.val(link);
+      input.trigger('change');
+    });
   }
 
   destroy() { // eslint-disable-line class-methods-use-this
-    $(document).off('change', '#input-rss');
-
-    $(document).off('mouseup', '#add-rss');
-
     $(document).off('mouseup', '.open-post');
   }
 
