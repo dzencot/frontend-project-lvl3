@@ -1,298 +1,337 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`Add correct channel and open modal 1`] = `
-"<div class=\\"toast fade hide\\" style=\\"position: absolute; right: 10px\\" data-delay=\\"2000\\">
-    <div class=\\"toast-header\\">
-        Лента новостей(RSS)
-    </div>
-    <div class=\\"toast-body\\">
-    </div>
-</div>
-<div class=\\"modal fade\\" id=\\"modal-post\\" tabindex=\\"-1\\" role=\\"dialog\\" aria-labelledby=\\"exampleModalLabel\\" aria-hidden=\\"true\\">
-    <div class=\\"modal-dialog\\" role=\\"document\\">
-        <div class=\\"modal-content\\">
-            <div class=\\"modal-header\\">
-                <h5 class=\\"modal-title\\" id=\\"modal-post-label\\">Modal title</h5>
-                <button type=\\"button\\" class=\\"close\\" data-dismiss=\\"modal\\" aria-label=\\"Close\\">
-                    <span aria-hidden=\\"true\\">×</span>
-                </button>
-            </div>
-            <div class=\\"modal-body\\">
-            </div>
-            <div class=\\"modal-footer\\">
-                <button type=\\"button\\" class=\\"btn btn-secondary\\" data-dismiss=\\"modal\\">Close</button>
+"<div id=\\"application\\">
+    <div class=\\"spinner\\" style=\\"display: none;\\">
+        <div class=\\"bg-white opct fixed-top h-100 w-100 d-flex align-items-center justify-content-center\\">
+            <div class=\\"spinner-border text-info p-4\\" role=\\"status\\">
+                <span class=\\"sr-only\\">Loading...</span>
             </div>
         </div>
     </div>
-</div>
-<div class=\\"jumbotron\\">
-    <h1 class=\\"display-4\\">Лента новостей(RSS)</h1>
-    <hr class=\\"my-4\\">
-    <p>Добавить ленту новостей.</p>
-    <div class=\\"input-group mb-3\\">
-        <input type=\\"text\\" class=\\"form-control col-sm-4\\" placeholder=\\"rss\\" aria-label=\\"rss\\">
-    </div>
-    <a class=\\"btn btn-primary btn-lg\\" href=\\"#\\" role=\\"button\\" id=\\"add-rss\\">Добавить</a>
-    <div class=\\"pt-5\\">
-        <table class=\\"table table-sm\\">
-            <thead>
-                <tr>
-                    <th scope=\\"col\\">Название</th>
-                    <th scope=\\"col\\">Описание</th>
-                </tr>
-            </thead>
-            <tbody id=\\"feed-list\\">
-                <td>Lorem ipsum feed for an interval of 1 minutes</td>
-                <td>This is a constantly updating lorem ipsum feed</td>
-            </tbody>
-        </table>
-    </div>
-    <div class=\\"pt-5\\">
-        <p>Список постов:</p>
-        <div id=\\"posts-list\\">
-            <div class=\\"row pl-5 mb-2\\">
-                <a href=\\"http://example.com/test/1569324660\\" class=\\"col-6 col-md-2 p-1\\">Lorem ipsum 2019-09-24T11:31:00Z</a>
-                <button class=\\"open-post btn btn-primary btn-sm\\" data-link=\\"http://example.com/test/1569324660\\">Читать</button>
-            </div>
-            <div class=\\"row pl-5 mb-2\\">
-                <a href=\\"http://example.com/test/1569324600\\" class=\\"col-6 col-md-2 p-1\\">Lorem ipsum 2019-09-24T11:30:00Z</a>
-                <button class=\\"open-post btn btn-primary btn-sm\\" data-link=\\"http://example.com/test/1569324600\\">Читать</button>
-            </div>
-            <div class=\\"row pl-5 mb-2\\">
-                <a href=\\"http://example.com/test/1569324540\\" class=\\"col-6 col-md-2 p-1\\">Lorem ipsum 2019-09-24T11:29:00Z</a>
-                <button class=\\"open-post btn btn-primary btn-sm\\" data-link=\\"http://example.com/test/1569324540\\">Читать</button>
-            </div>
-            <div class=\\"row pl-5 mb-2\\">
-                <a href=\\"http://example.com/test/1569324480\\" class=\\"col-6 col-md-2 p-1\\">Lorem ipsum 2019-09-24T11:28:00Z</a>
-                <button class=\\"open-post btn btn-primary btn-sm\\" data-link=\\"http://example.com/test/1569324480\\">Читать</button>
-            </div>
-            <div class=\\"row pl-5 mb-2\\">
-                <a href=\\"http://example.com/test/1569324420\\" class=\\"col-6 col-md-2 p-1\\">Lorem ipsum 2019-09-24T11:27:00Z</a>
-                <button class=\\"open-post btn btn-primary btn-sm\\" data-link=\\"http://example.com/test/1569324420\\">Читать</button>
-            </div>
-            <div class=\\"row pl-5 mb-2\\">
-                <a href=\\"http://example.com/test/1569324360\\" class=\\"col-6 col-md-2 p-1\\">Lorem ipsum 2019-09-24T11:26:00Z</a>
-                <button class=\\"open-post btn btn-primary btn-sm\\" data-link=\\"http://example.com/test/1569324360\\">Читать</button>
-            </div>
-            <div class=\\"row pl-5 mb-2\\">
-                <a href=\\"http://example.com/test/1569324300\\" class=\\"col-6 col-md-2 p-1\\">Lorem ipsum 2019-09-24T11:25:00Z</a>
-                <button class=\\"open-post btn btn-primary btn-sm\\" data-link=\\"http://example.com/test/1569324300\\">Читать</button>
-            </div>
-            <div class=\\"row pl-5 mb-2\\">
-                <a href=\\"http://example.com/test/1569324240\\" class=\\"col-6 col-md-2 p-1\\">Lorem ipsum 2019-09-24T11:24:00Z</a>
-                <button class=\\"open-post btn btn-primary btn-sm\\" data-link=\\"http://example.com/test/1569324240\\">Читать</button>
-            </div>
-            <div class=\\"row pl-5 mb-2\\">
-                <a href=\\"http://example.com/test/1569324180\\" class=\\"col-6 col-md-2 p-1\\">Lorem ipsum 2019-09-24T11:23:00Z</a>
-                <button class=\\"open-post btn btn-primary btn-sm\\" data-link=\\"http://example.com/test/1569324180\\">Читать</button>
-            </div>
-            <div class=\\"row pl-5 mb-2\\">
-                <a href=\\"http://example.com/test/1569324120\\" class=\\"col-6 col-md-2 p-1\\">Lorem ipsum 2019-09-24T11:22:00Z</a>
-                <button class=\\"open-post btn btn-primary btn-sm\\" data-link=\\"http://example.com/test/1569324120\\">Читать</button>
+    <div class=\\"modal fade\\" id=\\"modal-post\\" tabindex=\\"-1\\" role=\\"dialog\\" aria-labelledby=\\"infoModalLabel\\" aria-hidden=\\"true\\">
+        <div class=\\"modal-dialog\\" role=\\"document\\">
+            <div class=\\"modal-content\\">
+                <div class=\\"modal-header\\">
+                    <h5 class=\\"modal-title\\" id=\\"modal-post-label\\"></h5>
+                    <button type=\\"button\\" class=\\"close\\" data-dismiss=\\"modal\\" aria-label=\\"Close\\">
+                        <span aria-hidden=\\"true\\">×</span>
+                    </button>
+                </div>
+                <div class=\\"modal-body\\"></div>
             </div>
         </div>
     </div>
-</div>
-<script type=\\"text/javascript\\" src=\\"bundle.js\\"></script>"
+    <div class=\\"container\\">
+        <div id=\\"example-links\\" class=\\"alert alert-info w-100\\">
+            Example RSS links:
+            <a href=\\"https://ru.hexlet.io/lessons.rss\\">Hexlet Lessons</a>,
+            <a href=\\"https://ru.hexlet.io/blog.rss\\">Hexlet Blog</a>,
+            <a href=\\"http://lorem-rss.herokuapp.com/feed?unit=second&amp;interval=1\\">Lorem RSS 1 sec</a>,
+            <a href=\\"http://lorem-rss.herokuapp.com/feed?unit=minute&amp;interval=1\\">Lorem RSS 1 min</a>,
+            <a href=\\"http://lorem-rss.herokuapp.com/feed?unit=minute&amp;interval=7\\">Invalid Lorem RSS</a>,
+            <a href=\\"http://lorem-rss.herokuapp.com/feed?unit=minute&amp;interval=70\\">Second Invalid Lorem RSS</a>,
+            <a href=\\"http://feeds.bbci.co.uk/news/rss.xml\\">BBC News</a>
+        </div>
+        <form id=\\"form\\" class=\\"jumbotron pb-4 pt-4\\">
+            <div class=\\"input-group\\">
+                <div class=\\"input-group-prepend\\">
+                    <span class=\\"input-group-text\\" id=\\"basic-addon1\\">Insert your RSS link</span>
+                </div>
+                <input name=\\"url\\" type=\\"text\\" id=\\"input-rss\\" class=\\"form-control alert-dark\\" placeholder=\\"Enter RSS link\\" aria-label=\\"RSS Link\\" aria-describedby=\\"basic-addon1\\">
+                <div class=\\"input-group-append\\">
+                    <a class=\\"btn btn-outline-secondary\\" id=\\"add-rss\\" role=\\"button\\">Get RSS</a>
+                </div>
+            </div>
+        </form>
+        <div id=\\"list-rss\\">
+            <div class=\\"feed\\">
+                <h5>Lorem ipsum feed for an interval of 1 minutes</h5>
+                <p>This is a constantly updating lorem ipsum feed</p>
+                <div class=\\"content\\">
+                    <div class=\\"item mb-1 mt-1 d-flex align-items-center\\">
+                        <button tabindex=\\"0\\" type=\\"button\\" class=\\"open-post btn-sm btn btn-info p-0 mr-2\\" data-toggle=\\"modal\\" data-target=\\"#infoModal\\" data-link=\\"http://example.com/test/1569324660\\">
+                            Open
+                        </button>
+                        <a href=\\"http://example.com/test/1569324660\\" target=\\"_blank\\">Lorem ipsum 2019-09-24T11:31:00Z</a>
+                    </div>
+                    <div class=\\"item mb-1 mt-1 d-flex align-items-center\\">
+                        <button tabindex=\\"0\\" type=\\"button\\" class=\\"open-post btn-sm btn btn-info p-0 mr-2\\" data-toggle=\\"modal\\" data-target=\\"#infoModal\\" data-link=\\"http://example.com/test/1569324600\\">
+                            Open
+                        </button>
+                        <a href=\\"http://example.com/test/1569324600\\" target=\\"_blank\\">Lorem ipsum 2019-09-24T11:30:00Z</a>
+                    </div>
+                    <div class=\\"item mb-1 mt-1 d-flex align-items-center\\">
+                        <button tabindex=\\"0\\" type=\\"button\\" class=\\"open-post btn-sm btn btn-info p-0 mr-2\\" data-toggle=\\"modal\\" data-target=\\"#infoModal\\" data-link=\\"http://example.com/test/1569324540\\">
+                            Open
+                        </button>
+                        <a href=\\"http://example.com/test/1569324540\\" target=\\"_blank\\">Lorem ipsum 2019-09-24T11:29:00Z</a>
+                    </div>
+                    <div class=\\"item mb-1 mt-1 d-flex align-items-center\\">
+                        <button tabindex=\\"0\\" type=\\"button\\" class=\\"open-post btn-sm btn btn-info p-0 mr-2\\" data-toggle=\\"modal\\" data-target=\\"#infoModal\\" data-link=\\"http://example.com/test/1569324480\\">
+                            Open
+                        </button>
+                        <a href=\\"http://example.com/test/1569324480\\" target=\\"_blank\\">Lorem ipsum 2019-09-24T11:28:00Z</a>
+                    </div>
+                    <div class=\\"item mb-1 mt-1 d-flex align-items-center\\">
+                        <button tabindex=\\"0\\" type=\\"button\\" class=\\"open-post btn-sm btn btn-info p-0 mr-2\\" data-toggle=\\"modal\\" data-target=\\"#infoModal\\" data-link=\\"http://example.com/test/1569324420\\">
+                            Open
+                        </button>
+                        <a href=\\"http://example.com/test/1569324420\\" target=\\"_blank\\">Lorem ipsum 2019-09-24T11:27:00Z</a>
+                    </div>
+                    <div class=\\"item mb-1 mt-1 d-flex align-items-center\\">
+                        <button tabindex=\\"0\\" type=\\"button\\" class=\\"open-post btn-sm btn btn-info p-0 mr-2\\" data-toggle=\\"modal\\" data-target=\\"#infoModal\\" data-link=\\"http://example.com/test/1569324360\\">
+                            Open
+                        </button>
+                        <a href=\\"http://example.com/test/1569324360\\" target=\\"_blank\\">Lorem ipsum 2019-09-24T11:26:00Z</a>
+                    </div>
+                    <div class=\\"item mb-1 mt-1 d-flex align-items-center\\">
+                        <button tabindex=\\"0\\" type=\\"button\\" class=\\"open-post btn-sm btn btn-info p-0 mr-2\\" data-toggle=\\"modal\\" data-target=\\"#infoModal\\" data-link=\\"http://example.com/test/1569324300\\">
+                            Open
+                        </button>
+                        <a href=\\"http://example.com/test/1569324300\\" target=\\"_blank\\">Lorem ipsum 2019-09-24T11:25:00Z</a>
+                    </div>
+                    <div class=\\"item mb-1 mt-1 d-flex align-items-center\\">
+                        <button tabindex=\\"0\\" type=\\"button\\" class=\\"open-post btn-sm btn btn-info p-0 mr-2\\" data-toggle=\\"modal\\" data-target=\\"#infoModal\\" data-link=\\"http://example.com/test/1569324240\\">
+                            Open
+                        </button>
+                        <a href=\\"http://example.com/test/1569324240\\" target=\\"_blank\\">Lorem ipsum 2019-09-24T11:24:00Z</a>
+                    </div>
+                    <div class=\\"item mb-1 mt-1 d-flex align-items-center\\">
+                        <button tabindex=\\"0\\" type=\\"button\\" class=\\"open-post btn-sm btn btn-info p-0 mr-2\\" data-toggle=\\"modal\\" data-target=\\"#infoModal\\" data-link=\\"http://example.com/test/1569324180\\">
+                            Open
+                        </button>
+                        <a href=\\"http://example.com/test/1569324180\\" target=\\"_blank\\">Lorem ipsum 2019-09-24T11:23:00Z</a>
+                    </div>
+                    <div class=\\"item mb-1 mt-1 d-flex align-items-center\\">
+                        <button tabindex=\\"0\\" type=\\"button\\" class=\\"open-post btn-sm btn btn-info p-0 mr-2\\" data-toggle=\\"modal\\" data-target=\\"#infoModal\\" data-link=\\"http://example.com/test/1569324120\\">
+                            Open
+                        </button>
+                        <a href=\\"http://example.com/test/1569324120\\" target=\\"_blank\\">Lorem ipsum 2019-09-24T11:22:00Z</a>
+                    </div>
+                </div>
+                <hr>
+            </div>
+        </div>
+    </div>
+</div>"
 `;
 
 exports[`Add correct channel and open modal 2`] = `
-"<div class=\\"toast fade hide\\" style=\\"position: absolute; right: 10px\\" data-delay=\\"2000\\">
-    <div class=\\"toast-header\\">
-        Лента новостей(RSS)
-    </div>
-    <div class=\\"toast-body\\">
-    </div>
-</div>
-<div class=\\"modal fade show\\" id=\\"modal-post\\" tabindex=\\"-1\\" role=\\"dialog\\" aria-labelledby=\\"exampleModalLabel\\" style=\\"padding-right: 0px; display: block;\\" aria-modal=\\"true\\">
-    <div class=\\"modal-dialog\\" role=\\"document\\">
-        <div class=\\"modal-content\\">
-            <div class=\\"modal-header\\">
-                <h5 class=\\"modal-title\\" id=\\"modal-post-label\\">http://example.com/test/1569324660</h5>
-                <button type=\\"button\\" class=\\"close\\" data-dismiss=\\"modal\\" aria-label=\\"Close\\">
-                    <span aria-hidden=\\"true\\">×</span>
-                </button>
+"<div id=\\"application\\">
+    <div class=\\"spinner\\" style=\\"display: none;\\">
+        <div class=\\"bg-white opct fixed-top h-100 w-100 d-flex align-items-center justify-content-center\\">
+            <div class=\\"spinner-border text-info p-4\\" role=\\"status\\">
+                <span class=\\"sr-only\\">Loading...</span>
             </div>
-            <div class=\\"modal-body\\">Qui deserunt excepteur eiusmod occaecat est qui excepteur laborum culpa exercitation.</div>
-            <div class=\\"modal-footer\\">
-                <button type=\\"button\\" class=\\"btn btn-secondary\\" data-dismiss=\\"modal\\">Close</button>
+        </div>
+    </div>
+    <div class=\\"modal fade show\\" id=\\"modal-post\\" tabindex=\\"-1\\" role=\\"dialog\\" aria-labelledby=\\"infoModalLabel\\" style=\\"padding-right: 0px; display: block;\\" aria-modal=\\"true\\">
+        <div class=\\"modal-dialog\\" role=\\"document\\">
+            <div class=\\"modal-content\\">
+                <div class=\\"modal-header\\">
+                    <h5 class=\\"modal-title\\" id=\\"modal-post-label\\">http://example.com/test/1569324660</h5>
+                    <button type=\\"button\\" class=\\"close\\" data-dismiss=\\"modal\\" aria-label=\\"Close\\">
+                        <span aria-hidden=\\"true\\">×</span>
+                    </button>
+                </div>
+                <div class=\\"modal-body\\">Qui deserunt excepteur eiusmod occaecat est qui excepteur laborum culpa exercitation.</div>
+            </div>
+        </div>
+    </div>
+    <div class=\\"container\\">
+        <div id=\\"example-links\\" class=\\"alert alert-info w-100\\">
+            Example RSS links:
+            <a href=\\"https://ru.hexlet.io/lessons.rss\\">Hexlet Lessons</a>,
+            <a href=\\"https://ru.hexlet.io/blog.rss\\">Hexlet Blog</a>,
+            <a href=\\"http://lorem-rss.herokuapp.com/feed?unit=second&amp;interval=1\\">Lorem RSS 1 sec</a>,
+            <a href=\\"http://lorem-rss.herokuapp.com/feed?unit=minute&amp;interval=1\\">Lorem RSS 1 min</a>,
+            <a href=\\"http://lorem-rss.herokuapp.com/feed?unit=minute&amp;interval=7\\">Invalid Lorem RSS</a>,
+            <a href=\\"http://lorem-rss.herokuapp.com/feed?unit=minute&amp;interval=70\\">Second Invalid Lorem RSS</a>,
+            <a href=\\"http://feeds.bbci.co.uk/news/rss.xml\\">BBC News</a>
+        </div>
+        <form id=\\"form\\" class=\\"jumbotron pb-4 pt-4\\">
+            <div class=\\"input-group\\">
+                <div class=\\"input-group-prepend\\">
+                    <span class=\\"input-group-text\\" id=\\"basic-addon1\\">Insert your RSS link</span>
+                </div>
+                <input name=\\"url\\" type=\\"text\\" id=\\"input-rss\\" class=\\"form-control alert-dark\\" placeholder=\\"Enter RSS link\\" aria-label=\\"RSS Link\\" aria-describedby=\\"basic-addon1\\">
+                <div class=\\"input-group-append\\">
+                    <a class=\\"btn btn-outline-secondary\\" id=\\"add-rss\\" role=\\"button\\">Get RSS</a>
+                </div>
+            </div>
+        </form>
+        <div id=\\"list-rss\\">
+            <div class=\\"feed\\">
+                <h5>Lorem ipsum feed for an interval of 1 minutes</h5>
+                <p>This is a constantly updating lorem ipsum feed</p>
+                <div class=\\"content\\">
+                    <div class=\\"item mb-1 mt-1 d-flex align-items-center\\">
+                        <button tabindex=\\"0\\" type=\\"button\\" class=\\"open-post btn-sm btn btn-info p-0 mr-2\\" data-toggle=\\"modal\\" data-target=\\"#infoModal\\" data-link=\\"http://example.com/test/1569324660\\">
+                            Open
+                        </button>
+                        <a href=\\"http://example.com/test/1569324660\\" target=\\"_blank\\">Lorem ipsum 2019-09-24T11:31:00Z</a>
+                    </div>
+                    <div class=\\"item mb-1 mt-1 d-flex align-items-center\\">
+                        <button tabindex=\\"0\\" type=\\"button\\" class=\\"open-post btn-sm btn btn-info p-0 mr-2\\" data-toggle=\\"modal\\" data-target=\\"#infoModal\\" data-link=\\"http://example.com/test/1569324600\\">
+                            Open
+                        </button>
+                        <a href=\\"http://example.com/test/1569324600\\" target=\\"_blank\\">Lorem ipsum 2019-09-24T11:30:00Z</a>
+                    </div>
+                    <div class=\\"item mb-1 mt-1 d-flex align-items-center\\">
+                        <button tabindex=\\"0\\" type=\\"button\\" class=\\"open-post btn-sm btn btn-info p-0 mr-2\\" data-toggle=\\"modal\\" data-target=\\"#infoModal\\" data-link=\\"http://example.com/test/1569324540\\">
+                            Open
+                        </button>
+                        <a href=\\"http://example.com/test/1569324540\\" target=\\"_blank\\">Lorem ipsum 2019-09-24T11:29:00Z</a>
+                    </div>
+                    <div class=\\"item mb-1 mt-1 d-flex align-items-center\\">
+                        <button tabindex=\\"0\\" type=\\"button\\" class=\\"open-post btn-sm btn btn-info p-0 mr-2\\" data-toggle=\\"modal\\" data-target=\\"#infoModal\\" data-link=\\"http://example.com/test/1569324480\\">
+                            Open
+                        </button>
+                        <a href=\\"http://example.com/test/1569324480\\" target=\\"_blank\\">Lorem ipsum 2019-09-24T11:28:00Z</a>
+                    </div>
+                    <div class=\\"item mb-1 mt-1 d-flex align-items-center\\">
+                        <button tabindex=\\"0\\" type=\\"button\\" class=\\"open-post btn-sm btn btn-info p-0 mr-2\\" data-toggle=\\"modal\\" data-target=\\"#infoModal\\" data-link=\\"http://example.com/test/1569324420\\">
+                            Open
+                        </button>
+                        <a href=\\"http://example.com/test/1569324420\\" target=\\"_blank\\">Lorem ipsum 2019-09-24T11:27:00Z</a>
+                    </div>
+                    <div class=\\"item mb-1 mt-1 d-flex align-items-center\\">
+                        <button tabindex=\\"0\\" type=\\"button\\" class=\\"open-post btn-sm btn btn-info p-0 mr-2\\" data-toggle=\\"modal\\" data-target=\\"#infoModal\\" data-link=\\"http://example.com/test/1569324360\\">
+                            Open
+                        </button>
+                        <a href=\\"http://example.com/test/1569324360\\" target=\\"_blank\\">Lorem ipsum 2019-09-24T11:26:00Z</a>
+                    </div>
+                    <div class=\\"item mb-1 mt-1 d-flex align-items-center\\">
+                        <button tabindex=\\"0\\" type=\\"button\\" class=\\"open-post btn-sm btn btn-info p-0 mr-2\\" data-toggle=\\"modal\\" data-target=\\"#infoModal\\" data-link=\\"http://example.com/test/1569324300\\">
+                            Open
+                        </button>
+                        <a href=\\"http://example.com/test/1569324300\\" target=\\"_blank\\">Lorem ipsum 2019-09-24T11:25:00Z</a>
+                    </div>
+                    <div class=\\"item mb-1 mt-1 d-flex align-items-center\\">
+                        <button tabindex=\\"0\\" type=\\"button\\" class=\\"open-post btn-sm btn btn-info p-0 mr-2\\" data-toggle=\\"modal\\" data-target=\\"#infoModal\\" data-link=\\"http://example.com/test/1569324240\\">
+                            Open
+                        </button>
+                        <a href=\\"http://example.com/test/1569324240\\" target=\\"_blank\\">Lorem ipsum 2019-09-24T11:24:00Z</a>
+                    </div>
+                    <div class=\\"item mb-1 mt-1 d-flex align-items-center\\">
+                        <button tabindex=\\"0\\" type=\\"button\\" class=\\"open-post btn-sm btn btn-info p-0 mr-2\\" data-toggle=\\"modal\\" data-target=\\"#infoModal\\" data-link=\\"http://example.com/test/1569324180\\">
+                            Open
+                        </button>
+                        <a href=\\"http://example.com/test/1569324180\\" target=\\"_blank\\">Lorem ipsum 2019-09-24T11:23:00Z</a>
+                    </div>
+                    <div class=\\"item mb-1 mt-1 d-flex align-items-center\\">
+                        <button tabindex=\\"0\\" type=\\"button\\" class=\\"open-post btn-sm btn btn-info p-0 mr-2\\" data-toggle=\\"modal\\" data-target=\\"#infoModal\\" data-link=\\"http://example.com/test/1569324120\\">
+                            Open
+                        </button>
+                        <a href=\\"http://example.com/test/1569324120\\" target=\\"_blank\\">Lorem ipsum 2019-09-24T11:22:00Z</a>
+                    </div>
+                </div>
+                <hr>
             </div>
         </div>
     </div>
 </div>
-<div class=\\"jumbotron\\">
-    <h1 class=\\"display-4\\">Лента новостей(RSS)</h1>
-    <hr class=\\"my-4\\">
-    <p>Добавить ленту новостей.</p>
-    <div class=\\"input-group mb-3\\">
-        <input type=\\"text\\" class=\\"form-control col-sm-4\\" placeholder=\\"rss\\" aria-label=\\"rss\\">
-    </div>
-    <a class=\\"btn btn-primary btn-lg\\" href=\\"#\\" role=\\"button\\" id=\\"add-rss\\">Добавить</a>
-    <div class=\\"pt-5\\">
-        <table class=\\"table table-sm\\">
-            <thead>
-                <tr>
-                    <th scope=\\"col\\">Название</th>
-                    <th scope=\\"col\\">Описание</th>
-                </tr>
-            </thead>
-            <tbody id=\\"feed-list\\">
-                <td>Lorem ipsum feed for an interval of 1 minutes</td>
-                <td>This is a constantly updating lorem ipsum feed</td>
-            </tbody>
-        </table>
-    </div>
-    <div class=\\"pt-5\\">
-        <p>Список постов:</p>
-        <div id=\\"posts-list\\">
-            <div class=\\"row pl-5 mb-2\\">
-                <a href=\\"http://example.com/test/1569324660\\" class=\\"col-6 col-md-2 p-1\\">Lorem ipsum 2019-09-24T11:31:00Z</a>
-                <button class=\\"open-post btn btn-primary btn-sm\\" data-link=\\"http://example.com/test/1569324660\\">Читать</button>
-            </div>
-            <div class=\\"row pl-5 mb-2\\">
-                <a href=\\"http://example.com/test/1569324600\\" class=\\"col-6 col-md-2 p-1\\">Lorem ipsum 2019-09-24T11:30:00Z</a>
-                <button class=\\"open-post btn btn-primary btn-sm\\" data-link=\\"http://example.com/test/1569324600\\">Читать</button>
-            </div>
-            <div class=\\"row pl-5 mb-2\\">
-                <a href=\\"http://example.com/test/1569324540\\" class=\\"col-6 col-md-2 p-1\\">Lorem ipsum 2019-09-24T11:29:00Z</a>
-                <button class=\\"open-post btn btn-primary btn-sm\\" data-link=\\"http://example.com/test/1569324540\\">Читать</button>
-            </div>
-            <div class=\\"row pl-5 mb-2\\">
-                <a href=\\"http://example.com/test/1569324480\\" class=\\"col-6 col-md-2 p-1\\">Lorem ipsum 2019-09-24T11:28:00Z</a>
-                <button class=\\"open-post btn btn-primary btn-sm\\" data-link=\\"http://example.com/test/1569324480\\">Читать</button>
-            </div>
-            <div class=\\"row pl-5 mb-2\\">
-                <a href=\\"http://example.com/test/1569324420\\" class=\\"col-6 col-md-2 p-1\\">Lorem ipsum 2019-09-24T11:27:00Z</a>
-                <button class=\\"open-post btn btn-primary btn-sm\\" data-link=\\"http://example.com/test/1569324420\\">Читать</button>
-            </div>
-            <div class=\\"row pl-5 mb-2\\">
-                <a href=\\"http://example.com/test/1569324360\\" class=\\"col-6 col-md-2 p-1\\">Lorem ipsum 2019-09-24T11:26:00Z</a>
-                <button class=\\"open-post btn btn-primary btn-sm\\" data-link=\\"http://example.com/test/1569324360\\">Читать</button>
-            </div>
-            <div class=\\"row pl-5 mb-2\\">
-                <a href=\\"http://example.com/test/1569324300\\" class=\\"col-6 col-md-2 p-1\\">Lorem ipsum 2019-09-24T11:25:00Z</a>
-                <button class=\\"open-post btn btn-primary btn-sm\\" data-link=\\"http://example.com/test/1569324300\\">Читать</button>
-            </div>
-            <div class=\\"row pl-5 mb-2\\">
-                <a href=\\"http://example.com/test/1569324240\\" class=\\"col-6 col-md-2 p-1\\">Lorem ipsum 2019-09-24T11:24:00Z</a>
-                <button class=\\"open-post btn btn-primary btn-sm\\" data-link=\\"http://example.com/test/1569324240\\">Читать</button>
-            </div>
-            <div class=\\"row pl-5 mb-2\\">
-                <a href=\\"http://example.com/test/1569324180\\" class=\\"col-6 col-md-2 p-1\\">Lorem ipsum 2019-09-24T11:23:00Z</a>
-                <button class=\\"open-post btn btn-primary btn-sm\\" data-link=\\"http://example.com/test/1569324180\\">Читать</button>
-            </div>
-            <div class=\\"row pl-5 mb-2\\">
-                <a href=\\"http://example.com/test/1569324120\\" class=\\"col-6 col-md-2 p-1\\">Lorem ipsum 2019-09-24T11:22:00Z</a>
-                <button class=\\"open-post btn btn-primary btn-sm\\" data-link=\\"http://example.com/test/1569324120\\">Читать</button>
-            </div>
-        </div>
-    </div>
-</div>
-<script type=\\"text/javascript\\" src=\\"bundle.js\\"></script>
+
+
 
 <div class=\\"modal-backdrop fade show\\"></div>"
 `;
 
 exports[`Add wrong channel 1`] = `
-"<div class=\\"toast fade hide\\" style=\\"position: absolute; right: 10px\\" data-delay=\\"2000\\">
-    <div class=\\"toast-header\\">
-        Лента новостей(RSS)
-    </div>
-    <div class=\\"toast-body\\">
-    </div>
-</div>
-<div class=\\"modal fade\\" id=\\"modal-post\\" tabindex=\\"-1\\" role=\\"dialog\\" aria-labelledby=\\"exampleModalLabel\\" aria-hidden=\\"true\\">
-    <div class=\\"modal-dialog\\" role=\\"document\\">
-        <div class=\\"modal-content\\">
-            <div class=\\"modal-header\\">
-                <h5 class=\\"modal-title\\" id=\\"modal-post-label\\">Modal title</h5>
-                <button type=\\"button\\" class=\\"close\\" data-dismiss=\\"modal\\" aria-label=\\"Close\\">
-                    <span aria-hidden=\\"true\\">×</span>
-                </button>
-            </div>
-            <div class=\\"modal-body\\">
-            </div>
-            <div class=\\"modal-footer\\">
-                <button type=\\"button\\" class=\\"btn btn-secondary\\" data-dismiss=\\"modal\\">Close</button>
+"<div id=\\"application\\">
+    <div class=\\"spinner\\" style=\\"display: none;\\">
+        <div class=\\"bg-white opct fixed-top h-100 w-100 d-flex align-items-center justify-content-center\\">
+            <div class=\\"spinner-border text-info p-4\\" role=\\"status\\">
+                <span class=\\"sr-only\\">Loading...</span>
             </div>
         </div>
     </div>
-</div>
-<div class=\\"jumbotron\\">
-    <h1 class=\\"display-4\\">Лента новостей(RSS)</h1>
-    <hr class=\\"my-4\\">
-    <p>Добавить ленту новостей.</p>
-    <div class=\\"input-group mb-3\\">
-        <input type=\\"text\\" class=\\"form-control col-sm-4 is-invalid\\" placeholder=\\"rss\\" aria-label=\\"rss\\">
+    <div class=\\"modal fade\\" id=\\"modal-post\\" tabindex=\\"-1\\" role=\\"dialog\\" aria-labelledby=\\"infoModalLabel\\" aria-hidden=\\"true\\">
+        <div class=\\"modal-dialog\\" role=\\"document\\">
+            <div class=\\"modal-content\\">
+                <div class=\\"modal-header\\">
+                    <h5 class=\\"modal-title\\" id=\\"modal-post-label\\"></h5>
+                    <button type=\\"button\\" class=\\"close\\" data-dismiss=\\"modal\\" aria-label=\\"Close\\">
+                        <span aria-hidden=\\"true\\">×</span>
+                    </button>
+                </div>
+                <div class=\\"modal-body\\"></div>
+            </div>
+        </div>
     </div>
-    <a class=\\"btn btn-primary btn-lg\\" href=\\"#\\" role=\\"button\\" id=\\"add-rss\\">Добавить</a>
-    <div class=\\"pt-5\\">
-        <table class=\\"table table-sm\\">
-            <thead>
-                <tr>
-                    <th scope=\\"col\\">Название</th>
-                    <th scope=\\"col\\">Описание</th>
-                </tr>
-            </thead>
-            <tbody id=\\"feed-list\\"></tbody>
-        </table>
+    <div class=\\"container\\">
+        <div id=\\"example-links\\" class=\\"alert alert-info w-100\\">
+            Example RSS links:
+            <a href=\\"https://ru.hexlet.io/lessons.rss\\">Hexlet Lessons</a>,
+            <a href=\\"https://ru.hexlet.io/blog.rss\\">Hexlet Blog</a>,
+            <a href=\\"http://lorem-rss.herokuapp.com/feed?unit=second&amp;interval=1\\">Lorem RSS 1 sec</a>,
+            <a href=\\"http://lorem-rss.herokuapp.com/feed?unit=minute&amp;interval=1\\">Lorem RSS 1 min</a>,
+            <a href=\\"http://lorem-rss.herokuapp.com/feed?unit=minute&amp;interval=7\\">Invalid Lorem RSS</a>,
+            <a href=\\"http://lorem-rss.herokuapp.com/feed?unit=minute&amp;interval=70\\">Second Invalid Lorem RSS</a>,
+            <a href=\\"http://feeds.bbci.co.uk/news/rss.xml\\">BBC News</a>
+        </div>
+        <form id=\\"form\\" class=\\"jumbotron pb-4 pt-4\\">
+            <div class=\\"input-group\\">
+                <div class=\\"input-group-prepend\\">
+                    <span class=\\"input-group-text\\" id=\\"basic-addon1\\">Insert your RSS link</span>
+                </div>
+                <input name=\\"url\\" type=\\"text\\" id=\\"input-rss\\" class=\\"form-control alert-danger\\" placeholder=\\"Enter RSS link\\" aria-label=\\"RSS Link\\" aria-describedby=\\"basic-addon1\\">
+                <div class=\\"input-group-append\\">
+                    <a class=\\"btn btn-outline-secondary\\" id=\\"add-rss\\" role=\\"button\\">Get RSS</a>
+                </div>
+            </div>
+        </form>
+        <div id=\\"list-rss\\"></div>
     </div>
-    <div class=\\"pt-5\\">
-        <p>Список постов:</p>
-        <div id=\\"posts-list\\"></div>
-    </div>
-</div>
-<script type=\\"text/javascript\\" src=\\"bundle.js\\"></script>"
+</div>"
 `;
 
 exports[`Init 1`] = `
-"<div class=\\"toast fade hide\\" style=\\"position: absolute; right: 10px\\" data-delay=\\"2000\\">
-    <div class=\\"toast-header\\">
-        Лента новостей(RSS)
-    </div>
-    <div class=\\"toast-body\\">
-    </div>
-</div>
-<div class=\\"modal fade\\" id=\\"modal-post\\" tabindex=\\"-1\\" role=\\"dialog\\" aria-labelledby=\\"exampleModalLabel\\" aria-hidden=\\"true\\">
-    <div class=\\"modal-dialog\\" role=\\"document\\">
-        <div class=\\"modal-content\\">
-            <div class=\\"modal-header\\">
-                <h5 class=\\"modal-title\\" id=\\"modal-post-label\\">Modal title</h5>
-                <button type=\\"button\\" class=\\"close\\" data-dismiss=\\"modal\\" aria-label=\\"Close\\">
-                    <span aria-hidden=\\"true\\">×</span>
-                </button>
-            </div>
-            <div class=\\"modal-body\\">
-            </div>
-            <div class=\\"modal-footer\\">
-                <button type=\\"button\\" class=\\"btn btn-secondary\\" data-dismiss=\\"modal\\">Close</button>
+"<div id=\\"application\\">
+    <div class=\\"spinner\\">
+        <div class=\\"bg-white opct fixed-top h-100 w-100 d-flex align-items-center justify-content-center\\">
+            <div class=\\"spinner-border text-info p-4\\" role=\\"status\\">
+                <span class=\\"sr-only\\">Loading...</span>
             </div>
         </div>
     </div>
-</div>
-<div class=\\"jumbotron\\">
-    <h1 class=\\"display-4\\">Лента новостей(RSS)</h1>
-    <hr class=\\"my-4\\">
-    <p>Добавить ленту новостей.</p>
-    <div class=\\"input-group mb-3\\">
-        <input type=\\"text\\" class=\\"form-control col-sm-4\\" placeholder=\\"rss\\" aria-label=\\"rss\\">
+    <div class=\\"modal fade\\" id=\\"modal-post\\" tabindex=\\"-1\\" role=\\"dialog\\" aria-labelledby=\\"infoModalLabel\\" aria-hidden=\\"true\\">
+        <div class=\\"modal-dialog\\" role=\\"document\\">
+            <div class=\\"modal-content\\">
+                <div class=\\"modal-header\\">
+                    <h5 class=\\"modal-title\\" id=\\"modal-post-label\\"></h5>
+                    <button type=\\"button\\" class=\\"close\\" data-dismiss=\\"modal\\" aria-label=\\"Close\\">
+                        <span aria-hidden=\\"true\\">×</span>
+                    </button>
+                </div>
+                <div class=\\"modal-body\\"></div>
+            </div>
+        </div>
     </div>
-    <a class=\\"btn btn-primary btn-lg\\" href=\\"#\\" role=\\"button\\" id=\\"add-rss\\">Добавить</a>
-    <div class=\\"pt-5\\">
-        <table class=\\"table table-sm\\">
-            <thead>
-                <tr>
-                    <th scope=\\"col\\">Название</th>
-                    <th scope=\\"col\\">Описание</th>
-                </tr>
-            </thead>
-            <tbody id=\\"feed-list\\"></tbody>
-        </table>
+    <div class=\\"container\\">
+        <div id=\\"example-links\\" class=\\"alert alert-info w-100\\">
+            Example RSS links:
+            <a href=\\"https://ru.hexlet.io/lessons.rss\\">Hexlet Lessons</a>,
+            <a href=\\"https://ru.hexlet.io/blog.rss\\">Hexlet Blog</a>,
+            <a href=\\"http://lorem-rss.herokuapp.com/feed?unit=second&amp;interval=1\\">Lorem RSS 1 sec</a>,
+            <a href=\\"http://lorem-rss.herokuapp.com/feed?unit=minute&amp;interval=1\\">Lorem RSS 1 min</a>,
+            <a href=\\"http://lorem-rss.herokuapp.com/feed?unit=minute&amp;interval=7\\">Invalid Lorem RSS</a>,
+            <a href=\\"http://lorem-rss.herokuapp.com/feed?unit=minute&amp;interval=70\\">Second Invalid Lorem RSS</a>,
+            <a href=\\"http://feeds.bbci.co.uk/news/rss.xml\\">BBC News</a>
+        </div>
+        <form id=\\"form\\" class=\\"jumbotron pb-4 pt-4\\">
+            <div class=\\"input-group\\">
+                <div class=\\"input-group-prepend\\">
+                    <span class=\\"input-group-text\\" id=\\"basic-addon1\\">Insert your RSS link</span>
+                </div>
+                <input name=\\"url\\" type=\\"text\\" id=\\"input-rss\\" class=\\"form-control alert-dark\\" placeholder=\\"Enter RSS link\\" aria-label=\\"RSS Link\\" aria-describedby=\\"basic-addon1\\">
+                <div class=\\"input-group-append\\">
+                    <a class=\\"btn btn-outline-secondary\\" id=\\"add-rss\\" role=\\"button\\">Get RSS</a>
+                </div>
+            </div>
+        </form>
+        <div id=\\"list-rss\\"></div>
     </div>
-    <div class=\\"pt-5\\">
-        <p>Список постов:</p>
-        <div id=\\"posts-list\\"></div>
-    </div>
-</div>
-<script type=\\"text/javascript\\" src=\\"bundle.js\\"></script>"
+</div>"
 `;

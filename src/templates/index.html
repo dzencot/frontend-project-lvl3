@@ -8,18 +8,18 @@
   <body>
     <div id="application">
       <div class="spinner">
-        <div class="bg-white fixed-top h-100 w-100 d-flex align-items-center justify-content-center">
+        <div class="bg-white opct fixed-top h-100 w-100 d-flex align-items-center justify-content-center">
           <div class="spinner-border text-info p-4" role="status">
             <span class="sr-only">Loading...</span>
           </div>
         </div>
       </div>
-      <div class="modal fade" id="post-modal" tabindex="-1" role="dialog" aria-labelledby="infoModalLabel"
+      <div class="modal fade" id="modal-post" tabindex="-1" role="dialog" aria-labelledby="infoModalLabel"
         aria-hidden="true">
         <div class="modal-dialog" role="document">
           <div class="modal-content">
             <div class="modal-header">
-              <h5 class="modal-title" id="infoModalLabel"></h5>
+              <h5 class="modal-title" id="modal-post-label"></h5>
               <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
               </button>
@@ -47,7 +47,7 @@
             <input name="url" type="text" id="input-rss" class="form-control alert-dark" placeholder="Enter RSS link"
               aria-label="RSS Link" aria-describedby="basic-addon1">
             <div class="input-group-append">
-              <button class="btn btn-outline-secondary" id="add-rss" role="button">Get RSS</button>
+              <a class="btn btn-outline-secondary" id="add-rss" role="button">Get RSS</a>
             </div>
           </div>
         </form>
