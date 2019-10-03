@@ -270,8 +270,9 @@ export default class Application {
     const title = $(data).find('rss > channel > title');
     const description = $(data).find('rss > channel > description');
     if (title.length === 0 || description.length === 0) {
-      this.logError('not found title or description');
-      return false;
+      const errorMessage = 'not found title or description';
+      this.logError(errorMessage);
+      throw new Exception(errorMessage);
     }
     const newFeedData = {
       link,
