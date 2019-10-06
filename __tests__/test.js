@@ -44,15 +44,6 @@ test('Add wrong channel', (done) => {
     expect(getTree()).toMatchSnapshot();
     done();
   }, 100);
-
-
-  // const event = {
-  //   currentTarget: {
-  //     value: '',
-  //   },
-  // };
-  // application.onInput(event);
-  // expect(getTree()).toMatchSnapshot();
 });
 
 test('Add correct channel and open modal', (done) => {
@@ -70,5 +61,18 @@ test('Add correct channel and open modal', (done) => {
       expect(getTree()).toMatchSnapshot();
       done();
     }, 100);
+  }, 100);
+});
+
+test('Show error message', (done) => {
+  const input = $('input');
+  input.val('');
+  const submit = $('#add-rss');
+  submit.trigger('mouseup');
+
+  // TODO: надо что-то сделать, чтобы вызывать проверку без setTimeout
+  setTimeout(() => {
+    expect(getTree()).toMatchSnapshot();
+    done();
   }, 100);
 });
