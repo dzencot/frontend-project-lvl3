@@ -1,4 +1,5 @@
 /* global document */
+import _ from 'lodash';
 import $ from 'jquery';
 import WatchJS from 'melanke-watchjs';
 import getLogger from 'webpack-log';
@@ -59,7 +60,7 @@ const renderAlert = (name, link) => {
 
 const addWatchers = (state) => {
   WatchJS.watch(state, 'listFeedsData', () => {
-    const feedsList = JSON.parse(JSON.stringify(state.listFeedsData));
+    const feedsList = _.cloneDeep(state.listFeedsData);
     const htmlFeedListHtml = getFeedListHtml(feedsList);
     $('#list-rss').html(htmlFeedListHtml);
   });
