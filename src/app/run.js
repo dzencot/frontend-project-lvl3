@@ -1,4 +1,3 @@
-/* global DOMParser */
 import '../style.css';
 import 'bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
@@ -13,8 +12,6 @@ const log = getLogger({ name: 'run', level: 'debug' }).debug;
 export default (useProxy = true) => {
   log('init');
   const corsProxyUrl = 'https://cors-anywhere.herokuapp.com';
-  const domParser = new DOMParser();
-  const parser = (data) => domParser.parseFromString(data, 'text/xml');
 
   const network = {
     ...axios,
@@ -23,7 +20,7 @@ export default (useProxy = true) => {
       return axios.get(currentLink, attributes);
     },
   };
-  const application = new Application(network, parser);
+  const application = new Application(network);
   application.init();
   application.addValidator((link) => validator.isURL(link, { require_tld: useProxy }));
   application.addValidator((link) => !application.hasAlreadyLink(link));
