@@ -16,7 +16,6 @@ export default class Application {
     this.state = {
       appStatus: 'loading',
       listFeedsData: [],
-      posts: [],
       correctInput: true,
       modalState: {
         open: false,
@@ -42,7 +41,8 @@ export default class Application {
   }
 
   addWatchers() {
-    WatchJS.watch(this.state, 'posts', () => {
+    this.log('addWatchers');
+    WatchJS.watch(this.state, 'listFeedsData', () => {
       const feedsList = this.getFeedList();
       const htmlFeedListHtml = this.getFeedListHtml(feedsList);
       $('#list-rss').html(htmlFeedListHtml);
@@ -124,7 +124,7 @@ export default class Application {
       return;
     }
     this.onLoadStart();
-    this.addLinkRSS(link)
+    this.fetchRSS(link)
       .then(() => {
         this.onLoadSuccess();
       });
@@ -194,8 +194,8 @@ export default class Application {
     const link = $(data).find('link');
     const title = $(data).find('title');
     const description = $(data).find('description');
-    if (link.length === 0 || link.length === 0) {
-      throw new Exception('Ошибка');
+    if (link.length === 0 || title.length === 0) {
+      throw new Exception({ message: 'link or title not found', name: 'Error' });
     }
     return {
       feedUrl,
@@ -231,28 +231,14 @@ export default class Application {
     this.currentRSSUrl = link;
   }
 
-  addLinkRSS(link, proxy = '') {
-    const list = this.getFeedList();
-    const newFeedData = {
-      number: list.length + 1,
-      link,
-    };
-    this.state.listFeedsData = [...this.state.listFeedsData, newFeedData];
-    return this.fetchRSS(link, proxy);
-  }
-
   fetchRSS(link, proxy = '') {
     const currentLink = this.getLink(link, proxy);
     return this.network.get(currentLink)
       .then((response) => {
         this.log('dataRSS:', response);
         const { data } = response;
-        const parsedData = this.parserRSS(data);
-        this.log('parsedDataPosts:', parsedData);
-        this.updateRSS(link, parsedData);
-        const dataPosts = $(parsedData).find('item').toArray();
-        const posts = dataPosts.map((item) => this.getPostData(link, item));
-        this.addPosts(link, posts);
+        const feedData = this.getRSSData(link, data);
+        this.addRSS(feedData);
         setTimeout(() => {
           this.fetchRSS(link, proxy);
         }, 5000);
@@ -260,29 +246,15 @@ export default class Application {
       .catch((error) => {
         $('.toast-body').text('Произошла ошибка');
         $('.toast').toast('show');
-        this.removeLink(link);
         this.log(error);
         this.renderAlert('Error', link);
       });
   }
 
-  updateRSS(link, data) {
-    const title = $(data).find('rss > channel > title');
-    const description = $(data).find('rss > channel > description');
-    if (title.length === 0 || description.length === 0) {
-      const errorMessage = 'not found title or description';
-      this.logError(errorMessage);
-      throw new Exception(errorMessage);
-    }
-    const newFeedData = {
-      link,
-      title: title.text(),
-      description: description.text(),
-    };
-    this.log('update:', newFeedData);
+  addRSS(feedData) {
     this.state.listFeedsData = [
-      ...this.state.listFeedsData.filter((item) => item.link !== link),
-      newFeedData,
+      ...this.state.listFeedsData,
+      feedData,
     ];
     return true;
   }
@@ -292,10 +264,12 @@ export default class Application {
   }
 
   getPostsList(feedUrl = '') {
+    const allPosts = this.state.listFeedsData
+      .reduce((posts, feed) => [...posts, ...feed.posts], []);
     if (!feedUrl) {
-      return this.state.posts;
+      return allPosts;
     }
-    return this.state.posts.filter((post) => post.feedUrl === feedUrl);
+    return allPosts.filter((post) => post.feedUrl === feedUrl);
   }
 
   openModal() {
@@ -349,5 +323,24 @@ export default class Application {
         <span aria-hidden="true">&times;</span>
       </button>
     </div>`;
+  }
+
+  getRSSData(link, data) {
+    const parsedData = this.parserRSS(data);
+    const title = $(parsedData).find('rss > channel > title');
+    const description = $(parsedData).find('rss > channel > description');
+    if (title.length === 0 || description.length === 0) {
+      const errorMessage = 'not found title or description';
+      this.logError(errorMessage);
+      throw new Exception(errorMessage);
+    }
+    const dataPosts = $(parsedData).find('item').toArray();
+    const posts = dataPosts.map((item) => this.getPostData(link, item));
+    return {
+      link,
+      title: title.text(),
+      description: description.text(),
+      posts,
+    };
   }
 }

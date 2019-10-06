@@ -19,6 +19,11 @@ module.exports = {
       favicon: './src/templates/favicon.ico',
     }),
   ],
+  devServer: {
+    contentBase: path.join(__dirname, 'dist'),
+    compress: true,
+    port: 9000,
+  },
   module: {
     rules: [
       {
