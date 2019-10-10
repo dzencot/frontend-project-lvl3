@@ -1,4 +1,4 @@
-import '../style.css';
+// import '../../style.css';
 import 'bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import getLogger from 'webpack-log';

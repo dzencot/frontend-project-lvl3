@@ -2,13 +2,13 @@ install:
 	npm install
 
 lint:
-	npm run eslint ./
+	npx eslint ./
 
 test:
-	npm run test
+	npm test
 
 test-watch:
-	npm run test-watch
+	npx test-watch
 
 check-all:
 	make lint
@@ -16,13 +16,13 @@ check-all:
 
 build:
 	rm -rf dist
-	npm run build
+	npx build
 
 build-debug:
-	DEBUG="rss-reader:*" npm run build
+	DEBUG="rss-reader:*" npx build
 
 deploy:
-	npm run deploy
+	npx deploy
 
 publish:
 	npm publish

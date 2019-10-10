@@ -1,4 +1,3 @@
-/* global DOMParser */
 import $ from 'jquery';
 import _ from 'lodash';
 import getLogger from 'webpack-log';

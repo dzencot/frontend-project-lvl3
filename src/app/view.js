@@ -1,4 +1,3 @@
-/* global document */
 import _ from 'lodash';
 import $ from 'jquery';
 import WatchJS from 'melanke-watchjs';
