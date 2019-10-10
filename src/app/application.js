@@ -1,161 +1,50 @@
 import getLogger from 'webpack-log';
 import $ from 'jquery';
 import _ from 'lodash';
+import validator from 'validator';
 import { getRSSData } from './utils';
 import addWatchers from './view';
 
 const logger = getLogger({ name: 'application', level: 'debug' });
+const log = (...params) => logger.debug(...params);
+const logError = (...params) => logger.error(...params);
 
-export default class Application {
-  constructor(network) {
-    this.network = network;
-    this.validators = [];
-    this.state = {
-      appStatus: 'loading',
-      listFeedsData: [],
-      correctInput: true,
-      alert: {},
-      modalState: {
-        open: false,
-        postLink: '',
-      },
-    };
-  }
+export default (network, useProxy = false) => {
+  const validators = [];
 
-  log(...params) { // eslint-disable-line class-methods-use-this
-    logger.debug(...params);
-  }
+  const state = {
+    currentRSSUrl: '',
+    appStatus: 'loading',
+    listFeedsData: [],
+    correctInput: true,
+    alert: {},
+    modalState: {
+      open: false,
+      postLink: '',
+    },
+  };
 
-  logError(...params) { // eslint-disable-line class-methods-use-this
-    logger.error(...params);
-  }
+  validators.push((link) => !_.some(state.listFeedsData, { link }));
+  validators.push((link) => validator.isURL(link, { require_tld: useProxy }));
 
-  init() {
-    this.addValidator((link) => !this.hasAlreadyLink(link));
-
-    this.addWatchers();
-
-    this.bindActions();
-
-    this.onLoadSuccess();
-  }
-
-  addWatchers() {
-    this.log('addWatchers');
-    addWatchers(this.state);
-  }
-
-  bindActions() {
-    $('#input-rss').on('change', (event) => this.onInput(event));
-
-    $('#add-rss').on('mouseup', () => {
-      if (!this.state.correctInput) {
-        return;
-      }
-      this.onAddRSS();
-    });
-
-    $(document).on('mouseup', '.open-post', (event) => this.onOpenPost(event));
-
-    $('#modal-post').on('hidden.bs.modal', () => {
-      this.state.modalState.open = false;
-    });
-
-    $('.example-link').on('click', (event) => {
-      event.stopPropagation();
-      event.preventDefault();
-      const link = event.currentTarget.href;
-      this.log('Example link:', link);
-      const input = $('#input-rss');
-      input.val(link);
-      input.trigger('change');
-    });
-  }
-
-  destroy() { // eslint-disable-line class-methods-use-this
-    $(document).off('mouseup', '.open-post');
-  }
-
-  onOpenPost(event) {
-    this.log('Open post!');
-    const element = $(event.currentTarget);
-    const link = element.data('link');
-    this.setOpenLinkPost(link);
-    this.openModal();
-  }
-
-  onAddRSS() {
-    const link = this.currentRSSUrl;
-    this.onLoadStart();
-    this.fetchRSS(link)
-      .then(() => {
-        this.onLoadSuccess();
-      });
-  }
-
-  onInput(event) {
-    const link = event.currentTarget.value;
-    this.log('link:', link);
-    const isCurrentLink = this.validateLink(link);
-    if (isCurrentLink) {
-      this.setNewLink(link);
-      this.state.correctInput = true;
-    } else {
-      this.state.correctInput = false;
-    }
-  }
-
-  hasAlreadyLink(link) {
-    return _.some(this.state.listFeedsData, { link });
-  }
-
-  removeLink(link) {
-    this.state.listFeedsData = this.state.listFeedsData.filter((item) => item === link);
-  }
-
-  addValidator(validator) {
-    this.validators = [...this.validators, validator];
-  }
-
-  validateLink(link) { // eslint-disable-line class-methods-use-this
-    const result = this.validators.reduce((carry, currentValidator) => {
+  const validateLink = (link) => {
+    const result = validators.reduce((carry, currentValidator) => {
       const currentResult = currentValidator(link);
       if (currentResult === false) {
         return false;
       }
       return carry;
     }, true);
-    this.log('Validator result:', result);
+    log('Validator result:', result);
     return result;
-  }
+  };
 
-  setNewLink(link) {
-    this.currentRSSUrl = link;
-  }
-
-  fetchRSS(link, proxy = '') {
-    return this.network.get(link)
-      .then((response) => {
-        this.log('dataRSS:', response);
-        const { data } = response;
-        const feedData = getRSSData(link, data);
-        this.addRSS(feedData);
-        setTimeout(() => {
-          this.fetchRSS(link, proxy);
-        }, 5000);
-      })
-      .catch((error) => {
-        this.logError(error);
-        this.renderAlert('Error', link);
-      });
-  }
-
-  addRSS(feedData) {
+  const addRSS = (feedData) => {
     const { link } = feedData;
-    const alreadyData = _.find(this.state.listFeedsData, (item) => item.link === link);
+    const alreadyData = _.find(state.listFeedsData, (item) => item.link === link);
     if (!alreadyData) {
-      this.state.listFeedsData = [
-        ...this.state.listFeedsData,
+      state.listFeedsData = [
+        ...state.listFeedsData,
         feedData,
       ];
       return true;
@@ -166,31 +55,80 @@ export default class Application {
       return false;
     }
     alreadyData.posts = [...alreadyData.posts, ...newPosts];
-    const filteredFeeds = _.filter(this.state.listFeedsData, (item) => item.link !== link);
-    this.state.listFeedsData = [
+    const filteredFeeds = _.filter(state.listFeedsData, (item) => item.link !== link);
+    state.listFeedsData = [
       ...filteredFeeds,
       alreadyData,
     ];
     return true;
-  }
+  };
 
-  setOpenLinkPost(link) {
-    this.state.modalState.postLink = link;
-  }
+  const fetchRSS = (link) => network(link)
+    .then((response) => {
+      log('dataRSS:', response);
+      const { data } = response;
+      const feedData = getRSSData(link, data);
+      addRSS(feedData);
+      setTimeout(() => {
+        fetchRSS(link);
+      }, 5000);
+    })
+    .catch((error) => {
+      logError(error);
+      state.alert = { name: 'Error', link };
+    });
 
-  openModal() {
-    this.state.modalState.open = true;
-  }
+  const bindActions = () => {
+    $('#input-rss').on('change', (event) => {
+      const link = event.currentTarget.value;
+      log('link:', link);
+      const isCurrentLink = validateLink(link);
+      if (isCurrentLink) {
+        state.currentRSSUrl = link;
+        state.correctInput = true;
+      } else {
+        state.correctInput = false;
+      }
+    });
 
-  onLoadStart() {
-    this.state.appStatus = 'loading';
-  }
+    $('#add-rss').on('mouseup', () => {
+      if (!state.correctInput) {
+        return;
+      }
+      const link = state.currentRSSUrl;
+      state.appStatus = 'loading';
+      fetchRSS(link)
+        .then(() => {
+          state.appStatus = 'loaded';
+        });
+    });
 
-  onLoadSuccess() {
-    this.state.appStatus = 'loaded';
-  }
+    $(document).on('mouseup', '.open-post', (event) => {
+      log('Open post!');
+      const element = $(event.currentTarget);
+      const link = element.data('link');
+      state.modalState.postLink = link;
+      state.modalState.open = true;
+    });
 
-  renderAlert(name, link) {
-    this.state.alert = { name, link };
-  }
-}
+    $('#modal-post').on('hidden.bs.modal', () => {
+      state.modalState.open = false;
+    });
+
+    $('.example-link').on('click', (event) => {
+      event.stopPropagation();
+      event.preventDefault();
+      const link = event.currentTarget.href;
+      log('Example link:', link);
+      const input = $('#input-rss');
+      input.val(link);
+      input.trigger('change');
+    });
+  };
+
+  addWatchers(state);
+
+  bindActions();
+
+  state.appStatus = 'loaded';
+};

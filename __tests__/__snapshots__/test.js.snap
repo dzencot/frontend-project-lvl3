@@ -354,7 +354,7 @@ exports[`Show error message 1`] = `
     </div>
     <div class=\\"toast mt-0 w-100 alert alert-danger alert-dismissible fade show\\" role=\\"alert\\" style=\\"position: absolute;\\">
         <h4 class=\\"alert-title\\">Error</h4>
-        <div class=\\"alert-body\\">Couldn't get a RSS feed: <a target=\\"_blank\\" class=\\"alert-url\\" href=\\"undefined\\">undefined</a></div>
+        <div class=\\"alert-body\\">Couldn't get a RSS feed: <a target=\\"_blank\\" class=\\"alert-url\\" href=\\"\\"></a></div>
         <button type=\\"button\\" class=\\"close\\" data-dismiss=\\"alert\\" aria-label=\\"Close\\">
             <span aria-hidden=\\"true\\">×</span>
         </button>
