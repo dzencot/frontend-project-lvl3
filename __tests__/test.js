@@ -1,5 +1,4 @@
-// @flow
-/* global document */
+// @ts-check
 import fs from 'fs';
 import path from 'path';
 import { html } from 'js-beautify';
