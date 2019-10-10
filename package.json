@@ -6,7 +6,7 @@
   "scripts": {
     "test": "jest",
     "test-watch": "npm run test -- --watchAll",
-    "eslint": "eslint",
+    "eslint": "tslint",
     "build": "webpack",
     "start": "webpack-dev-server --open",
     "deploy": "surge -p dist -d petite-bead.surge.sh"
@@ -81,6 +81,7 @@
     "melanke-watchjs": "^1.5.0",
     "nock": "^11.3.5",
     "popper.js": "^1.15.0",
+    "tslint": "^5.20.0",
     "url": "^0.11.0",
     "validator": "^11.1.0",
     "webpack": "^4.40.2",
