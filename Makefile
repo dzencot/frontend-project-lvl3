@@ -8,7 +8,7 @@ test:
 	npm test
 
 test-watch:
-	npx test-watch
+	npm run test-watch
 
 check-all:
 	make lint
@@ -16,13 +16,13 @@ check-all:
 
 build:
 	rm -rf dist
-	npm build
+	npx webpack
 
 build-debug:
 	DEBUG="rss-reader:*" npx build
 
 deploy:
-	npx deploy
+	npx -c "surge -p dist -d petite-bead.surge.sh"
 
 publish:
 	npm publish
