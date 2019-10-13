@@ -7,7 +7,7 @@
     "test": "jest",
     "test-watch": "npm run test -- --watchAll",
     "eslint": "tslint",
-    "build": "webpack",
+    "build": "webpack --env.CORS_PROXY_URL=https://cors-anywhere.herokuapp.com --watch",
     "start": "webpack-dev-server --open",
     "deploy": "surge -p dist -d petite-bead.surge.sh"
   },

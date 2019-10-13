@@ -13,30 +13,41 @@ const getTree = () => html(document.body.innerHTML);
 
 const initHtml = fs.readFileSync(path.join(fixuturesPath, 'index.html')).toString();
 const pageRSSFeed = fs.readFileSync(path.join(fixuturesPath, 'pageRSSFeed.xml')).toString();
-document.documentElement.innerHTML = initHtml;
 
-// let application;
+nock('http://localhost')
+  .get('/feed')
+  .reply(200, pageRSSFeed);
 
+
+let container;
+let input;
+let form;
 beforeEach(() => {
-  nock('http://localhost')
-    .get('/feed')
-    .reply(200, pageRSSFeed);
-
-  // const domParser = new DOMParser();
-  // application = new Application(axios, domParser);
-  run(false);
+  document.documentElement.innerHTML = initHtml;
+  run();
+  container = document.getElementById('application');
+  input = $(container).find('#input-rss');
+  form = container.querySelector('#form');
 });
 
-test('Init', () => {
-  expect(getTree()).toMatchSnapshot();
+test('Add correct channel and open modal', (done) => {
+  input.val('http://localhost/feed');
+  form.dispatchEvent(new Event('submit'));
+
+  // TODO: надо что-то сделать, чтобы вызывать проверку без setTimeout
+  setTimeout(() => {
+    expect(getTree()).toMatchSnapshot();
+    $('.open-post').first().trigger('click');
+    setTimeout(() => {
+      expect(getTree()).toMatchSnapshot();
+      done();
+    }, 100);
+  }, 100);
 });
 
-test('Add wrong channel', (done) => {
-  const input = $('input');
+test('Add wrong url', (done) => {
   input.val('');
-  input.trigger('change');
-  const submit = $('#add-rss');
-  submit.trigger('mouseup');
+  form.dispatchEvent(new Event('submit'));
 
   // TODO: надо что-то сделать, чтобы вызывать проверку без setTimeout
   setTimeout(() => {
@@ -45,31 +56,12 @@ test('Add wrong channel', (done) => {
   }, 100);
 });
 
-test('Add correct channel and open modal', (done) => {
-  const input = $('input');
-  input.val('http://localhost/feed');
-  input.trigger('change');
-  const submit = $('#add-rss');
-  submit.trigger('mouseup');
+test('Show error', (done) => {
+  input.val('http://localhost/wrong');
+  form.dispatchEvent(new Event('submit'));
 
   // TODO: надо что-то сделать, чтобы вызывать проверку без setTimeout
-  setTimeout(() => {
-    expect(getTree()).toMatchSnapshot();
-    $('.open-post').first().trigger('mouseup');
-    setTimeout(() => {
-      expect(getTree()).toMatchSnapshot();
-      done();
-    }, 100);
-  }, 100);
-});
-
-test('Show error message', (done) => {
-  const input = $('input');
-  input.val('');
-  const submit = $('#add-rss');
-  submit.trigger('mouseup');
-
-  // TODO: надо что-то сделать, чтобы вызывать проверку без setTimeout
+  // TODO: выяснить почему watch alert срабатывает дважды, хотя на проде все ок
   setTimeout(() => {
     expect(getTree()).toMatchSnapshot();
     done();

@@ -1,12 +1,14 @@
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const webpack = require('webpack');
 
-module.exports = {
+module.exports = (env) => ({
   mode: 'development',
   watch: true,
   watchOptions: {
     aggregateTimeout: 600,
     ignored: ['/__tests__/', '/__mocks__/', '/node_modules/'],
+    poll: true,
   },
   entry: './src/index.js',
   output: {
@@ -20,6 +22,9 @@ module.exports = {
       files: {
         css: ['style.css'],
       },
+    }),
+    new webpack.DefinePlugin({
+      'process.env.CORS_PROXY_URL': JSON.stringify(env.CORS_PROXY_URL),
     }),
   ],
   devServer: {
@@ -44,4 +49,4 @@ module.exports = {
       },
     ],
   },
-};
+});
