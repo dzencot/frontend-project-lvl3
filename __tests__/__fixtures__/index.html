@@ -7,7 +7,7 @@
 
   <body>
     <div id="application">
-      <div class="spinner">
+      <div class="spinner" style="display: none;">
         <div class="bg-white opct fixed-top h-100 w-100 d-flex align-items-center justify-content-center">
           <div class="spinner-border text-info p-4" role="status">
             <span class="sr-only">Loading...</span>
@@ -29,15 +29,15 @@
         </div>
       </div>
       <div class="container">
-        <div id="example-links" class="alert alert-info w-100">
+        <div class="alert alert-info w-100">
           Example RSS links:
-          <a href="https://ru.hexlet.io/lessons.rss">Hexlet Lessons</a>,
-          <a href="https://ru.hexlet.io/blog.rss">Hexlet Blog</a>,
-          <a href="http://lorem-rss.herokuapp.com/feed?unit=second&interval=1">Lorem RSS 1 sec</a>,
-          <a href="http://lorem-rss.herokuapp.com/feed?unit=minute&interval=1">Lorem RSS 1 min</a>,
-          <a href="http://lorem-rss.herokuapp.com/feed?unit=minute&interval=7">Invalid Lorem RSS</a>,
-          <a href="http://lorem-rss.herokuapp.com/feed?unit=minute&interval=70">Second Invalid Lorem RSS</a>,
-          <a href="http://feeds.bbci.co.uk/news/rss.xml">BBC News</a>
+          <a class="example-link" href="https://ru.hexlet.io/lessons.rss">Hexlet Lessons</a>,
+          <a class="example-link" href="https://ru.hexlet.io/blog.rss">Hexlet Blog</a>,
+          <a class="example-link" href="http://lorem-rss.herokuapp.com/feed?unit=second&interval=1">Lorem RSS 1 sec</a>,
+          <a class="example-link" href="http://lorem-rss.herokuapp.com/feed?unit=minute&interval=1">Lorem RSS 1 min</a>,
+          <a class="example-link" href="http://lorem-rss.herokuapp.com/feed?unit=minute&interval=7">Invalid Lorem RSS</a>,
+          <a class="example-link" href="http://lorem-rss.herokuapp.com/feed?unit=minute&interval=70">Second Invalid Lorem RSS</a>,
+          <a class="example-link" href="http://feeds.bbci.co.uk/news/rss.xml">BBC News</a>
         </div>
         <form id="form" class="jumbotron pb-4 pt-4">
           <div class="input-group">
@@ -47,7 +47,7 @@
             <input name="url" type="text" id="input-rss" class="form-control alert-dark" placeholder="Enter RSS link"
               aria-label="RSS Link" aria-describedby="basic-addon1">
             <div class="input-group-append">
-              <a class="btn btn-outline-secondary" id="add-rss" role="button">Get RSS</a>
+              <button class="btn btn-outline-secondary" id="add-rss" role="button">Get RSS</button>
             </div>
           </div>
         </form>

@@ -16,7 +16,7 @@ check-all:
 
 build:
 	rm -rf dist
-	npx webpack
+	npm run build
 
 build-debug:
 	DEBUG="rss-reader:*" npx build
