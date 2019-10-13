@@ -67,97 +67,90 @@ export default () => {
       });
   };
 
-  const bindActions = () => {
-    form.addEventListener('submit', (event) => {
-      event.preventDefault();
-      const formData = new FormData(event.target);
-      const link = formData.get('url');
-      const isCurrentLink = validateLink(link);
-      if (!isCurrentLink) {
-        state.getFeedStatus = 'invalid';
-        return;
-      }
-      state.getFeedStatus = 'loading';
-      fetchRSS(link)
-        .then(() => {
-          state.getFeedStatus = 'loaded';
-        })
-        .catch((error) => {
-          logError(error);
-          state.alert = { name: 'Error', link };
-          state.getFeedStatus = 'alert';
-        });
-    });
-
-    // TODO: без жквери обработчик не работает. Найти другой способ?
-    $(modal).on('show.bs.modal', (event) => {
-      log('Open post!');
-      const { link } = event.relatedTarget.dataset;
-      state.openedModalLink = link;
-    });
-
-    exampleLinks.forEach((exampleLink) => {
-      exampleLink.addEventListener('click', (event) => {
-        event.stopPropagation();
-        event.preventDefault();
-        const link = event.currentTarget.href;
-        log('Example link:', link);
-        state.currentRSSUrl = link;
-        state.getFeedStatus = 'setExampleLink';
+  form.addEventListener('submit', (event) => {
+    event.preventDefault();
+    const formData = new FormData(event.target);
+    const link = formData.get('url');
+    const isCurrentLink = validateLink(link);
+    if (!isCurrentLink) {
+      state.getFeedStatus = 'invalid';
+      return;
+    }
+    state.getFeedStatus = 'loading';
+    fetchRSS(link)
+      .then(() => {
+        state.getFeedStatus = 'loaded';
+      })
+      .catch((error) => {
+        logError(error);
+        state.alert = { name: 'Error', link };
+        state.getFeedStatus = 'alert';
       });
-    });
-  };
+  });
 
-  const addWatchers = () => {
-    WatchJS.watch(state, 'listFeedsData', () => {
-      const feedsList = _.cloneDeep(state.listFeedsData);
-      const htmlFeedListHtml = getFeedListHtml(feedsList);
-      listRss.innerHTML = htmlFeedListHtml;
-    });
+  // TODO: без жквери обработчик не работает. Найти другой способ?
+  $(modal).on('show.bs.modal', (event) => {
+    log('Open post!');
+    const { link } = event.relatedTarget.dataset;
+    state.openedModalLink = link;
+  });
 
-    WatchJS.watch(state, 'openedModalLink', () => {
-      const { openedModalLink } = state;
-      const post = getPostByLink(state, openedModalLink);
-      fillModal(modal, post);
+  exampleLinks.forEach((exampleLink) => {
+    exampleLink.addEventListener('click', (event) => {
+      event.stopPropagation();
+      event.preventDefault();
+      const link = event.currentTarget.href;
+      log('Example link:', link);
+      state.currentRSSUrl = link;
+      state.getFeedStatus = 'setExampleLink';
     });
+  });
 
-    WatchJS.watch(state, 'currentRSSUrl', () => {
-      const { currentRSSUrl } = state;
-      input.value = currentRSSUrl;
-    });
+  WatchJS.watch(state, 'listFeedsData', () => {
+    const feedsList = _.cloneDeep(state.listFeedsData);
+    const htmlFeedListHtml = getFeedListHtml(feedsList);
+    listRss.innerHTML = htmlFeedListHtml;
+  });
 
-    WatchJS.watch(state, 'getFeedStatus', () => {
-      switch (state.getFeedStatus) {
-        case 'loading':
-          spinner.style.display = 'block';
-          input.classList.remove('alert-danger');
-          input.classList.add('alert-dark');
-          break;
-        case 'loaded':
-          input.value = '';
-          spinner.style.display = 'none';
-          break;
-        case 'valid':
-          input.classList.remove('alert-danger');
-          input.classList.add('alert-dark');
-          break;
-        case 'invalid':
-          input.classList.add('alert-danger');
-          input.classList.remove('alert-dark');
-          break;
-        case 'alert':
-          spinner.style.display = 'none';
-          renderAlert(applicationContainer, state.alert);
-          break;
-        case 'setExampleLink':
-          input.value = state.currentRSSUrl;
-          submit.click();
-          break;
-        default: break;
-      }
-    });
-  };
+  WatchJS.watch(state, 'openedModalLink', () => {
+    const { openedModalLink } = state;
+    const post = getPostByLink(state, openedModalLink);
+    fillModal(modal, post);
+  });
 
-  addWatchers(state);
-  bindActions();
+  WatchJS.watch(state, 'currentRSSUrl', () => {
+    const { currentRSSUrl } = state;
+    input.value = currentRSSUrl;
+  });
+
+  WatchJS.watch(state, 'getFeedStatus', () => {
+    switch (state.getFeedStatus) {
+      case 'loading':
+        spinner.style.display = 'block';
+        input.classList.remove('alert-danger');
+        input.classList.add('alert-dark');
+        break;
+      case 'loaded':
+        input.value = '';
+        spinner.style.display = 'none';
+        break;
+      case 'valid':
+        input.classList.remove('alert-danger');
+        input.classList.add('alert-dark');
+        break;
+      case 'invalid':
+        input.classList.add('alert-danger');
+        input.classList.remove('alert-dark');
+        break;
+      case 'alert':
+        spinner.style.display = 'none';
+        renderAlert(applicationContainer, state.alert);
+        break;
+      case 'setExampleLink':
+        input.value = state.currentRSSUrl;
+        submit.click();
+        break;
+      default: break;
+    }
+  });
 };
