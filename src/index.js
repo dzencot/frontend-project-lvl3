@@ -1,3 +1,4 @@
-import run from './app/run';
+import app from './app/application';
 
-run();
+app();
+console.log(__('pageTitle'));

@@ -1,6 +1,6 @@
 const getPostHtml = (post) => {
   const html = `<div class="item mb-1 mt-1 d-flex align-items-center">
-    <button tabindex="0"  type="button" class="open-post btn-sm btn btn-info p-0 mr-2" data-toggle="modal" data-target="#modal-post" data-link="${post.link}">
+    <button tabindex="0"  type="button" class="open-post btn-sm btn btn-info p-1 mr-2" data-toggle="modal" data-target="#modal-post" data-link="${post.link}">
       Open
     </button>
     <a href="${post.link}" target="_blank">${post.title}</a>
@@ -11,7 +11,7 @@ const getPostHtml = (post) => {
 const getFeedHtml = (feed) => {
   const { title, description, posts } = feed;
   const sortedPosts = posts.sort((post1, post2) => post1.name > post2.name);
-  const postsHtml = sortedPosts.reduce((html, item) => `${html}${getPostHtml(item)}`, '');
+  const postsHtml = sortedPosts.map((item) => getPostHtml(item)).join('');
   return `<div class="feed">
     <h5>${title}</h5>
     <p>${description}</p>
@@ -26,10 +26,12 @@ const getFeedListHtml = (list) => list.reduce((html, feed) => {
 }, '');
 
 const fillModal = (modal, post) => {
-  const linkModal = modal.querySelector('#modal-post-label');
-  linkModal.innerHTML = post.link;
-  const linkBody = modal.querySelector('.modal-body');
-  linkBody.innerHTML = post.description;
+  const titleEl = modal.querySelector('#post-title');
+  titleEl.innerHTML = post.title;
+  const descriptionEl = modal.querySelector('#post-description');
+  descriptionEl.innerHTML = post.description;
+  const linkEl = modal.querySelector('#post-link');
+  linkEl.setAttribute('href', post.link);
 };
 
 const renderAlert = (container, alertData) => {

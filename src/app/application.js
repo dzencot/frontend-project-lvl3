@@ -1,3 +1,5 @@
+import 'bootstrap';
+import 'bootstrap/dist/css/bootstrap.min.css';
 import getLogger from 'webpack-log';
 import WatchJS from 'melanke-watchjs';
 import $ from 'jquery';
@@ -23,7 +25,6 @@ export default () => {
   const applicationContainer = document.getElementById('application');
   const modal = applicationContainer.querySelector('#modal-post');
   const input = applicationContainer.querySelector('#input-rss');
-  const submit = applicationContainer.querySelector('#add-rss');
   const form = applicationContainer.querySelector('#form');
   const exampleLinks = applicationContainer.querySelectorAll('a.example-link');
   const listRss = applicationContainer.querySelector('#list-rss');
@@ -64,6 +65,12 @@ export default () => {
         setTimeout(() => {
           fetchRSS(link);
         }, 5000);
+        state.getFeedStatus = 'loaded';
+      })
+      .catch((error) => {
+        logError(error);
+        state.alert = { name: 'Error', link };
+        state.getFeedStatus = 'alert';
       });
   };
 
@@ -77,15 +84,7 @@ export default () => {
       return;
     }
     state.getFeedStatus = 'loading';
-    fetchRSS(link)
-      .then(() => {
-        state.getFeedStatus = 'loaded';
-      })
-      .catch((error) => {
-        logError(error);
-        state.alert = { name: 'Error', link };
-        state.getFeedStatus = 'alert';
-      });
+    fetchRSS(link);
   });
 
   // TODO: без жквери обработчик не работает. Найти другой способ?
@@ -101,8 +100,8 @@ export default () => {
       event.preventDefault();
       const link = event.currentTarget.href;
       log('Example link:', link);
-      state.currentRSSUrl = link;
-      state.getFeedStatus = 'setExampleLink';
+      state.getFeedStatus = 'loading';
+      fetchRSS(link);
     });
   });
 
@@ -145,10 +144,6 @@ export default () => {
       case 'alert':
         spinner.style.display = 'none';
         renderAlert(applicationContainer, state.alert);
-        break;
-      case 'setExampleLink':
-        input.value = state.currentRSSUrl;
-        submit.click();
         break;
       default: break;
     }

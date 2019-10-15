@@ -6,7 +6,7 @@ import nock from 'nock';
 import $ from 'jquery';
 // import Application from '../src/app/application';
 // import axios from '../src/app/lib/axios';
-import run from '../src/app/run';
+import run from '../src/app/application';
 
 const fixuturesPath = path.join(__dirname, '__fixtures__');
 const getTree = () => html(document.body.innerHTML);

@@ -13,12 +13,15 @@ exports[`Add correct channel and open modal 1`] = `
         <div class=\\"modal-dialog\\" role=\\"document\\">
             <div class=\\"modal-content\\">
                 <div class=\\"modal-header\\">
-                    <h5 class=\\"modal-title\\" id=\\"modal-post-label\\"></h5>
+                    <h5 class=\\"modal-title\\" id=\\"post-title\\"></h5>
                     <button type=\\"button\\" class=\\"close\\" data-dismiss=\\"modal\\" aria-label=\\"Close\\">
                         <span aria-hidden=\\"true\\">×</span>
                     </button>
                 </div>
-                <div class=\\"modal-body\\"></div>
+                <div class=\\"modal-body\\">
+                    <div id=\\"post-description\\"></div>
+                    <a id=\\"post-link\\">Link</a>
+                </div>
             </div>
         </div>
     </div>
@@ -50,61 +53,61 @@ exports[`Add correct channel and open modal 1`] = `
                 <p>This is a constantly updating lorem ipsum feed</p>
                 <div class=\\"content\\">
                     <div class=\\"item mb-1 mt-1 d-flex align-items-center\\">
-                        <button tabindex=\\"0\\" type=\\"button\\" class=\\"open-post btn-sm btn btn-info p-0 mr-2\\" data-toggle=\\"modal\\" data-target=\\"#modal-post\\" data-link=\\"http://example.com/test/1569324660\\">
+                        <button tabindex=\\"0\\" type=\\"button\\" class=\\"open-post btn-sm btn btn-info p-1 mr-2\\" data-toggle=\\"modal\\" data-target=\\"#modal-post\\" data-link=\\"http://example.com/test/1569324660\\">
                             Open
                         </button>
                         <a href=\\"http://example.com/test/1569324660\\" target=\\"_blank\\">Lorem ipsum 2019-09-24T11:31:00Z</a>
                     </div>
                     <div class=\\"item mb-1 mt-1 d-flex align-items-center\\">
-                        <button tabindex=\\"0\\" type=\\"button\\" class=\\"open-post btn-sm btn btn-info p-0 mr-2\\" data-toggle=\\"modal\\" data-target=\\"#modal-post\\" data-link=\\"http://example.com/test/1569324600\\">
+                        <button tabindex=\\"0\\" type=\\"button\\" class=\\"open-post btn-sm btn btn-info p-1 mr-2\\" data-toggle=\\"modal\\" data-target=\\"#modal-post\\" data-link=\\"http://example.com/test/1569324600\\">
                             Open
                         </button>
                         <a href=\\"http://example.com/test/1569324600\\" target=\\"_blank\\">Lorem ipsum 2019-09-24T11:30:00Z</a>
                     </div>
                     <div class=\\"item mb-1 mt-1 d-flex align-items-center\\">
-                        <button tabindex=\\"0\\" type=\\"button\\" class=\\"open-post btn-sm btn btn-info p-0 mr-2\\" data-toggle=\\"modal\\" data-target=\\"#modal-post\\" data-link=\\"http://example.com/test/1569324540\\">
+                        <button tabindex=\\"0\\" type=\\"button\\" class=\\"open-post btn-sm btn btn-info p-1 mr-2\\" data-toggle=\\"modal\\" data-target=\\"#modal-post\\" data-link=\\"http://example.com/test/1569324540\\">
                             Open
                         </button>
                         <a href=\\"http://example.com/test/1569324540\\" target=\\"_blank\\">Lorem ipsum 2019-09-24T11:29:00Z</a>
                     </div>
                     <div class=\\"item mb-1 mt-1 d-flex align-items-center\\">
-                        <button tabindex=\\"0\\" type=\\"button\\" class=\\"open-post btn-sm btn btn-info p-0 mr-2\\" data-toggle=\\"modal\\" data-target=\\"#modal-post\\" data-link=\\"http://example.com/test/1569324480\\">
+                        <button tabindex=\\"0\\" type=\\"button\\" class=\\"open-post btn-sm btn btn-info p-1 mr-2\\" data-toggle=\\"modal\\" data-target=\\"#modal-post\\" data-link=\\"http://example.com/test/1569324480\\">
                             Open
                         </button>
                         <a href=\\"http://example.com/test/1569324480\\" target=\\"_blank\\">Lorem ipsum 2019-09-24T11:28:00Z</a>
                     </div>
                     <div class=\\"item mb-1 mt-1 d-flex align-items-center\\">
-                        <button tabindex=\\"0\\" type=\\"button\\" class=\\"open-post btn-sm btn btn-info p-0 mr-2\\" data-toggle=\\"modal\\" data-target=\\"#modal-post\\" data-link=\\"http://example.com/test/1569324420\\">
+                        <button tabindex=\\"0\\" type=\\"button\\" class=\\"open-post btn-sm btn btn-info p-1 mr-2\\" data-toggle=\\"modal\\" data-target=\\"#modal-post\\" data-link=\\"http://example.com/test/1569324420\\">
                             Open
                         </button>
                         <a href=\\"http://example.com/test/1569324420\\" target=\\"_blank\\">Lorem ipsum 2019-09-24T11:27:00Z</a>
                     </div>
                     <div class=\\"item mb-1 mt-1 d-flex align-items-center\\">
-                        <button tabindex=\\"0\\" type=\\"button\\" class=\\"open-post btn-sm btn btn-info p-0 mr-2\\" data-toggle=\\"modal\\" data-target=\\"#modal-post\\" data-link=\\"http://example.com/test/1569324360\\">
+                        <button tabindex=\\"0\\" type=\\"button\\" class=\\"open-post btn-sm btn btn-info p-1 mr-2\\" data-toggle=\\"modal\\" data-target=\\"#modal-post\\" data-link=\\"http://example.com/test/1569324360\\">
                             Open
                         </button>
                         <a href=\\"http://example.com/test/1569324360\\" target=\\"_blank\\">Lorem ipsum 2019-09-24T11:26:00Z</a>
                     </div>
                     <div class=\\"item mb-1 mt-1 d-flex align-items-center\\">
-                        <button tabindex=\\"0\\" type=\\"button\\" class=\\"open-post btn-sm btn btn-info p-0 mr-2\\" data-toggle=\\"modal\\" data-target=\\"#modal-post\\" data-link=\\"http://example.com/test/1569324300\\">
+                        <button tabindex=\\"0\\" type=\\"button\\" class=\\"open-post btn-sm btn btn-info p-1 mr-2\\" data-toggle=\\"modal\\" data-target=\\"#modal-post\\" data-link=\\"http://example.com/test/1569324300\\">
                             Open
                         </button>
                         <a href=\\"http://example.com/test/1569324300\\" target=\\"_blank\\">Lorem ipsum 2019-09-24T11:25:00Z</a>
                     </div>
                     <div class=\\"item mb-1 mt-1 d-flex align-items-center\\">
-                        <button tabindex=\\"0\\" type=\\"button\\" class=\\"open-post btn-sm btn btn-info p-0 mr-2\\" data-toggle=\\"modal\\" data-target=\\"#modal-post\\" data-link=\\"http://example.com/test/1569324240\\">
+                        <button tabindex=\\"0\\" type=\\"button\\" class=\\"open-post btn-sm btn btn-info p-1 mr-2\\" data-toggle=\\"modal\\" data-target=\\"#modal-post\\" data-link=\\"http://example.com/test/1569324240\\">
                             Open
                         </button>
                         <a href=\\"http://example.com/test/1569324240\\" target=\\"_blank\\">Lorem ipsum 2019-09-24T11:24:00Z</a>
                     </div>
                     <div class=\\"item mb-1 mt-1 d-flex align-items-center\\">
-                        <button tabindex=\\"0\\" type=\\"button\\" class=\\"open-post btn-sm btn btn-info p-0 mr-2\\" data-toggle=\\"modal\\" data-target=\\"#modal-post\\" data-link=\\"http://example.com/test/1569324180\\">
+                        <button tabindex=\\"0\\" type=\\"button\\" class=\\"open-post btn-sm btn btn-info p-1 mr-2\\" data-toggle=\\"modal\\" data-target=\\"#modal-post\\" data-link=\\"http://example.com/test/1569324180\\">
                             Open
                         </button>
                         <a href=\\"http://example.com/test/1569324180\\" target=\\"_blank\\">Lorem ipsum 2019-09-24T11:23:00Z</a>
                     </div>
                     <div class=\\"item mb-1 mt-1 d-flex align-items-center\\">
-                        <button tabindex=\\"0\\" type=\\"button\\" class=\\"open-post btn-sm btn btn-info p-0 mr-2\\" data-toggle=\\"modal\\" data-target=\\"#modal-post\\" data-link=\\"http://example.com/test/1569324120\\">
+                        <button tabindex=\\"0\\" type=\\"button\\" class=\\"open-post btn-sm btn btn-info p-1 mr-2\\" data-toggle=\\"modal\\" data-target=\\"#modal-post\\" data-link=\\"http://example.com/test/1569324120\\">
                             Open
                         </button>
                         <a href=\\"http://example.com/test/1569324120\\" target=\\"_blank\\">Lorem ipsum 2019-09-24T11:22:00Z</a>
@@ -130,12 +133,15 @@ exports[`Add correct channel and open modal 2`] = `
         <div class=\\"modal-dialog\\" role=\\"document\\">
             <div class=\\"modal-content\\">
                 <div class=\\"modal-header\\">
-                    <h5 class=\\"modal-title\\" id=\\"modal-post-label\\">http://example.com/test/1569324660</h5>
+                    <h5 class=\\"modal-title\\" id=\\"post-title\\">Lorem ipsum 2019-09-24T11:31:00Z</h5>
                     <button type=\\"button\\" class=\\"close\\" data-dismiss=\\"modal\\" aria-label=\\"Close\\">
                         <span aria-hidden=\\"true\\">×</span>
                     </button>
                 </div>
-                <div class=\\"modal-body\\">Qui deserunt excepteur eiusmod occaecat est qui excepteur laborum culpa exercitation.</div>
+                <div class=\\"modal-body\\">
+                    <div id=\\"post-description\\">Qui deserunt excepteur eiusmod occaecat est qui excepteur laborum culpa exercitation.</div>
+                    <a id=\\"post-link\\" href=\\"http://example.com/test/1569324660\\">Link</a>
+                </div>
             </div>
         </div>
     </div>
@@ -167,61 +173,61 @@ exports[`Add correct channel and open modal 2`] = `
                 <p>This is a constantly updating lorem ipsum feed</p>
                 <div class=\\"content\\">
                     <div class=\\"item mb-1 mt-1 d-flex align-items-center\\">
-                        <button tabindex=\\"0\\" type=\\"button\\" class=\\"open-post btn-sm btn btn-info p-0 mr-2\\" data-toggle=\\"modal\\" data-target=\\"#modal-post\\" data-link=\\"http://example.com/test/1569324660\\">
+                        <button tabindex=\\"0\\" type=\\"button\\" class=\\"open-post btn-sm btn btn-info p-1 mr-2\\" data-toggle=\\"modal\\" data-target=\\"#modal-post\\" data-link=\\"http://example.com/test/1569324660\\">
                             Open
                         </button>
                         <a href=\\"http://example.com/test/1569324660\\" target=\\"_blank\\">Lorem ipsum 2019-09-24T11:31:00Z</a>
                     </div>
                     <div class=\\"item mb-1 mt-1 d-flex align-items-center\\">
-                        <button tabindex=\\"0\\" type=\\"button\\" class=\\"open-post btn-sm btn btn-info p-0 mr-2\\" data-toggle=\\"modal\\" data-target=\\"#modal-post\\" data-link=\\"http://example.com/test/1569324600\\">
+                        <button tabindex=\\"0\\" type=\\"button\\" class=\\"open-post btn-sm btn btn-info p-1 mr-2\\" data-toggle=\\"modal\\" data-target=\\"#modal-post\\" data-link=\\"http://example.com/test/1569324600\\">
                             Open
                         </button>
                         <a href=\\"http://example.com/test/1569324600\\" target=\\"_blank\\">Lorem ipsum 2019-09-24T11:30:00Z</a>
                     </div>
                     <div class=\\"item mb-1 mt-1 d-flex align-items-center\\">
-                        <button tabindex=\\"0\\" type=\\"button\\" class=\\"open-post btn-sm btn btn-info p-0 mr-2\\" data-toggle=\\"modal\\" data-target=\\"#modal-post\\" data-link=\\"http://example.com/test/1569324540\\">
+                        <button tabindex=\\"0\\" type=\\"button\\" class=\\"open-post btn-sm btn btn-info p-1 mr-2\\" data-toggle=\\"modal\\" data-target=\\"#modal-post\\" data-link=\\"http://example.com/test/1569324540\\">
                             Open
                         </button>
                         <a href=\\"http://example.com/test/1569324540\\" target=\\"_blank\\">Lorem ipsum 2019-09-24T11:29:00Z</a>
                     </div>
                     <div class=\\"item mb-1 mt-1 d-flex align-items-center\\">
-                        <button tabindex=\\"0\\" type=\\"button\\" class=\\"open-post btn-sm btn btn-info p-0 mr-2\\" data-toggle=\\"modal\\" data-target=\\"#modal-post\\" data-link=\\"http://example.com/test/1569324480\\">
+                        <button tabindex=\\"0\\" type=\\"button\\" class=\\"open-post btn-sm btn btn-info p-1 mr-2\\" data-toggle=\\"modal\\" data-target=\\"#modal-post\\" data-link=\\"http://example.com/test/1569324480\\">
                             Open
                         </button>
                         <a href=\\"http://example.com/test/1569324480\\" target=\\"_blank\\">Lorem ipsum 2019-09-24T11:28:00Z</a>
                     </div>
                     <div class=\\"item mb-1 mt-1 d-flex align-items-center\\">
-                        <button tabindex=\\"0\\" type=\\"button\\" class=\\"open-post btn-sm btn btn-info p-0 mr-2\\" data-toggle=\\"modal\\" data-target=\\"#modal-post\\" data-link=\\"http://example.com/test/1569324420\\">
+                        <button tabindex=\\"0\\" type=\\"button\\" class=\\"open-post btn-sm btn btn-info p-1 mr-2\\" data-toggle=\\"modal\\" data-target=\\"#modal-post\\" data-link=\\"http://example.com/test/1569324420\\">
                             Open
                         </button>
                         <a href=\\"http://example.com/test/1569324420\\" target=\\"_blank\\">Lorem ipsum 2019-09-24T11:27:00Z</a>
                     </div>
                     <div class=\\"item mb-1 mt-1 d-flex align-items-center\\">
-                        <button tabindex=\\"0\\" type=\\"button\\" class=\\"open-post btn-sm btn btn-info p-0 mr-2\\" data-toggle=\\"modal\\" data-target=\\"#modal-post\\" data-link=\\"http://example.com/test/1569324360\\">
+                        <button tabindex=\\"0\\" type=\\"button\\" class=\\"open-post btn-sm btn btn-info p-1 mr-2\\" data-toggle=\\"modal\\" data-target=\\"#modal-post\\" data-link=\\"http://example.com/test/1569324360\\">
                             Open
                         </button>
                         <a href=\\"http://example.com/test/1569324360\\" target=\\"_blank\\">Lorem ipsum 2019-09-24T11:26:00Z</a>
                     </div>
                     <div class=\\"item mb-1 mt-1 d-flex align-items-center\\">
-                        <button tabindex=\\"0\\" type=\\"button\\" class=\\"open-post btn-sm btn btn-info p-0 mr-2\\" data-toggle=\\"modal\\" data-target=\\"#modal-post\\" data-link=\\"http://example.com/test/1569324300\\">
+                        <button tabindex=\\"0\\" type=\\"button\\" class=\\"open-post btn-sm btn btn-info p-1 mr-2\\" data-toggle=\\"modal\\" data-target=\\"#modal-post\\" data-link=\\"http://example.com/test/1569324300\\">
                             Open
                         </button>
                         <a href=\\"http://example.com/test/1569324300\\" target=\\"_blank\\">Lorem ipsum 2019-09-24T11:25:00Z</a>
                     </div>
                     <div class=\\"item mb-1 mt-1 d-flex align-items-center\\">
-                        <button tabindex=\\"0\\" type=\\"button\\" class=\\"open-post btn-sm btn btn-info p-0 mr-2\\" data-toggle=\\"modal\\" data-target=\\"#modal-post\\" data-link=\\"http://example.com/test/1569324240\\">
+                        <button tabindex=\\"0\\" type=\\"button\\" class=\\"open-post btn-sm btn btn-info p-1 mr-2\\" data-toggle=\\"modal\\" data-target=\\"#modal-post\\" data-link=\\"http://example.com/test/1569324240\\">
                             Open
                         </button>
                         <a href=\\"http://example.com/test/1569324240\\" target=\\"_blank\\">Lorem ipsum 2019-09-24T11:24:00Z</a>
                     </div>
                     <div class=\\"item mb-1 mt-1 d-flex align-items-center\\">
-                        <button tabindex=\\"0\\" type=\\"button\\" class=\\"open-post btn-sm btn btn-info p-0 mr-2\\" data-toggle=\\"modal\\" data-target=\\"#modal-post\\" data-link=\\"http://example.com/test/1569324180\\">
+                        <button tabindex=\\"0\\" type=\\"button\\" class=\\"open-post btn-sm btn btn-info p-1 mr-2\\" data-toggle=\\"modal\\" data-target=\\"#modal-post\\" data-link=\\"http://example.com/test/1569324180\\">
                             Open
                         </button>
                         <a href=\\"http://example.com/test/1569324180\\" target=\\"_blank\\">Lorem ipsum 2019-09-24T11:23:00Z</a>
                     </div>
                     <div class=\\"item mb-1 mt-1 d-flex align-items-center\\">
-                        <button tabindex=\\"0\\" type=\\"button\\" class=\\"open-post btn-sm btn btn-info p-0 mr-2\\" data-toggle=\\"modal\\" data-target=\\"#modal-post\\" data-link=\\"http://example.com/test/1569324120\\">
+                        <button tabindex=\\"0\\" type=\\"button\\" class=\\"open-post btn-sm btn btn-info p-1 mr-2\\" data-toggle=\\"modal\\" data-target=\\"#modal-post\\" data-link=\\"http://example.com/test/1569324120\\">
                             Open
                         </button>
                         <a href=\\"http://example.com/test/1569324120\\" target=\\"_blank\\">Lorem ipsum 2019-09-24T11:22:00Z</a>
@@ -251,12 +257,15 @@ exports[`Add wrong url 1`] = `
         <div class=\\"modal-dialog\\" role=\\"document\\">
             <div class=\\"modal-content\\">
                 <div class=\\"modal-header\\">
-                    <h5 class=\\"modal-title\\" id=\\"modal-post-label\\"></h5>
+                    <h5 class=\\"modal-title\\" id=\\"post-title\\"></h5>
                     <button type=\\"button\\" class=\\"close\\" data-dismiss=\\"modal\\" aria-label=\\"Close\\">
                         <span aria-hidden=\\"true\\">×</span>
                     </button>
                 </div>
-                <div class=\\"modal-body\\"></div>
+                <div class=\\"modal-body\\">
+                    <div id=\\"post-description\\"></div>
+                    <a id=\\"post-link\\">Link</a>
+                </div>
             </div>
         </div>
     </div>
@@ -314,12 +323,15 @@ exports[`Show error 1`] = `
         <div class=\\"modal-dialog\\" role=\\"document\\">
             <div class=\\"modal-content\\">
                 <div class=\\"modal-header\\">
-                    <h5 class=\\"modal-title\\" id=\\"modal-post-label\\"></h5>
+                    <h5 class=\\"modal-title\\" id=\\"post-title\\"></h5>
                     <button type=\\"button\\" class=\\"close\\" data-dismiss=\\"modal\\" aria-label=\\"Close\\">
                         <span aria-hidden=\\"true\\">×</span>
                     </button>
                 </div>
-                <div class=\\"modal-body\\"></div>
+                <div class=\\"modal-body\\">
+                    <div id=\\"post-description\\"></div>
+                    <a id=\\"post-link\\">Link</a>
+                </div>
             </div>
         </div>
     </div>

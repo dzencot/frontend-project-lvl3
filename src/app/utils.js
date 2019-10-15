@@ -34,23 +34,23 @@ const parsePost = (feedUrl, data) => {
   }
   return {
     feedUrl,
-    link: link.textContent,
+    link: link.textContent || link.getAttribute('href'),
     title: title.textContent,
-    description: description.textContent,
+    description: description ? description.textContent : '',
   };
 };
 
 const getRSSData = (link, data) => {
   const domParser = new DOMParser();
   const parsedData = domParser.parseFromString(data, 'text/xml');
-  const title = parsedData.querySelector('rss > channel > title');
-  const description = parsedData.querySelector('rss > channel > description');
+  const title = parsedData.querySelector('rss > channel > title, feed > title');
+  const description = parsedData.querySelector('rss > channel > description, feed > title');
   if (title.length === 0 || description.length === 0) {
     const errorMessage = 'not found title or description';
     logError(errorMessage);
     throw new Error(errorMessage);
   }
-  const dataPosts = Array.from(parsedData.querySelectorAll('item'));
+  const dataPosts = Array.from(parsedData.querySelectorAll('item, entry'));
   const posts = dataPosts.map((item) => parsePost(link, item));
   return {
     link,
