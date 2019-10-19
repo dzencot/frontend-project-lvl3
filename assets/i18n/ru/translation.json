@@ -1,0 +1,12 @@
+{
+  "RSS Reader": "Лента новостей RSS",
+  "Invalid host": "Неверный хост",
+  "Not found": "Не найдено",
+  "Method not allowed": "Метод не поддерживается",
+  "Request timeout": "Истекло время ожидания",
+  "Gateway timeout": "Шлюз не отвечает",
+  "Internal Server Error": "Внутренняя ошибка сервера",
+  "Not found post data": "Не найдены данные поста",
+  "Not found feed data": "Не найдены данные поста",
+  "Error": "Ошибка"
+}
