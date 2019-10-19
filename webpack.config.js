@@ -1,8 +1,6 @@
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const webpack = require('webpack');
-const i18nPlugin = require('i18n-webpack-plugin');
-const translation = require('./assets/i18n/ru/translation.json');
 
 module.exports = (env) => ({
   mode: 'development',
@@ -28,7 +26,6 @@ module.exports = (env) => ({
     new webpack.DefinePlugin({
       'process.env.CORS_PROXY_URL': JSON.stringify(env.CORS_PROXY_URL),
     }),
-    new i18nPlugin(translation),
   ],
   devServer: {
     contentBase: path.join(__dirname, 'dist'),

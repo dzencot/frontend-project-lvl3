@@ -16,7 +16,11 @@ const pageRSSFeed = fs.readFileSync(path.join(fixuturesPath, 'pageRSSFeed.xml'))
 
 nock('http://localhost')
   .get('/feed')
-  .reply(200, pageRSSFeed);
+  .reply(200, pageRSSFeed)
+  .get('/wrong')
+  .replyWithError('Not found')
+  .get('/wrong')
+  .replyWithError('Not found');
 
 
 let container;
@@ -61,7 +65,19 @@ test('Show error', (done) => {
   form.dispatchEvent(new Event('submit'));
 
   // TODO: надо что-то сделать, чтобы вызывать проверку без setTimeout
-  // TODO: выяснить почему watch alert срабатывает дважды, хотя на проде все ок
+  setTimeout(() => {
+    expect(getTree()).toMatchSnapshot();
+    done();
+  }, 100);
+});
+
+test('Change language', (done) => {
+  const ruButton = document.querySelector('.change-language[data-language="ru"]');
+  ruButton.dispatchEvent(new Event('click'));
+  input.val('http://localhost/wrong');
+  form.dispatchEvent(new Event('submit'));
+
+  // TODO: надо что-то сделать, чтобы вызывать проверку без setTimeout
   setTimeout(() => {
     expect(getTree()).toMatchSnapshot();
     done();
