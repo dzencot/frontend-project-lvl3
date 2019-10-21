@@ -5,8 +5,15 @@ import WatchJS from 'melanke-watchjs';
 import $ from 'jquery';
 import _ from 'lodash';
 import validator from 'validator';
-import axios from './lib/axios';
-import i18next from './lib/i18next';
+import axios from 'axios';
+import httpadapter from 'axios/lib/adapters/http';
+import i18next from 'i18next';
+import detector from 'i18next-browser-languagedetector';
+
+import translationRu from '../../assets/i18n/ru/translation.json';
+import translationEn from '../../assets/i18n/en/translation.json';
+
+axios.defaults.adapter = httpadapter;
 
 const logger = getLogger({ name: 'application', level: 'debug' });
 const log = (...params) => logger.debug(...params);
@@ -134,7 +141,7 @@ const validateLink = (link, state) => {
   return isNewLink && isLink;
 };
 
-const app = (i18n) => {
+const app = () => {
   const state = {
     currentRSSUrl: '',
     getFeedStatus: '',
@@ -186,10 +193,10 @@ const app = (i18n) => {
         const { response } = err;
         if (response) {
           const { status, statusText } = err.response;
-          state.alert = { status: i18n.t(status), statusText: i18n.t(statusText), link };
+          state.alert = { status: i18next.t(status), statusText: i18next.t(statusText), link };
         } else {
           const { message } = err;
-          state.alert = { status: i18n.t('Error'), statusText: i18n.t(message), link };
+          state.alert = { status: i18next.t('Error'), statusText: i18next.t(message), link };
         }
         state.getFeedStatus = 'alert';
       });
@@ -254,7 +261,7 @@ const app = (i18n) => {
 
   WatchJS.watch(state, 'language', () => {
     const { language } = state;
-    i18n.changeLanguage(language);
+    i18next.changeLanguage(language);
   });
 
   WatchJS.watch(state, 'getFeedStatus', () => {
@@ -289,4 +296,19 @@ const app = (i18n) => {
   });
 };
 
-export default () => i18next().then((i18n) => app(i18n));
+export default () => {
+  i18next
+    .use(detector)
+    .init({
+      fallbackLng: 'en',
+      resources: {
+        en: {
+          translation: translationEn,
+        },
+        ru: {
+          translation: translationRu,
+        },
+      },
+    })
+    .then(() => app());
+};
