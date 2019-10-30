@@ -19,9 +19,9 @@ nock('https://cors-anywhere.herokuapp.com/http://localhost')
   .get('/feed')
   .reply(200, pageRSSFeed)
   .get('/wrong')
-  .replyWithError('Not found')
+  .replyWithError({ response: { message: 'Not found', status: 404 } })
   .get('/wrong')
-  .replyWithError('Not found');
+  .replyWithError({ response: { message: 'Not found', status: 404 } });
 
 
 let container;

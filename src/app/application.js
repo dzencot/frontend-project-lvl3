@@ -56,15 +56,15 @@ const fillModal = (modal, post) => {
   linkEl.setAttribute('href', post.link);
 };
 
-const renderAlert = (container, link) => {
-  // const { link, status, statusText } = alertData;
+const renderAlert = (container, link, status) => {
   const alert = document.createElement('div');
   container.prepend(alert);
-  const status = i18next.t('Error');
-  const statusText = i18next.t('Fail loading feed');
+  const errorStatus = !status ? 'Unknown Error' : status;
+  log('render error status:', errorStatus);
+  const statusText = i18next.t(errorStatus);
   alert.outerHTML = `
   <div class="toast mt-0 w-100 alert alert-danger alert-dismissible fade show" role="alert" style="position: absolute;">
-    <h4 class="alert-title">${status}</h4>
+    <h4 class="alert-title">${errorStatus}</h4>
     <div class="alert-body">${statusText} <a target="_blank" class="alert-url" href="${link}">${link}</a></div>
     <button type="button" class="close" data-dismiss="alert" aria-label="Close">
       <span aria-hidden="true">&times;</span>
@@ -111,6 +111,7 @@ const app = () => {
     listFeedsData: [],
     openedModalLink: '',
     language: '',
+    errorCode: null,
   };
   const applicationContainer = document.getElementById('application');
   const modal = applicationContainer.querySelector('#modal-post');
@@ -158,6 +159,7 @@ const app = () => {
       })
       .catch((err) => {
         logError(err);
+        state.errorCode = _.get(err, 'response.status');
         state.status = 'failed_loading';
       });
   };
@@ -253,7 +255,7 @@ const app = () => {
         break;
       case 'failed_loading':
         spinner.style.display = 'none';
-        renderAlert(applicationContainer, state.currentRSSUrl);
+        renderAlert(applicationContainer, state.currentRSSUrl, state.errorCode);
         break;
       default: break;
     }

@@ -311,8 +311,8 @@ exports[`Add wrong url 1`] = `
 exports[`Change language 1`] = `
 "<div id=\\"application\\">
     <div class=\\"toast mt-0 w-100 alert alert-danger alert-dismissible fade show\\" role=\\"alert\\" style=\\"position: absolute;\\">
-        <h4 class=\\"alert-title\\">Ошибка</h4>
-        <div class=\\"alert-body\\">Ошибка загрузки канала <a target=\\"_blank\\" class=\\"alert-url\\" href=\\"http://localhost/wrong\\">http://localhost/wrong</a></div>
+        <h4 class=\\"alert-title\\">Unknown Error</h4>
+        <div class=\\"alert-body\\">Неизвестная ошибка <a target=\\"_blank\\" class=\\"alert-url\\" href=\\"http://localhost/wrong\\">http://localhost/wrong</a></div>
         <button type=\\"button\\" class=\\"close\\" data-dismiss=\\"alert\\" aria-label=\\"Close\\">
             <span aria-hidden=\\"true\\">×</span>
         </button>
@@ -374,8 +374,8 @@ exports[`Change language 1`] = `
 exports[`Show error 1`] = `
 "<div id=\\"application\\">
     <div class=\\"toast mt-0 w-100 alert alert-danger alert-dismissible fade show\\" role=\\"alert\\" style=\\"position: absolute;\\">
-        <h4 class=\\"alert-title\\">Error</h4>
-        <div class=\\"alert-body\\">Fail loading feed <a target=\\"_blank\\" class=\\"alert-url\\" href=\\"http://localhost/wrong\\">http://localhost/wrong</a></div>
+        <h4 class=\\"alert-title\\">Unknown Error</h4>
+        <div class=\\"alert-body\\">Unknown Error <a target=\\"_blank\\" class=\\"alert-url\\" href=\\"http://localhost/wrong\\">http://localhost/wrong</a></div>
         <button type=\\"button\\" class=\\"close\\" data-dismiss=\\"alert\\" aria-label=\\"Close\\">
             <span aria-hidden=\\"true\\">×</span>
         </button>
