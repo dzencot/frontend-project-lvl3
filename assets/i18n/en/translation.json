@@ -8,5 +8,13 @@
   "Внутренняя ошибка сервера": "Internal Server Error",
   "Не найдены данные поста": "Not found post data",
   "Не найдены данные канала": "Not found feed data",
-  "Ошибка": "Error"
+  "Ошибка": "Error",
+  "Ошибка загрузки канала": "Fail loading feed",
+  "404": "Not Found ",
+  "500": "Internal Server Error",
+  "408": "Request Timeout",
+  "504": "Gateway Timeout",
+  "405": "Method Not Allowed",
+  "520": "Unknown Error",
+  "Неизвестная ошибка": "Unknown Error"
 }

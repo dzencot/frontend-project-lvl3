@@ -9,6 +9,7 @@ import axios from 'axios';
 import httpadapter from 'axios/lib/adapters/http';
 import i18next from 'i18next';
 import detector from 'i18next-browser-languagedetector';
+import getRSSData from './utils';
 
 import translationRu from '../../assets/i18n/ru/translation.json';
 import translationEn from '../../assets/i18n/en/translation.json';
@@ -55,13 +56,15 @@ const fillModal = (modal, post) => {
   linkEl.setAttribute('href', post.link);
 };
 
-const renderAlert = (container, alertData) => {
-  const { link, status, statusText } = alertData;
+const renderAlert = (container, link, status) => {
   const alert = document.createElement('div');
   container.prepend(alert);
+  const errorStatus = !status ? 'Unknown Error' : status;
+  log('render error status:', errorStatus);
+  const statusText = i18next.t(errorStatus);
   alert.outerHTML = `
   <div class="toast mt-0 w-100 alert alert-danger alert-dismissible fade show" role="alert" style="position: absolute;">
-    <h4 class="alert-title">${status}</h4>
+    <h4 class="alert-title">${errorStatus}</h4>
     <div class="alert-body">${statusText} <a target="_blank" class="alert-url" href="${link}">${link}</a></div>
     <button type="button" class="close" data-dismiss="alert" aria-label="Close">
       <span aria-hidden="true">&times;</span>
@@ -74,7 +77,7 @@ const getPostsList = (state, feedUrl = '') => {
     return [];
   }
   const allPosts = state.listFeedsData
-    .reduce((posts, feed) => [...posts, ...feed.posts], []);
+    .reduce((posts, feed) => _.flatten([posts, feed.posts]), []);
   if (!feedUrl) {
     return allPosts;
   }
@@ -87,55 +90,15 @@ const getPostByLink = (state, link) => {
   return _.find(list, { link });
 };
 
-const parsePost = (feedUrl, data) => {
-  const link = data.querySelector('link');
-  const title = data.querySelector('title');
-  const description = data.querySelector('description');
-  if (link.length === 0 && title.length === 0) {
-    const errorMessage = 'Not found post data';
-    throw new Error(errorMessage);
-  }
-  return {
-    feedUrl,
-    link: link.textContent || link.getAttribute('href'),
-    title: title.textContent,
-    description: description ? description.textContent : '',
-  };
-};
-
-const getRSSData = (link, data) => {
-  const domParser = new DOMParser();
-  const parsedData = domParser.parseFromString(data, 'text/xml');
-  const title = parsedData.querySelector('rss > channel > title, feed > title');
-  const description = parsedData.querySelector('rss > channel > description, feed > title');
-  if (title.length === 0 && description.length === 0) {
-    const errorMessage = 'Not found feed data';
-    logError(errorMessage);
-    throw new Error(errorMessage);
-  }
-  const dataPosts = Array.from(parsedData.querySelectorAll('item, entry'));
-  const posts = dataPosts.map((item) => parsePost(link, item));
-  return {
-    link,
-    title: title.textContent,
-    description: description.textContent,
-    posts,
-  };
-};
-
 const getFeedUrl = (link) => {
-  const proxy = process.env.CORS_PROXY_URL;
-  log('proxy:', proxy);
-  if (proxy) {
-    return `${proxy}/${link}`;
-  }
-  return link;
+  const proxyUrl = 'https://cors-anywhere.herokuapp.com';
+  return `${proxyUrl}/${link}`;
 };
 
 const validateLink = (link, state) => {
   const isNewLink = !_.some(state.listFeedsData, { link });
   const isLink = validator.isURL(link, {
-    require_tld: _.isNull(process.env.CORS_PROXY_URL),
+    require_tld: false,
   });
   log('Validator result:', isNewLink && isLink);
   return isNewLink && isLink;
@@ -144,12 +107,11 @@ const validateLink = (link, state) => {
 const app = () => {
   const state = {
     currentRSSUrl: '',
-    getFeedStatus: '',
+    status: '',
     listFeedsData: [],
-    correctInput: true,
-    alert: {},
     openedModalLink: '',
     language: '',
+    errorCode: null,
   };
   const applicationContainer = document.getElementById('application');
   const modal = applicationContainer.querySelector('#modal-post');
@@ -162,7 +124,7 @@ const app = () => {
 
   const addRSS = (newFeedData) => {
     const { link } = newFeedData;
-    const feed = _.find(state.listFeedsData, (item) => item.link === link);
+    const feed = state.listFeedsData.find((item) => item.link === link);
     if (!feed) {
       state.listFeedsData.push(newFeedData);
       return true;
@@ -186,19 +148,19 @@ const app = () => {
         setTimeout(() => {
           fetchRSS(link);
         }, 5000);
-        state.getFeedStatus = 'loaded';
+      });
+  };
+
+  const startLoading = (link) => {
+    state.status = 'loading';
+    fetchRSS(link)
+      .then(() => {
+        state.status = 'success_loading';
       })
       .catch((err) => {
         logError(err);
-        const { response } = err;
-        if (response) {
-          const { status, statusText } = err.response;
-          state.alert = { status: i18next.t(status), statusText: i18next.t(statusText), link };
-        } else {
-          const { message } = err;
-          state.alert = { status: i18next.t('Error'), statusText: i18next.t(message), link };
-        }
-        state.getFeedStatus = 'alert';
+        state.errorCode = _.get(err, 'response.status');
+        state.status = 'failed_loading';
       });
   };
 
@@ -208,11 +170,11 @@ const app = () => {
     const link = formData.get('url');
     const isCurrentLink = validateLink(link, state);
     if (!isCurrentLink) {
-      state.getFeedStatus = 'invalid';
+      state.status = 'invalid_link';
       return;
     }
-    state.getFeedStatus = 'loading';
-    fetchRSS(link);
+    state.currentRSSUrl = link;
+    state.status = 'start_loading';
   });
 
   // TODO: без жквери обработчик не работает. Найти другой способ?
@@ -228,8 +190,8 @@ const app = () => {
       event.preventDefault();
       const link = event.currentTarget.href;
       log('Example link:', link);
-      state.getFeedStatus = 'loading';
-      fetchRSS(link);
+      state.currentRSSUrl = link;
+      state.status = 'start_loading';
     });
   });
 
@@ -264,32 +226,36 @@ const app = () => {
     i18next.changeLanguage(language);
   });
 
-  WatchJS.watch(state, 'getFeedStatus', () => {
-    switch (state.getFeedStatus) {
-      case 'loading':
-        spinner.style.display = 'block';
-        input.classList.remove('alert-danger');
-        input.classList.add('alert-dark');
+  WatchJS.watch(state, 'status', () => {
+    switch (state.status) {
+      case 'start_loading':
+        log('START LOADING', state.currentRSSUrl);
         const alert = document.querySelector('[role="alert"]'); // eslint-disable-line
         if (alert) {
           alert.remove();
         }
+        startLoading(state.currentRSSUrl);
         break;
-      case 'loaded':
-        input.value = '';
-        spinner.style.display = 'none';
-        break;
-      case 'valid':
+      case 'loading':
+        spinner.style.display = 'block';
         input.classList.remove('alert-danger');
         input.classList.add('alert-dark');
         break;
-      case 'invalid':
+      case 'success_loading':
+        input.value = '';
+        spinner.style.display = 'none';
+        break;
+      case 'valid_link':
+        input.classList.remove('alert-danger');
+        input.classList.add('alert-dark');
+        break;
+      case 'invalid_link':
         input.classList.add('alert-danger');
         input.classList.remove('alert-dark');
         break;
-      case 'alert':
+      case 'failed_loading':
         spinner.style.display = 'none';
-        renderAlert(applicationContainer, state.alert);
+        renderAlert(applicationContainer, state.currentRSSUrl, state.errorCode);
         break;
       default: break;
     }
@@ -310,5 +276,5 @@ export default () => {
         },
       },
     })
-    .then(() => app());
+    .then(app);
 };

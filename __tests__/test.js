@@ -14,13 +14,14 @@ const getTree = () => html(document.body.innerHTML);
 const initHtml = fs.readFileSync(path.join(fixuturesPath, 'index.html')).toString();
 const pageRSSFeed = fs.readFileSync(path.join(fixuturesPath, 'pageRSSFeed.xml')).toString();
 
-nock('http://localhost')
+// const proxyUrl = 'https://cors-anywhere.herokuapp.com';
+nock('https://cors-anywhere.herokuapp.com/http://localhost')
   .get('/feed')
   .reply(200, pageRSSFeed)
   .get('/wrong')
-  .replyWithError('Not found')
+  .replyWithError({ response: { message: 'Not found', status: 404 } })
   .get('/wrong')
-  .replyWithError('Not found');
+  .replyWithError({ response: { message: 'Not found', status: 404 } });
 
 
 let container;
@@ -45,8 +46,8 @@ test('Add correct channel and open modal', (done) => {
     setTimeout(() => {
       expect(getTree()).toMatchSnapshot();
       done();
-    }, 100);
-  }, 100);
+    }, 300);
+  }, 300);
 });
 
 test('Add wrong url', (done) => {
@@ -57,7 +58,7 @@ test('Add wrong url', (done) => {
   setTimeout(() => {
     expect(getTree()).toMatchSnapshot();
     done();
-  }, 100);
+  }, 300);
 });
 
 test('Show error', (done) => {
@@ -68,7 +69,7 @@ test('Show error', (done) => {
   setTimeout(() => {
     expect(getTree()).toMatchSnapshot();
     done();
-  }, 100);
+  }, 300);
 });
 
 test('Change language', (done) => {
@@ -81,5 +82,5 @@ test('Change language', (done) => {
   setTimeout(() => {
     expect(getTree()).toMatchSnapshot();
     done();
-  }, 100);
+  }, 300);
 });
