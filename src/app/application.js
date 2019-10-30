@@ -56,15 +56,14 @@ const fillModal = (modal, post) => {
   linkEl.setAttribute('href', post.link);
 };
 
-const renderAlert = (container, link, status) => {
+const renderAlert = (container, link, status = 'Unknown Error') => {
   const alert = document.createElement('div');
   container.prepend(alert);
-  const errorStatus = !status ? 'Unknown Error' : status;
-  log('render error status:', errorStatus);
-  const statusText = i18next.t(errorStatus);
+  log('render error status:', status);
+  const statusText = i18next.t(status);
   alert.outerHTML = `
   <div class="toast mt-0 w-100 alert alert-danger alert-dismissible fade show" role="alert" style="position: absolute;">
-    <h4 class="alert-title">${errorStatus}</h4>
+    <h4 class="alert-title">${status}</h4>
     <div class="alert-body">${statusText} <a target="_blank" class="alert-url" href="${link}">${link}</a></div>
     <button type="button" class="close" data-dismiss="alert" aria-label="Close">
       <span aria-hidden="true">&times;</span>
