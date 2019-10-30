@@ -8,5 +8,6 @@
   "Внутренняя ошибка сервера": "Internal Server Error",
   "Не найдены данные поста": "Not found post data",
   "Не найдены данные канала": "Not found feed data",
-  "Ошибка": "Error"
+  "Ошибка": "Error",
+  "Ошибка загрузки канала": "Fail loading feed"
 }
