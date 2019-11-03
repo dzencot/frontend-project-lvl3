@@ -26,9 +26,11 @@ const getRSSData = (link, data) => {
   const dataPosts = Array.from(parsedData.querySelectorAll('item, entry'));
   const posts = dataPosts.map((item) => parsePost(link, item));
   return {
-    link,
-    title: title.textContent,
-    description: description.textContent,
+    feed: {
+      link,
+      title: title.textContent,
+      description: description.textContent,
+    },
     posts,
   };
 };

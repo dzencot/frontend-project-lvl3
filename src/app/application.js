@@ -7,12 +7,10 @@ import _ from 'lodash';
 import validator from 'validator';
 import axios from 'axios';
 import httpadapter from 'axios/lib/adapters/http';
-import i18next from 'i18next';
-import detector from 'i18next-browser-languagedetector';
 import getRSSData from './utils';
-
-import translationRu from '../../assets/i18n/ru/translation.json';
-import translationEn from '../../assets/i18n/en/translation.json';
+import {
+  viewInit, fillModal, renderAlert, changeLanguage, getFeedListHtml,
+} from './view';
 
 axios.defaults.adapter = httpadapter;
 
@@ -20,82 +18,13 @@ const logger = getLogger({ name: 'application', level: 'debug' });
 const log = (...params) => logger.debug(...params);
 const logError = (...params) => logger.error(...params);
 
-const getPostHtml = (post) => {
-  const html = `<div class="item mb-1 mt-1 d-flex align-items-center">
-    <button tabindex="0"  type="button" class="open-post btn-sm btn btn-info p-1 mr-2" data-toggle="modal" data-target="#modal-post" data-link="${post.link}">
-      Open
-    </button>
-    <a href="${post.link}" target="_blank">${post.title}</a>
-  </div>`;
-  return html;
-};
-
-const getFeedHtml = (feed) => {
-  const { title, description, posts } = feed;
-  const sortedPosts = posts.sort((post1, post2) => post1.name > post2.name);
-  const postsHtml = sortedPosts.map((item) => getPostHtml(item)).join('');
-  return `<div class="feed">
-    <h5>${title}</h5>
-    <p>${description}</p>
-    <div class="content">${postsHtml}</div>
-    <hr>
-  </div>`;
-};
-
-const getFeedListHtml = (list) => list.reduce((html, feed) => {
-  const feedHtml = getFeedHtml(feed);
-  return `${html}${feedHtml}`;
-}, '');
-
-const fillModal = (modal, post) => {
-  const titleEl = modal.querySelector('#post-title');
-  titleEl.innerHTML = post.title;
-  const descriptionEl = modal.querySelector('#post-description');
-  descriptionEl.innerHTML = post.description;
-  const linkEl = modal.querySelector('#post-link');
-  linkEl.setAttribute('href', post.link);
-};
-
-const renderAlert = (container, link, status = 'Unknown Error') => {
-  const alert = document.createElement('div');
-  container.prepend(alert);
-  log('render error status:', status);
-  const statusText = i18next.t(status);
-  alert.outerHTML = `
-  <div class="toast mt-0 w-100 alert alert-danger alert-dismissible fade show" role="alert" style="position: absolute;">
-    <h4 class="alert-title">${status}</h4>
-    <div class="alert-body">${statusText} <a target="_blank" class="alert-url" href="${link}">${link}</a></div>
-    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-      <span aria-hidden="true">&times;</span>
-    </button>
-  </div>`;
-};
-
-const getPostsList = (state, feedUrl = '') => {
-  if (!state || !state.listFeedsData) {
-    return [];
-  }
-  const allPosts = state.listFeedsData
-    .reduce((posts, feed) => _.flatten([posts, feed.posts]), []);
-  if (!feedUrl) {
-    return allPosts;
-  }
-  return allPosts.filter((post) => post.feedUrl === feedUrl);
-};
-
-const getPostByLink = (state, link) => {
-  const list = getPostsList(state);
-  log('getPostByLink, list:', list);
-  return _.find(list, { link });
-};
-
 const getFeedUrl = (link) => {
   const proxyUrl = 'https://cors-anywhere.herokuapp.com';
   return `${proxyUrl}/${link}`;
 };
 
-const validateLink = (link, state) => {
-  const isNewLink = !_.some(state.listFeedsData, { link });
+const validateLink = (link, feeds) => {
+  const isNewLink = !_.some(feeds, { link });
   const isLink = validator.isURL(link, {
     require_tld: false,
   });
@@ -104,14 +33,16 @@ const validateLink = (link, state) => {
 };
 
 const app = () => {
+  viewInit();
   const state = {
     currentRSSUrl: '',
     status: '',
-    listFeedsData: [],
+    feeds: [],
+    posts: [],
     openedModalLink: '',
-    language: '',
     errorCode: null,
   };
+
   const applicationContainer = document.getElementById('application');
   const modal = applicationContainer.querySelector('#modal-post');
   const input = applicationContainer.querySelector('#input-rss');
@@ -122,18 +53,23 @@ const app = () => {
   const changeLanguageButtons = document.querySelectorAll('.change-language');
 
   const addRSS = (newFeedData) => {
-    const { link } = newFeedData;
-    const feed = state.listFeedsData.find((item) => item.link === link);
-    if (!feed) {
-      state.listFeedsData.push(newFeedData);
-      return true;
+    const { feed, posts } = newFeedData;
+
+    const index = _.findIndex(state.feeds, { link: feed.link });
+    if (index !== -1) {
+      log(`update feed ${feed.link}`);
+      state.feeds.splice(index, 1, feed);
+    } else {
+      log(`add feed ${feed.link}`);
+      state.feeds.push(feed);
     }
 
-    const newPosts = _.differenceBy(newFeedData.posts, feed.posts, 'link');
+    const addedPosts = state.posts.find((item) => item.feedUrl === feed.link);
+    const newPosts = _.differenceBy(posts, addedPosts, 'link');
     if (!newPosts || newPosts.length === 0) {
       return false;
     }
-    feed.posts.push(...newPosts);
+    state.posts.push(...newPosts);
     return true;
   };
 
@@ -151,15 +87,16 @@ const app = () => {
   };
 
   const startLoading = (link) => {
+    state.currentRSSUrl = link;
     state.status = 'loading';
     fetchRSS(link)
       .then(() => {
-        state.status = 'success_loading';
+        state.status = 'loaded';
       })
       .catch((err) => {
         logError(err);
         state.errorCode = _.get(err, 'response.status');
-        state.status = 'failed_loading';
+        state.status = 'failed';
       });
   };
 
@@ -169,11 +106,11 @@ const app = () => {
     const link = formData.get('url');
     const isCurrentLink = validateLink(link, state);
     if (!isCurrentLink) {
-      state.status = 'invalid_link';
+      state.status = 'invalid';
       return;
     }
-    state.currentRSSUrl = link;
-    state.status = 'start_loading';
+    state.status = 'valid';
+    startLoading(link);
   });
 
   // TODO: без жквери обработчик не работает. Найти другой способ?
@@ -189,8 +126,7 @@ const app = () => {
       event.preventDefault();
       const link = event.currentTarget.href;
       log('Example link:', link);
-      state.currentRSSUrl = link;
-      state.status = 'start_loading';
+      startLoading(link);
     });
   });
 
@@ -199,81 +135,55 @@ const app = () => {
       const { language } = event.currentTarget.dataset;
       log('language:', language);
       // TODO: сделать изменение языка всей страницы. сейчас переводятся только сообщения об ошибках
-      state.language = language;
+      changeLanguage(language);
     });
   });
 
-  WatchJS.watch(state, 'listFeedsData', () => {
-    const feedsList = _.cloneDeep(state.listFeedsData);
-    const htmlFeedListHtml = getFeedListHtml(feedsList);
+  WatchJS.watch(state, 'feeds', () => {
+    const htmlFeedListHtml = getFeedListHtml(state.feeds, state.posts);
     listRss.innerHTML = htmlFeedListHtml;
   });
 
   WatchJS.watch(state, 'openedModalLink', () => {
     const { openedModalLink } = state;
-    const post = getPostByLink(state, openedModalLink);
+    const post = state.posts.find((item) => item.link === openedModalLink);
     fillModal(modal, post);
-  });
-
-  WatchJS.watch(state, 'currentRSSUrl', () => {
-    const { currentRSSUrl } = state;
-    input.value = currentRSSUrl;
-  });
-
-  WatchJS.watch(state, 'language', () => {
-    const { language } = state;
-    i18next.changeLanguage(language);
   });
 
   WatchJS.watch(state, 'status', () => {
     switch (state.status) {
-      case 'start_loading':
+      case 'loading':
         log('START LOADING', state.currentRSSUrl);
         const alert = document.querySelector('[role="alert"]'); // eslint-disable-line
         if (alert) {
           alert.remove();
         }
-        startLoading(state.currentRSSUrl);
-        break;
-      case 'loading':
         spinner.style.display = 'block';
         input.classList.remove('alert-danger');
         input.classList.add('alert-dark');
         break;
-      case 'success_loading':
+      case 'loaded':
         input.value = '';
         spinner.style.display = 'none';
         break;
-      case 'valid_link':
+      case 'valid':
         input.classList.remove('alert-danger');
         input.classList.add('alert-dark');
         break;
-      case 'invalid_link':
+      case 'invalid':
         input.classList.add('alert-danger');
         input.classList.remove('alert-dark');
         break;
-      case 'failed_loading':
+      case 'failed':
         spinner.style.display = 'none';
         renderAlert(applicationContainer, state.currentRSSUrl, state.errorCode);
         break;
-      default: break;
+      default:
+        const errorMessage = `Undefined status: ${state.status}`; // eslint-disable-line
+        logError(errorMessage);
+        throw new Error(errorMessage);
     }
   });
 };
 
-export default () => {
-  i18next
-    .use(detector)
-    .init({
-      fallbackLng: 'en',
-      resources: {
-        en: {
-          translation: translationEn,
-        },
-        ru: {
-          translation: translationRu,
-        },
-      },
-    })
-    .then(app);
-};
+export default app;
