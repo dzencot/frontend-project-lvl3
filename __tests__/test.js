@@ -4,8 +4,6 @@ import path from 'path';
 import { html } from 'js-beautify';
 import nock from 'nock';
 import $ from 'jquery';
-// import Application from '../src/app/application';
-// import axios from '../src/app/lib/axios';
 import run from '../src/app/application';
 
 const fixuturesPath = path.join(__dirname, '__fixtures__');
@@ -14,14 +12,13 @@ const getTree = () => html(document.body.innerHTML);
 const initHtml = fs.readFileSync(path.join(fixuturesPath, 'index.html')).toString();
 const pageRSSFeed = fs.readFileSync(path.join(fixuturesPath, 'pageRSSFeed.xml')).toString();
 
-// const proxyUrl = 'https://cors-anywhere.herokuapp.com';
+nock.disableNetConnect();
 nock('https://cors-anywhere.herokuapp.com/http://localhost')
   .get('/feed')
   .reply(200, pageRSSFeed)
   .get('/wrong')
   .replyWithError({ response: { message: 'Not found', status: 404 } })
-  .get('/wrong')
-  .replyWithError({ response: { message: 'Not found', status: 404 } });
+  .persist();
 
 
 let container;
