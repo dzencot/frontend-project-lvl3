@@ -7,7 +7,7 @@ import _ from 'lodash';
 import validator from 'validator';
 import axios from 'axios';
 import httpadapter from 'axios/lib/adapters/http';
-import getRSSData from './utils';
+import { parseFeed, parsePosts } from './utils';
 import {
   viewInit, fillModal, renderAlert, changeLanguage, getFeedListHtml,
 } from './view';
@@ -52,9 +52,7 @@ const app = () => {
   const spinner = applicationContainer.querySelector('.spinner');
   const changeLanguageButtons = document.querySelectorAll('.change-language');
 
-  const addRSS = (newFeedData) => {
-    const { feed, posts } = newFeedData;
-
+  const addOrUpdateFeed = (feed) => {
     const index = _.findIndex(state.feeds, { link: feed.link });
     if (index !== -1) {
       log(`update feed ${feed.link}`);
@@ -63,8 +61,10 @@ const app = () => {
       log(`add feed ${feed.link}`);
       state.feeds.push(feed);
     }
+  };
 
-    const addedPosts = state.posts.find((item) => item.feedUrl === feed.link);
+  const addPosts = (link, posts) => {
+    const addedPosts = state.posts.find((item) => item.feedUrl === link);
     const newPosts = _.differenceBy(posts, addedPosts, 'link');
     if (!newPosts || newPosts.length === 0) {
       return false;
@@ -78,8 +78,11 @@ const app = () => {
     return axios.get(feedUrl)
       .then((response) => {
         const { data } = response;
-        const feedData = getRSSData(link, data);
-        addRSS(feedData);
+        const feed = parseFeed(link, data);
+        const posts = parsePosts(link, data);
+        addOrUpdateFeed(feed);
+        addPosts(link, posts);
+
         setTimeout(() => {
           fetchRSS(link);
         }, 5000);

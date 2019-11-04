@@ -14,7 +14,7 @@ const parsePost = (feedUrl, data) => {
   };
 };
 
-const getRSSData = (link, data) => {
+const parseFeed = (link, data) => {
   const domParser = new DOMParser();
   const parsedData = domParser.parseFromString(data, 'text/xml');
   const title = parsedData.querySelector('rss > channel > title, feed > title');
@@ -23,16 +23,19 @@ const getRSSData = (link, data) => {
     const errorMessage = 'Not found feed data';
     throw new Error(errorMessage);
   }
-  const dataPosts = Array.from(parsedData.querySelectorAll('item, entry'));
-  const posts = dataPosts.map((item) => parsePost(link, item));
   return {
-    feed: {
-      link,
-      title: title.textContent,
-      description: description.textContent,
-    },
-    posts,
+    link,
+    title: title.textContent,
+    description: description.textContent,
   };
 };
 
-export default getRSSData;
+const parsePosts = (link, data) => {
+  const domParser = new DOMParser();
+  const parsedData = domParser.parseFromString(data, 'text/xml');
+  const dataPosts = Array.from(parsedData.querySelectorAll('item, entry'));
+  const posts = dataPosts.map((item) => parsePost(link, item));
+  return posts;
+};
+
+export { parseFeed, parsePosts };
