@@ -33,7 +33,6 @@ const validateLink = (link, feeds) => {
 };
 
 const app = () => {
-  viewInit();
   const state = {
     currentRSSUrl: '',
     status: '',
@@ -189,4 +188,4 @@ const app = () => {
   });
 };
 
-export default app;
+export default () => viewInit().then(app);

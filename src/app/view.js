@@ -61,21 +61,19 @@ const renderAlert = (container, link, status = 'Unknown Error') => {
   </div>`;
 };
 
-const viewInit = () => {
-  i18next
-    .use(detector)
-    .init({
-      fallbackLng: 'en',
-      resources: {
-        en: {
-          translation: translationEn,
-        },
-        ru: {
-          translation: translationRu,
-        },
+const viewInit = () => i18next
+  .use(detector)
+  .init({
+    fallbackLng: 'en',
+    resources: {
+      en: {
+        translation: translationEn,
       },
-    });
-};
+      ru: {
+        translation: translationRu,
+      },
+    },
+  });
 
 const changeLanguage = (lang) => {
   i18next.changeLanguage(lang);
