@@ -37,7 +37,7 @@ const getFeedHtml = (feed, posts) => {
   const { title, description } = feed;
   const sortedPosts = posts.sort((post1, post2) => post1.name > post2.name);
   const postsHtml = sortedPosts.map((item) => getPostHtml(item)).join('');
-  const statusHtml = getStatusHtml('failed');
+  const statusHtml = getStatusHtml(feed.status);
   return `<div class="feed">
     <h5>${title} ${statusHtml}</h5>
     <p>${description}</p>
