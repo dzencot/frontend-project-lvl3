@@ -7,7 +7,7 @@ import _ from 'lodash';
 import validator from 'validator';
 import axios from 'axios';
 import httpadapter from 'axios/lib/adapters/http';
-import { parseFeed, parsePosts } from './utils';
+import parseFeed from './rssParser';
 import {
   viewInit, fillModal, renderAlert, changeLanguage, getFeedListHtml,
 } from './view';
@@ -23,7 +23,7 @@ const getFeedUrl = (link) => {
   return `${proxyUrl}/${link}`;
 };
 
-const validateLink = (link, feeds) => {
+const isValidLink = (link, feeds) => {
   const isNewLink = !_.some(feeds, { link });
   const isLink = validator.isURL(link, {
     require_tld: false,
@@ -35,7 +35,8 @@ const validateLink = (link, feeds) => {
 const app = () => {
   const state = {
     currentRSSUrl: '',
-    status: '',
+    fetchFeedStatus: '',
+    inputUrlStatus: '',
     feeds: [],
     posts: [],
     openedModalLink: '',
@@ -52,18 +53,19 @@ const app = () => {
   const changeLanguageButtons = document.querySelectorAll('.change-language');
 
   const addOrUpdateFeed = (feed) => {
-    const index = _.findIndex(state.feeds, { link: feed.link });
-    if (index !== -1) {
-      log(`update feed ${feed.link}`);
-      state.feeds.splice(index, 1, feed);
+    const addedFeed = state.feeds.find((item) => item.id === feed.id);
+    if (addedFeed) {
+      log(`update feed ${feed.id}`);
+      addedFeed.title = feed.title;
+      addedFeed.description = feed.description;
     } else {
-      log(`add feed ${feed.link}`);
+      log(`add feed ${feed.id}`);
       state.feeds.push(feed);
     }
   };
 
   const addPosts = (link, posts) => {
-    const addedPosts = state.posts.find((item) => item.feedUrl === link);
+    const addedPosts = state.posts.find((item) => item.idFeed === link);
     const newPosts = _.differenceBy(posts, addedPosts, 'link');
     if (!newPosts || newPosts.length === 0) {
       return false;
@@ -72,33 +74,86 @@ const app = () => {
     return true;
   };
 
-  const fetchRSS = (link) => {
+  const getFeed = (id) => {
+    const feed = state.feeds.find((item) => item.id === id);
+    return feed;
+  };
+
+  const updateRSS = (link) => {
+    const url = new URL(link);
+
+    const currentFeed = getFeed(url.origin);
+    if (currentFeed) {
+      currentFeed.status = 'loading'; // eslint-disable-line
+    }
     const feedUrl = getFeedUrl(link);
     return axios.get(feedUrl)
       .then((response) => {
         const { data } = response;
-        const feed = parseFeed(link, data);
-        const posts = parsePosts(link, data);
-        addOrUpdateFeed(feed);
-        addPosts(link, posts);
+        const feed = parseFeed(data);
+        feed.id = url.origin;
+        feed.status = 'loaded';
+        const posts = feed.items.map((item) => ({ idFeed: url.origin, status: 'new', ...item }));
 
+        addOrUpdateFeed(feed);
+        addPosts(url.origin, posts);
+
+        if (currentFeed) {
+          currentFeed.status = 'loaded'; // eslint-disable-line
+        }
         setTimeout(() => {
-          fetchRSS(link);
+          updateRSS(link);
+        }, 5000);
+      })
+      .catch((err) => {
+        logError(err);
+        state.errorCode = _.get(err, 'response.status');
+        state.fetchFeedStatus = 'failed';
+        if (currentFeed) {
+          currentFeed.status = 'failed'; // eslint-disable-line
+        }
+      });
+  };
+
+  const fetchRSS = (link) => {
+    const url = new URL(link);
+
+    const currentFeed = getFeed(url.origin);
+    if (currentFeed) {
+      currentFeed.status = 'loading'; // eslint-disable-line
+    }
+    const feedUrl = getFeedUrl(link);
+    return axios.get(feedUrl)
+      .then((response) => {
+        const { data } = response;
+        const feed = parseFeed(data);
+        feed.id = url.origin;
+        feed.status = 'loaded';
+        const posts = feed.items.map((item) => ({ idFeed: url.origin, status: 'new', ...item }));
+
+        addOrUpdateFeed(feed);
+        addPosts(url.origin, posts);
+
+        if (currentFeed) {
+          currentFeed.status = 'loaded'; // eslint-disable-line
+        }
+        setTimeout(() => {
+          updateRSS(link);
         }, 5000);
       });
   };
 
   const startLoading = (link) => {
     state.currentRSSUrl = link;
-    state.status = 'loading';
+    state.fetchFeedStatus = 'loading';
     fetchRSS(link)
       .then(() => {
-        state.status = 'loaded';
+        state.fetchFeedStatus = 'loaded';
       })
       .catch((err) => {
         logError(err);
         state.errorCode = _.get(err, 'response.status');
-        state.status = 'failed';
+        state.fetchFeedStatus = 'failed';
       });
   };
 
@@ -106,12 +161,12 @@ const app = () => {
     event.preventDefault();
     const formData = new FormData(event.target);
     const link = formData.get('url');
-    const isCurrentLink = validateLink(link, state);
+    const isCurrentLink = isValidLink(link, state);
     if (!isCurrentLink) {
-      state.status = 'invalid';
+      state.inputUrlStatus = 'invalid';
       return;
     }
-    state.status = 'valid';
+    state.inputUrlStatus = 'valid';
     startLoading(link);
   });
 
@@ -152,8 +207,8 @@ const app = () => {
     fillModal(modal, post);
   });
 
-  WatchJS.watch(state, 'status', () => {
-    switch (state.status) {
+  WatchJS.watch(state, 'fetchFeedStatus', () => {
+    switch (state.fetchFeedStatus) {
       case 'loading':
         log('START LOADING', state.currentRSSUrl);
         const alert = document.querySelector('[role="alert"]'); // eslint-disable-line
@@ -168,6 +223,19 @@ const app = () => {
         input.value = '';
         spinner.style.display = 'none';
         break;
+      case 'failed':
+        spinner.style.display = 'none';
+        renderAlert(applicationContainer, state.currentRSSUrl, state.errorCode);
+        break;
+      default:
+        const errorMessage = `Undefined status: ${state.status}`; // eslint-disable-line
+        logError(errorMessage);
+        throw new Error(errorMessage);
+    }
+  });
+
+  WatchJS.watch(state, 'inputUrlStatus', () => {
+    switch (state.inputUrlStatus) {
       case 'valid':
         input.classList.remove('alert-danger');
         input.classList.add('alert-dark');
@@ -176,12 +244,8 @@ const app = () => {
         input.classList.add('alert-danger');
         input.classList.remove('alert-dark');
         break;
-      case 'failed':
-        spinner.style.display = 'none';
-        renderAlert(applicationContainer, state.currentRSSUrl, state.errorCode);
-        break;
       default:
-        const errorMessage = `Undefined status: ${state.status}`; // eslint-disable-line
+        const errorMessage = `Undefined status: ${state.inputUrlStatus}`; // eslint-disable-line
         logError(errorMessage);
         throw new Error(errorMessage);
     }

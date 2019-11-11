@@ -20,12 +20,26 @@ const getPostHtml = (post) => {
   return html;
 };
 
+const getStatusHtml = (status) => {
+  switch (status) {
+    case 'loading':
+      return `<div class="spinner-border" style="width: 24px; height: 24px;" role="status">
+        <span class="sr-only">Loading...</span>
+      </div>`;
+    case 'failed':
+      return '<div class="alert-danger d-inline">Failed</div>';
+    default:
+      return '';
+  }
+};
+
 const getFeedHtml = (feed, posts) => {
   const { title, description } = feed;
   const sortedPosts = posts.sort((post1, post2) => post1.name > post2.name);
   const postsHtml = sortedPosts.map((item) => getPostHtml(item)).join('');
+  const statusHtml = getStatusHtml('failed');
   return `<div class="feed">
-    <h5>${title}</h5>
+    <h5>${title} ${statusHtml}</h5>
     <p>${description}</p>
     <div class="content">${postsHtml}</div>
     <hr>
@@ -33,7 +47,7 @@ const getFeedHtml = (feed, posts) => {
 };
 
 const getFeedListHtml = (feeds, posts) => feeds.map((feed) => {
-  const feedPosts = posts.filter((item) => item.feedUrl === feed.link);
+  const feedPosts = posts.filter((item) => item.idFeed === feed.id);
   return getFeedHtml(feed, feedPosts);
 }).join('');
 
