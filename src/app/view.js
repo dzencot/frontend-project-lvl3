@@ -27,7 +27,7 @@ const getStatusHtml = (status) => {
         <span class="sr-only">Loading...</span>
       </div>`;
     case 'failed':
-      return '<div class="alert-danger d-inline">Failed</div>';
+      return ' <div class="alert-danger d-inline">Failed</div>';
     default:
       return '';
   }
@@ -39,7 +39,7 @@ const getFeedHtml = (feed, posts) => {
   const postsHtml = sortedPosts.map((item) => getPostHtml(item)).join('');
   const statusHtml = getStatusHtml(feed.status);
   return `<div class="feed">
-    <h5>${title} ${statusHtml}</h5>
+    <h5>${title}${statusHtml}</h5>
     <p>${description}</p>
     <div class="content">${postsHtml}</div>
     <hr>
