@@ -79,42 +79,6 @@ const app = () => {
     return feed;
   };
 
-  const updateRSS = (link) => {
-    const url = new URL(link);
-
-    const currentFeed = getFeed(url.origin);
-    if (currentFeed) {
-      currentFeed.status = 'loading'; // eslint-disable-line
-    }
-    const feedUrl = getFeedUrl(link);
-    return axios.get(feedUrl)
-      .then((response) => {
-        const { data } = response;
-        const feed = parseFeed(data);
-        feed.id = url.origin;
-        feed.status = 'loaded';
-        const posts = feed.items.map((item) => ({ idFeed: url.origin, status: 'new', ...item }));
-
-        addOrUpdateFeed(feed);
-        addPosts(url.origin, posts);
-
-        if (currentFeed) {
-          currentFeed.status = 'loaded'; // eslint-disable-line
-        }
-        setTimeout(() => {
-          updateRSS(link);
-        }, 5000);
-      })
-      .catch((err) => {
-        logError(err);
-        state.errorCode = _.get(err, 'response.status');
-        state.fetchFeedStatus = 'failed';
-        if (currentFeed) {
-          currentFeed.status = 'failed'; // eslint-disable-line
-        }
-      });
-  };
-
   const fetchRSS = (link) => {
     const url = new URL(link);
 
@@ -137,6 +101,23 @@ const app = () => {
         if (currentFeed) {
           currentFeed.status = 'loaded'; // eslint-disable-line
         }
+      });
+  };
+
+  const updateRSS = (link) => {
+    fetchRSS(link)
+      .then(() => {
+        setTimeout(() => {
+          updateRSS(link);
+        }, 5000);
+      })
+      .catch((err) => {
+        logError(err);
+        const url = new URL(link);
+        const currentFeed = getFeed(url.origin);
+        if (currentFeed) {
+          currentFeed.status = 'failed'; // eslint-disable-line
+        }
         setTimeout(() => {
           updateRSS(link);
         }, 5000);
@@ -149,6 +130,9 @@ const app = () => {
     fetchRSS(link)
       .then(() => {
         state.fetchFeedStatus = 'loaded';
+        setTimeout(() => {
+          updateRSS(link);
+        }, 5000);
       })
       .catch((err) => {
         logError(err);
