@@ -95,29 +95,27 @@ const app = () => {
         feed.status = 'loaded';
         const posts = feed.items.map((item) => ({ idFeed: url.origin, status: 'new', ...item }));
 
-        addOrUpdateFeed(feed);
-        addPosts(url.origin, posts);
-
-        if (currentFeed) {
-          currentFeed.status = 'loaded'; // eslint-disable-line
-        }
+        return { feed, posts };
       });
   };
 
   const updateRSS = (link) => {
+    const url = new URL(link);
+    const currentFeed = getFeed(url.origin);
+
     fetchRSS(link)
-      .then(() => {
+      .then(({ feed, posts }) => {
+        addOrUpdateFeed(feed);
+        addPosts(url.origin, posts);
+
+        currentFeed.status = 'loaded'; // eslint-disable-line
         setTimeout(() => {
           updateRSS(link);
         }, 5000);
       })
       .catch((err) => {
         logError(err);
-        const url = new URL(link);
-        const currentFeed = getFeed(url.origin);
-        if (currentFeed) {
-          currentFeed.status = 'failed'; // eslint-disable-line
-        }
+        currentFeed.status = 'failed'; // eslint-disable-line
         setTimeout(() => {
           updateRSS(link);
         }, 5000);
@@ -125,10 +123,13 @@ const app = () => {
   };
 
   const startLoading = (link) => {
+    const url = new URL(link);
     state.currentRSSUrl = link;
     state.fetchFeedStatus = 'loading';
     fetchRSS(link)
-      .then(() => {
+      .then(({ feed, posts }) => {
+        addOrUpdateFeed(feed);
+        addPosts(url.origin, posts);
         state.fetchFeedStatus = 'loaded';
         setTimeout(() => {
           updateRSS(link);
