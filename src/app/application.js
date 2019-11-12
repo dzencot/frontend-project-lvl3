@@ -5,6 +5,7 @@ import WatchJS from 'melanke-watchjs';
 import $ from 'jquery';
 import _ from 'lodash';
 import validator from 'validator';
+import uniqid from 'uniqid';
 import axios from 'axios';
 import httpadapter from 'axios/lib/adapters/http';
 import parseFeed from './rssParser';
@@ -52,21 +53,18 @@ const app = () => {
   const spinner = applicationContainer.querySelector('.spinner');
   const changeLanguageButtons = document.querySelectorAll('.change-language');
 
-  const addOrUpdateFeed = (feed) => {
-    const addedFeed = state.feeds.find((item) => item.id === feed.id);
-    if (addedFeed) {
-      log(`update feed ${feed.id}`);
-      addedFeed.title = feed.title;
-      addedFeed.description = feed.description;
-    } else {
-      log(`add feed ${feed.id}`);
-      state.feeds.push(feed);
+  const initFeed = ({ title, link, description }) => (
+    {
+      id: uniqid(),
+      title,
+      link,
+      description,
+      status: 'new',
     }
-  };
+  );
 
-  const addPosts = (link, posts) => {
-    const addedPosts = state.posts.find((item) => item.idFeed === link);
-    const newPosts = _.differenceBy(posts, addedPosts, 'link');
+  const addPosts = (posts) => {
+    const newPosts = _.differenceBy(posts, state.posts, 'link');
     if (!newPosts || newPosts.length === 0) {
       return false;
     }
@@ -80,59 +78,53 @@ const app = () => {
   };
 
   const fetchRSS = (link) => {
-    const url = new URL(link);
-
-    const currentFeed = getFeed(url.origin);
-    if (currentFeed) {
-      currentFeed.status = 'loading'; // eslint-disable-line
-    }
     const feedUrl = getFeedUrl(link);
     return axios.get(feedUrl)
       .then((response) => {
         const { data } = response;
-        const feed = parseFeed(data);
-        feed.id = url.origin;
-        feed.status = 'loaded';
-        const posts = feed.items.map((item) => ({ idFeed: url.origin, status: 'new', ...item }));
-
-        return { feed, posts };
+        const feedData = parseFeed(data);
+        return feedData;
       });
   };
 
-  const updateRSS = (link) => {
-    const url = new URL(link);
-    const currentFeed = getFeed(url.origin);
+  const updateFeed = (id) => {
+    const currentFeed = getFeed(id);
+    currentFeed.status = 'loading';
 
-    fetchRSS(link)
-      .then(({ feed, posts }) => {
-        addOrUpdateFeed(feed);
-        addPosts(url.origin, posts);
+    fetchRSS(currentFeed.link)
+      .then((feedData) => {
+        const posts = feedData.items.map((item) => ({ idFeed: currentFeed.id, status: 'new', ...item }));
+        currentFeed.title = feedData.title;
+        currentFeed.description = feedData.description;
+        addPosts(posts);
 
-        currentFeed.status = 'loaded'; // eslint-disable-line
+        currentFeed.status = 'updated';
         setTimeout(() => {
-          updateRSS(link);
+          updateFeed(id);
         }, 5000);
       })
       .catch((err) => {
         logError(err);
-        currentFeed.status = 'failed'; // eslint-disable-line
+        currentFeed.status = 'failed';
         setTimeout(() => {
-          updateRSS(link);
+          updateFeed(id);
         }, 5000);
       });
   };
 
   const startLoading = (link) => {
-    const url = new URL(link);
     state.currentRSSUrl = link;
     state.fetchFeedStatus = 'loading';
     fetchRSS(link)
-      .then(({ feed, posts }) => {
-        addOrUpdateFeed(feed);
-        addPosts(url.origin, posts);
+      .then((feedData) => {
+        const feed = initFeed({ ...feedData, link });
+        const posts = feedData.items.map((item) => ({ idFeed: feed.id, status: 'new', ...item }));
+
+        state.feeds.push(feed);
+        addPosts(posts);
         state.fetchFeedStatus = 'loaded';
         setTimeout(() => {
-          updateRSS(link);
+          updateFeed(feed.id);
         }, 5000);
       })
       .catch((err) => {
@@ -155,7 +147,6 @@ const app = () => {
     startLoading(link);
   });
 
-  // TODO: без жквери обработчик не работает. Найти другой способ?
   $(modal).on('show.bs.modal', (event) => {
     log('Open post!');
     const { link } = event.relatedTarget.dataset;

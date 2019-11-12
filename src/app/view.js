@@ -23,7 +23,7 @@ const getPostHtml = (post) => {
 const getStatusHtml = (status) => {
   switch (status) {
     case 'loading':
-      return `<div class="spinner-border" style="width: 24px; height: 24px;" role="status">
+      return ` <div class="spinner-border" style="width: 24px; height: 24px;" role="status">
         <span class="sr-only">Loading...</span>
       </div>`;
     case 'failed':
