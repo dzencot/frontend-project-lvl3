@@ -17,17 +17,16 @@ const parseFeed = (data) => {
   const domParser = new DOMParser();
   const parsedData = domParser.parseFromString(data, 'text/xml');
 
-  const link = parsedData.querySelector('rss > channel > link, feed > link');
-  const title = parsedData.querySelector('rss > channel > title, feed > title');
-  const description = parsedData.querySelector('rss > channel > description, feed > title');
-
-  const dataPosts = Array.from(parsedData.querySelectorAll('item, entry'));
-
-  if (title.length === 0 && description.length === 0
-    && link.length === 0 && dataPosts.length === 0) {
+  const rss = parsedData.querySelector('rss');
+  if (rss.length === 0) {
     const errorMessage = 'Not found feed data';
     throw new Error(errorMessage);
   }
+  const link = rss.querySelector('channel > link');
+  const title = rss.querySelector('channel > title');
+  const description = rss.querySelector('channel > description');
+
+  const dataPosts = Array.from(rss.querySelectorAll('item'));
 
   const items = dataPosts.map((item) => parsePost(item));
 
