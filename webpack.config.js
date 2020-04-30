@@ -1,6 +1,5 @@
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-const webpack = require('webpack');
 
 module.exports = () => ({
   mode: 'development',
@@ -23,9 +22,6 @@ module.exports = () => ({
         css: ['style.css'],
       },
     }),
-    // new webpack.DefinePlugin({
-    //   'process.env.CORS_PROXY_URL': JSON.stringify(env.CORS_PROXY_URL),
-    // }),
   ],
   devServer: {
     contentBase: path.join(__dirname, 'dist'),
