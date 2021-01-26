@@ -3,7 +3,6 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = () => ({
   mode: 'development',
-  watch: true,
   watchOptions: {
     aggregateTimeout: 600,
     ignored: ['/__tests__/', '/__mocks__/', '/node_modules/'],
